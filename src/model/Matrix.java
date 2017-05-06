@@ -16,9 +16,9 @@ public class Matrix <T>{
 	public void setSize(Vector2 size){
 		matrix.clear();
 		this.size = size;
-		for(int i = 0; i <size.x ; i++){
+		for(int i = 0; i <size.y ; i++){
 			matrix.add(new Vector<T>());
-			for(int j = 0; j < size.y; j++){
+			for(int j = 0; j < size.x; j++){
 				matrix.get(i).add(null);
 			}
 		}
@@ -26,18 +26,18 @@ public class Matrix <T>{
 	
 	//Sets object on x,y
 	public void setField(Vector2 pos, T object){
-		matrix.get(pos.x).set(pos.y, object);
+		matrix.get(pos.y).set(pos.x, object);
 	}
 	
 	//Gets object from (x,y)
 	public T getField(Vector2 pos){
-		return matrix.get(pos.x).get(pos.y);
+		return matrix.get(pos.y).get(pos.x);
 	}
 	
 	//fills matrix with object
 	public void fill(T object){
-		for(int x = 0; x < size.x; x++){
-			for(int y = 0; y < size.y; y++){
+		for(int y = 0; y < size.y; y++){
+			for(int x = 0; x < size.x; x++){
 				setField(new Vector2(x,y), object);
 			}
 		}
@@ -45,12 +45,16 @@ public class Matrix <T>{
 	
 	//print out matrix to console
 	public void printOut(){
-		for(int i = 0; i < size.x; i++){
-			for(int j = 0; j < size.y; j++){
-				System.out.print(getField(new Vector2(i,j)) + " ");
+		for(int y = 0; y < size.y; y++){
+			for(int x = 0; x < size.x; x++){
+				System.out.print(getField(new Vector2(x,y)) + " ");
 			}
 		System.out.println("");
 		}
+	}
+	
+	public boolean isValid(Vector2 pos){
+		return pos.x >= 0 && pos.x < size.x && pos.y >= 0 && pos.y < size.y;
 	}
 		
 }

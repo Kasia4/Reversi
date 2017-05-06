@@ -1,5 +1,6 @@
 package model;
 
+
 public class Board {
 	private Matrix<Field> board;
 	
@@ -33,5 +34,54 @@ public class Board {
 	public void printOut(){
 		board.printOut();
 	}
+	
+	
+	public boolean canMove(Move move){
+		if(!board.isValid(move.getPosition()))
+			return false;
+		if(!board.getField(move.getPosition()).isEmpty())
+			return false;
+		Vector2 directions[] = {Vector2.N(), Vector2.EN(), Vector2.E(), Vector2.ES(), Vector2.S(), Vector2.WS(), Vector2.W(), Vector2.WN()};
+		for(int i = 0; i < 8; ++i){
+			Vector2 curr = new Vector2(move.getPosition());
+			boolean success = false;
+			boolean hasOpp = false;
+			while(true){
+				curr = Vector2.add(curr, directions[i]);
+				if(!board.isValid(curr)) break;
+				if(board.getField(curr) == Field.EMPTY) break;
+				if(board.getField(curr) == move.getPawn().opposite()){
+					hasOpp = true;
+					continue;
+				}
+				if(board.getField(curr) == move.getPawn().color()){
+					success = true;
+					break;
+				}			
+			}
+			if(success && hasOpp) return true;
+		}
+		return false;
+	}
+	
+	public Vector2 getFinishField(Move move, Vector2 dir){
+		if(!board.isValid(move.getPosition()))
+			return move.getPosition();
+		if(!board.getField(move.getPosition()).isEmpty())
+			return move.getPosition();
+		
+		Vector2 curr = new Vector2(move.getPosition());
+		curr = Vector2.add(curr, dir);
+		while(board.isValid(curr) && board.getField(curr) != Field.EMPTY){
+			if(board.getField(curr) == move.getPawn().color()){
+				return Vector2.sub(curr, dir);		
+			}
+			curr = Vector2.add(curr, dir);
+		}
+		return move.getPosition();
+			
+	}
+	
+	
 	
 }
