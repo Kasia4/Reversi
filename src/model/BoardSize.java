@@ -14,4 +14,8 @@ public enum BoardSize {
 	public int getValue(){
 		return size;
 	}
+	
+	public Vector2 getSize(){
+		return new Vector2(size,size);
+	}
 }

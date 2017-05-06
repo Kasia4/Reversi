@@ -1,7 +1,5 @@
 package model;
 
-import static java.lang.Math.*;
-
 /**
  * Integer point on plane
  * @author Karol Checinski
@@ -55,6 +53,10 @@ public class Vector2{
 	 */
 	static public Vector2 mul(Vector2 w, int c){
 		return new Vector2(w.x * c, w.y * c);
+	}
+	
+	static public Vector2 div(Vector2 w, int c){
+		return new Vector2(w.x / c, w.y / c);
 	}
 	
 	/** Basic vectors **/
