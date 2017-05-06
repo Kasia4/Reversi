@@ -6,6 +6,6 @@ public class Board {
 	private int boardSize = 8;
 	
 	public Board(){
-		board = new Matrix<Field>(boardSize);
+		board = new Matrix<Field>(boardSize, boardSize);
 	}
 }
