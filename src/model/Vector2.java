@@ -57,5 +57,17 @@ public class Vector2{
 		return new Vector2(w.x * c, w.y * c);
 	}
 	
+	/** Basic vectors **/
+	static public Vector2 Z()	{ 	return new Vector2( 0, 0);	}
+	
+	static public Vector2 W()   {	return new Vector2(-1, 0);	}
+	static public Vector2 E()   {	return new Vector2( 1, 0);	}
+	static public Vector2 N()   {	return new Vector2( 0,-1);	}
+	static public Vector2 S()   {	return new Vector2( 0, 1);	}
+
+	static public Vector2 WN()  { 	return new Vector2(-1,-1);	}
+	static public Vector2 WS()  { 	return new Vector2(-1, 1);	}
+	static public Vector2 EN()  {	return new Vector2( 1,-1);	}
+	static public Vector2 ES()  { 	return new Vector2( 1, 1);	}
 	
 }
