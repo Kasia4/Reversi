@@ -46,6 +46,15 @@ public class Matrix <T>{
 		}
 	}
 	
-	
+	//print out matrix to console
+	public void printOut(){
+		for(int i = 0; i < width; i++){
+			for(int j = 0; j < heigth; j++){
+				System.out.print(getField(i,j) + " ");
+			}
+		System.out.println("");
+		}
+	}
+		
 }
 
