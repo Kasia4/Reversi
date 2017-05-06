@@ -3,10 +3,15 @@ package model;
 public class Board {
 	private Matrix<Field> board;
 	
-	private int boardSize = 8;
+	private int boardSize;
 	
 	public Board(BoardSize size){
 		this.boardSize = size.getValue();
+		init();
+
+	}
+	
+	private void init(){
 		board = new Matrix<Field>(boardSize, boardSize);
 		board.fill(Field.EMPTY);
 		int index = boardSize/2 - 1;
@@ -24,5 +29,8 @@ public class Board {
 		return board.getField(x, y);
 	}
 	
+	public void printOut(){
+		board.printOut();
+	}
 	
 }
