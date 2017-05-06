@@ -41,7 +41,7 @@ public class Matrix <T>{
 	public void fill(T object){
 		for(int i = 0; i < width; i++){
 			for(int j = 0; j < heigth; j++){
-				setField(i,j, object);
+				setField(i, j, object);
 			}
 		}
 	}
