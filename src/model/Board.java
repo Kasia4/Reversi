@@ -2,6 +2,7 @@ package model;
 
 import util.Matrix;
 import util.Vector2;
+import util.Direction;
 
 public class Board {
 	private Matrix<Field> board;
@@ -17,12 +18,12 @@ public class Board {
 		board = new Matrix<Field>(boardSize);
 		board.fill(Field.EMPTY);
 		Vector2 vector = Vector2.div(boardSize, 2);
-		vector = Vector2.add(vector, Vector2.WN());
+		vector = Vector2.add(vector, Direction.NW.v);
 		Vector2 index = new Vector2(vector);
 		setField(index, Field.BLACK);
-		setField(Vector2.add(index, Vector2.E()), Field.WHITE);
-		setField(Vector2.add(index, Vector2.ES()), Field.BLACK);
-		setField(Vector2.add(index, Vector2.S()), Field.WHITE);
+		setField(Vector2.add(index, Direction.E.v), Field.WHITE);
+		setField(Vector2.add(index, Direction.SE.v), Field.BLACK);
+		setField(Vector2.add(index, Direction.S.v), Field.WHITE);
 	}
 	
 	public void setField(Vector2 pos, Field field){
@@ -43,13 +44,13 @@ public class Board {
 			return false;
 		if(!board.getField(move.getPosition()).isEmpty())
 			return false;
-		Vector2 directions[] = {Vector2.N(), Vector2.EN(), Vector2.E(), Vector2.ES(), Vector2.S(), Vector2.WS(), Vector2.W(), Vector2.WN()};
-		for(int i = 0; i < 8; ++i){
+		for(Direction dir : Direction.values())
+		{
 			Vector2 curr = new Vector2(move.getPosition());
 			boolean success = false;
 			boolean hasOpp = false;
 			while(true){
-				curr = Vector2.add(curr, directions[i]);
+				curr = Vector2.add(curr, dir.v);
 				if(!board.isValid(curr)) break;
 				if(board.getField(curr) == Field.EMPTY) break;
 				if(board.getField(curr) == move.getPawn().opposite()){
