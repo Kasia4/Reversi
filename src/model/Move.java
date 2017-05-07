@@ -1,5 +1,7 @@
 package model;
 
+import util.Vector2;
+
 public class Move {
 
 	private Vector2 position;

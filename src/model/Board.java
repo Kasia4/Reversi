@@ -1,5 +1,7 @@
 package model;
 
+import util.Matrix;
+import util.Vector2;
 
 public class Board {
 	private Matrix<Field> board;

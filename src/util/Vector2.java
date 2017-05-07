@@ -1,4 +1,4 @@
-package model;
+package util;
 
 /**
  * Integer point on plane
