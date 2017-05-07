@@ -42,8 +42,8 @@ public class Board {
 	
 	/**
 	 * Returns type of field at given position
-	 * @param pos
-	 * @return
+	 * @param pos field position
+	 * @return field type
 	 */
 	public Field getField(Vector2 pos){
 		return board.getField(pos);
@@ -53,7 +53,9 @@ public class Board {
 		board.printOut();
 	}
 	
-	/** Executes given move on board. Places pawn at given position and reverses adequate pawns on board.
+	/**
+	 * Executes given move on board. Places pawn at given position and reverses adequate pawns on board.
+	 * @param move Specifies player and placed pawn position 
 	 * @return true when move was possible, false otherwise.
 	 */
 	public boolean executeMove(Move move){
