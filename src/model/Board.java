@@ -14,6 +14,9 @@ public class Board {
 		init();
 	}
 	
+	/**
+	 * Initializes board with set size. Place pawns at start positions.
+	 */
 	private void init(){
 		board = new Matrix<Field>(boardSize);
 		board.fill(Field.EMPTY);
@@ -28,10 +31,20 @@ public class Board {
 		setField(Vector2.add(index, Direction.S.v), Field.WHITE);
 	}
 	
+	/**
+	 * Sets field of specified type on given position
+	 * @param pos Field position
+	 * @param field Field type
+	 */
 	public void setField(Vector2 pos, Field field){
 		board.setField(pos, field);
 	}
 	
+	/**
+	 * Returns type of field at given position
+	 * @param pos
+	 * @return
+	 */
 	public Field getField(Vector2 pos){
 		return board.getField(pos);
 	}
@@ -59,6 +72,12 @@ public class Board {
 		setField(pawnPos, color);
 		return true;
 	}
+	
+	/**
+	 * Checks correctness of move
+	 * @param move Tested move
+	 * @return true if given move is correct, false otherwise
+	 */
 	public boolean canMove(Move move){
 		if(!board.isValid(move.getPosition()))
 			return false;
@@ -87,6 +106,12 @@ public class Board {
 		return false;
 	}
 	
+	/**
+	 * Finds the nearest specified in move player's pawn in given direction 
+	 * @param move Specifies 
+	 * @param dir Direction of search
+	 * @return Found pawn position if it exists, started position otherwise
+	 */
 	public Vector2 getFinishField(Move move, Direction dir){
 		if(!board.isValid(move.getPosition()))
 			return move.getPosition();
