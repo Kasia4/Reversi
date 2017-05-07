@@ -8,7 +8,7 @@ public enum Direction {
 	S  (new Vector2( 0,  1)),
 	SW (new Vector2(-1,  1)),
 	W  (new Vector2(-1,  0)),
-	NW (new Vector2(-1,  1));
+	NW (new Vector2(-1, -1));
 	
 	public Vector2 v;
 	private Direction(Vector2 v){
