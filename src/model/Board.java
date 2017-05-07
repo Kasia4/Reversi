@@ -50,7 +50,17 @@ public class Board {
 	}
 	
 	public void printOut(){
-		board.printOut();
+		for(int y = 0; y < boardSize.y; y++){
+						
+			for(int x = 0; x < boardSize.x; x++){				
+				if(board.getField(new Vector2(x,y)) == Field.EMPTY)
+					System.out.print(". ");
+				else
+					System.out.print(getField(new Vector2(x,y)) + " ");
+			}
+			
+		System.out.println("");
+		}
 	}
 	
 	/**
