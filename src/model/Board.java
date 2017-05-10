@@ -2,6 +2,9 @@ package model;
 
 import util.Matrix;
 import util.Vector2;
+
+import java.util.ArrayList;
+
 import util.Direction;
 
 public class Board {
@@ -76,29 +79,39 @@ public class Board {
 	}
 	
 	/**
-	 * Checks correctness of move
+	 * Checks correctness of the move
 	 * @param move Tested move
 	 * @return true if given move is correct, false otherwise
 	 */
 	public boolean canMove(Move move){
-		if(!board.isValid(move.getPosition()))
+		return canMove(move.getPawn(), move.getPosition());
+	}
+	
+	/**
+	 * Checks if 
+	 * @param field
+	 * @param pos
+	 * @return
+	 */
+	public boolean canMove(Pawn pawn, Vector2 pos){
+		if(!board.isValid(pos))
 			return false;
-		if(!board.getField(move.getPosition()).isEmpty())
+		if(!board.getField(pos).isEmpty())
 			return false;
 		for(Direction dir : Direction.values())
 		{
-			Vector2 curr = new Vector2(move.getPosition());
+			Vector2 curr = new Vector2(pos);
 			boolean success = false;
 			boolean hasOpp = false;
 			while(true){
 				curr = Vector2.add(curr, dir.v);
 				if(!board.isValid(curr)) break;
 				if(board.getField(curr) == Field.EMPTY) break;
-				if(board.getField(curr) == move.getPawn().opposite()){
+				if(board.getField(curr) == pawn.opposite()){
 					hasOpp = true;
 					continue;
 				}
-				if(board.getField(curr) == move.getPawn().color()){
+				if(board.getField(curr) == pawn.color()){
 					success = true;
 					break;
 				}			
@@ -107,10 +120,9 @@ public class Board {
 		}
 		return false;
 	}
-	
 	/**
 	 * Finds the nearest specified in move player's pawn in given direction 
-	 * @param move Specifies 
+	 * @param move Specifies move
 	 * @param dir Direction of search
 	 * @return Found pawn position if it exists, started position otherwise
 	 */
@@ -132,6 +144,22 @@ public class Board {
 			
 	}
 	
+	/**
+	 * Looks for fields positions available for the given pawn.
+	 * @param pawn Pawn
+	 * @return Available positions list
+	 */
+	public ArrayList<Vector2> getAvailableFields(Pawn pawn){
+		ArrayList<Vector2> available = new ArrayList<Vector2>();
+		for(Vector2 pos = new Vector2(0,0); pos.y < boardSize.y; ++pos.y){
+			for(pos.x = 0; pos.x < boardSize.x; ++pos.x){
+				if(canMove(pawn, pos)){
+					available.add(new Vector2(pos));
+				}
+			}
+		}
+		return available;
+	}
 	
 	
 }
