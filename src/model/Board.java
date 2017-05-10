@@ -167,7 +167,7 @@ public class Board {
 	 * @param pawn Pawn
 	 * @return The number of available moves
 	 */
-	public int availableFieldsCount(Pawn pawn){
+	public int availableFieldsNumber(Pawn pawn){
 		int counter = 0;
 		Vector2 pos = new Vector2();
 		for(pos.y = 0; pos.y < boardSize.y; ++pos.y){
@@ -196,6 +196,11 @@ public class Board {
 		return false;
 	}
 	
+	/**
+	 * Finds positions of fields with given type
+	 * @param field Field type to comparison
+	 * @return ArrayList of fields positions
+	 */
 	public ArrayList<Vector2> getFields(Field field){
 		ArrayList<Vector2> positions = new ArrayList<Vector2>();
 		Vector2 pos = new Vector2();
@@ -207,5 +212,23 @@ public class Board {
 			}
 		}
 		return positions;
+	}
+	
+	/**
+	 * Counts the number of fields with given type
+	 * @param field Field type to comparison
+	 * @return Number of fields with given type
+	 */
+	public int getFieldsNumber(Field field){
+		int count = 0;
+		Vector2 pos = new Vector2();
+		for(pos.y = 0; pos.y < boardSize.y; ++pos.y){
+			for(pos.x = 0; pos.x < boardSize.x; ++pos.x){
+				if(board.getField(pos) == field){
+					++count;
+				}
+			}
+		}
+		return count;
 	}
 }

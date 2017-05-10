@@ -35,6 +35,9 @@ public class Main {
 		board.executeMove(new Move(new Vector2(4, 5), Pawn.WHITE));
 		board.printOut();
 		System.out.println("possible BLACK\t" + board.ifMovePossible(Pawn.BLACK));
+		System.out.println("black fields\t" + board.getFieldsNumber(Field.BLACK));
+		System.out.println("white fields\t" + board.getFieldsNumber(Field.WHITE));
+		System.out.println("empty fields\t" + board.getFieldsNumber(Field.EMPTY));
 		
 
 	}
