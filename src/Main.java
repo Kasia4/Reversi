@@ -27,11 +27,15 @@ public class Main {
 		board.printOut();
 		System.out.println("\n");
 		
-		ArrayList<Vector2> fields = board.getAvailableFields(Pawn.BLACK);
-		System.out.println(fields.size());
-		for(Vector2 pos : fields){
-			System.out.println(pos);
-		}
+		System.out.println("ava WHITE\t" + board.getAvailableFields(Pawn.WHITE));
+		System.out.println("ava BLACK\t" + board.getAvailableFields(Pawn.BLACK));
+		System.out.println("fields BLACK\t" + board.getFields(Field.BLACK));
+		System.out.println("ava WHITE\t" + board.getFields(Field.WHITE));
+		System.out.println("possible BLACK\t" + board.ifMovePossible(Pawn.BLACK));
+		board.executeMove(new Move(new Vector2(4, 5), Pawn.WHITE));
+		board.printOut();
+		System.out.println("possible BLACK\t" + board.ifMovePossible(Pawn.BLACK));
 		
+
 	}
 }

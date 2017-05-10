@@ -151,7 +151,8 @@ public class Board {
 	 */
 	public ArrayList<Vector2> getAvailableFields(Pawn pawn){
 		ArrayList<Vector2> available = new ArrayList<Vector2>();
-		for(Vector2 pos = new Vector2(0,0); pos.y < boardSize.y; ++pos.y){
+		Vector2 pos = new Vector2();
+		for(pos.y = 0; pos.y < boardSize.y; ++pos.y){
 			for(pos.x = 0; pos.x < boardSize.x; ++pos.x){
 				if(canMove(pawn, pos)){
 					available.add(new Vector2(pos));
@@ -161,5 +162,50 @@ public class Board {
 		return available;
 	}
 	
+	/**
+	 * Counts available moves for a given pawn
+	 * @param pawn Pawn
+	 * @return The number of available moves
+	 */
+	public int availableFieldsCount(Pawn pawn){
+		int counter = 0;
+		Vector2 pos = new Vector2();
+		for(pos.y = 0; pos.y < boardSize.y; ++pos.y){
+			for(pos.x = 0; pos.x < boardSize.x; ++pos.x){
+				if(canMove(pawn, pos)){
+					++counter;
+				}
+			}
+		}
+		return counter;
+	}
+	/**
+	 * Checks whether the move is possible for a given pawn
+	 * @param pawn Pawn
+	 * @return true when move is possible, false otherwise
+	 */
+	public boolean ifMovePossible(Pawn pawn){
+		Vector2 pos = new Vector2();
+		for(pos.y = 0; pos.y < boardSize.y; ++pos.y){
+			for(pos.x = 0; pos.x < boardSize.x; ++pos.x){
+				if(canMove(pawn, pos)){
+					return true;
+				}
+			}
+		}
+		return false;
+	}
 	
+	public ArrayList<Vector2> getFields(Field field){
+		ArrayList<Vector2> positions = new ArrayList<Vector2>();
+		Vector2 pos = new Vector2();
+		for(pos.y = 0; pos.y < boardSize.y; ++pos.y){
+			for(pos.x = 0; pos.x < boardSize.x; ++pos.x){
+				if(board.getField(pos) == field){
+					positions.add(new Vector2(pos));
+				}
+			}
+		}
+		return positions;
+	}
 }
