@@ -1,7 +1,7 @@
 package model;
 
 public enum Field {
-	EMPTY(true, "E"),
+	EMPTY(true, "."),
 	WHITE(false, "W"),
 	BLACK(false, "B");
 	

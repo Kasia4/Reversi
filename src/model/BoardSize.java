@@ -1,5 +1,7 @@
 package model;
 
+import util.Vector2;
+
 public enum BoardSize {
 	SMALL(8),
 	MEDIUM(16),

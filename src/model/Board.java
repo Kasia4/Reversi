@@ -1,5 +1,11 @@
 package model;
 
+import util.Matrix;
+import util.Vector2;
+
+import java.util.ArrayList;
+
+import util.Direction;
 
 public class Board {
 	private Matrix<Field> board;
@@ -11,22 +17,37 @@ public class Board {
 		init();
 	}
 	
+	/**
+	 * Initializes board with set size. Place pawns at start positions.
+	 */
 	private void init(){
 		board = new Matrix<Field>(boardSize);
 		board.fill(Field.EMPTY);
 		Vector2 vector = Vector2.div(boardSize, 2);
-		vector = Vector2.add(vector, Vector2.WN());
+		System.out.println(vector);
+		vector = Vector2.add(vector, Direction.NW.v);
 		Vector2 index = new Vector2(vector);
 		setField(index, Field.BLACK);
-		setField(Vector2.add(index, Vector2.E()), Field.WHITE);
-		setField(Vector2.add(index, Vector2.ES()), Field.BLACK);
-		setField(Vector2.add(index, Vector2.S()), Field.WHITE);
+		System.out.println(vector);
+		setField(Vector2.add(index, Direction.E.v), Field.WHITE);
+		setField(Vector2.add(index, Direction.SE.v), Field.BLACK);
+		setField(Vector2.add(index, Direction.S.v), Field.WHITE);
 	}
 	
+	/**
+	 * Sets field of specified type on given position
+	 * @param pos Field position
+	 * @param field Field type
+	 */
 	public void setField(Vector2 pos, Field field){
 		board.setField(pos, field);
 	}
 	
+	/**
+	 * Returns type of field at given position
+	 * @param pos field position
+	 * @return field type
+	 */
 	public Field getField(Vector2 pos){
 		return board.getField(pos);
 	}
@@ -35,26 +56,62 @@ public class Board {
 		board.printOut();
 	}
 	
+	/**
+	 * Executes given move on board. Places pawn at given position and reverses adequate pawns on board.
+	 * @param move Specifies player and placed pawn position 
+	 * @return true when move was possible, false otherwise.
+	 */
+	public boolean executeMove(Move move){
+		if(!canMove(move))
+			return false;
+		Vector2 pawnPos = move.getPosition();
+		Field color = move.getPawn().color();
+		for (Direction dir : Direction.values()) {
+			Vector2 finishPos = getFinishField(move, dir);
+			if(finishPos.equals(pawnPos))
+				continue;
+			for(Vector2 currPos = Vector2.add(pawnPos, dir.v); !currPos.equals(finishPos); currPos = Vector2.add(currPos, dir.v))
+				board.setField(currPos, color);
+			
+		}
+		setField(pawnPos, color);
+		return true;
+	}
 	
+	/**
+	 * Checks correctness of the move
+	 * @param move Tested move
+	 * @return true if given move is correct, false otherwise
+	 */
 	public boolean canMove(Move move){
-		if(!board.isValid(move.getPosition()))
+		return canMove(move.getPawn(), move.getPosition());
+	}
+	
+	/**
+	 * Checks if 
+	 * @param field
+	 * @param pos
+	 * @return
+	 */
+	public boolean canMove(Pawn pawn, Vector2 pos){
+		if(!board.isValid(pos))
 			return false;
-		if(!board.getField(move.getPosition()).isEmpty())
+		if(!board.getField(pos).isEmpty())
 			return false;
-		Vector2 directions[] = {Vector2.N(), Vector2.EN(), Vector2.E(), Vector2.ES(), Vector2.S(), Vector2.WS(), Vector2.W(), Vector2.WN()};
-		for(int i = 0; i < 8; ++i){
-			Vector2 curr = new Vector2(move.getPosition());
+		for(Direction dir : Direction.values())
+		{
+			Vector2 curr = new Vector2(pos);
 			boolean success = false;
 			boolean hasOpp = false;
 			while(true){
-				curr = Vector2.add(curr, directions[i]);
+				curr = Vector2.add(curr, dir.v);
 				if(!board.isValid(curr)) break;
 				if(board.getField(curr) == Field.EMPTY) break;
-				if(board.getField(curr) == move.getPawn().opposite()){
+				if(board.getField(curr) == pawn.opposite()){
 					hasOpp = true;
 					continue;
 				}
-				if(board.getField(curr) == move.getPawn().color()){
+				if(board.getField(curr) == pawn.color()){
 					success = true;
 					break;
 				}			
@@ -63,25 +120,115 @@ public class Board {
 		}
 		return false;
 	}
-	
-	public Vector2 getFinishField(Move move, Vector2 dir){
+	/**
+	 * Finds the nearest specified in move player's pawn in given direction 
+	 * @param move Specifies move
+	 * @param dir Direction of search
+	 * @return Found pawn position if it exists, started position otherwise
+	 */
+	public Vector2 getFinishField(Move move, Direction dir){
 		if(!board.isValid(move.getPosition()))
 			return move.getPosition();
 		if(!board.getField(move.getPosition()).isEmpty())
 			return move.getPosition();
 		
 		Vector2 curr = new Vector2(move.getPosition());
-		curr = Vector2.add(curr, dir);
+		curr = Vector2.add(curr, dir.v);
 		while(board.isValid(curr) && board.getField(curr) != Field.EMPTY){
 			if(board.getField(curr) == move.getPawn().color()){
-				return Vector2.sub(curr, dir);		
+				return curr;
 			}
-			curr = Vector2.add(curr, dir);
+			curr = Vector2.add(curr, dir.v);
 		}
 		return move.getPosition();
 			
 	}
 	
+	/**
+	 * Looks for fields positions available for the given pawn.
+	 * @param pawn Pawn
+	 * @return Available positions list
+	 */
+	public ArrayList<Vector2> getAvailableFields(Pawn pawn){
+		ArrayList<Vector2> available = new ArrayList<Vector2>();
+		Vector2 pos = new Vector2();
+		for(pos.y = 0; pos.y < boardSize.y; ++pos.y){
+			for(pos.x = 0; pos.x < boardSize.x; ++pos.x){
+				if(canMove(pawn, pos)){
+					available.add(new Vector2(pos));
+				}
+			}
+		}
+		return available;
+	}
 	
+	/**
+	 * Counts available moves for a given pawn
+	 * @param pawn Pawn
+	 * @return The number of available moves
+	 */
+	public int availableFieldsNumber(Pawn pawn){
+		int counter = 0;
+		Vector2 pos = new Vector2();
+		for(pos.y = 0; pos.y < boardSize.y; ++pos.y){
+			for(pos.x = 0; pos.x < boardSize.x; ++pos.x){
+				if(canMove(pawn, pos)){
+					++counter;
+				}
+			}
+		}
+		return counter;
+	}
+	/**
+	 * Checks whether the move is possible for a given pawn
+	 * @param pawn Pawn
+	 * @return true when move is possible, false otherwise
+	 */
+	public boolean ifMovePossible(Pawn pawn){
+		Vector2 pos = new Vector2();
+		for(pos.y = 0; pos.y < boardSize.y; ++pos.y){
+			for(pos.x = 0; pos.x < boardSize.x; ++pos.x){
+				if(canMove(pawn, pos)){
+					return true;
+				}
+			}
+		}
+		return false;
+	}
 	
+	/**
+	 * Finds positions of fields with given type
+	 * @param field Field type to comparison
+	 * @return ArrayList of fields positions
+	 */
+	public ArrayList<Vector2> getFields(Field field){
+		ArrayList<Vector2> positions = new ArrayList<Vector2>();
+		Vector2 pos = new Vector2();
+		for(pos.y = 0; pos.y < boardSize.y; ++pos.y){
+			for(pos.x = 0; pos.x < boardSize.x; ++pos.x){
+				if(board.getField(pos) == field){
+					positions.add(new Vector2(pos));
+				}
+			}
+		}
+		return positions;
+	}
+	
+	/**
+	 * Counts the number of fields with given type
+	 * @param field Field type to comparison
+	 * @return Number of fields with given type
+	 */
+	public int getFieldsNumber(Field field){
+		int count = 0;
+		Vector2 pos = new Vector2();
+		for(pos.y = 0; pos.y < boardSize.y; ++pos.y){
+			for(pos.x = 0; pos.x < boardSize.x; ++pos.x){
+				if(board.getField(pos) == field){
+					++count;
+				}
+			}
+		}
+		return count;
+	}
 }
