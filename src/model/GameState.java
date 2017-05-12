@@ -1,10 +1,10 @@
 package model;
 
 public enum GameState {
-	TURN_A(false),
 	TURN_B(false),
-	WIN_A(true),
-	WIN_B(true);
+	TURN_W(false),
+	WIN_B(true),
+	WIN_W(true);
 	
 	private boolean terminal;
 
