@@ -1,0 +1,89 @@
+package view;
+
+import java.awt.Dimension;
+
+import javax.swing.JFrame;
+
+import controller.AbstractController;
+import view.screens.*;
+
+/**
+ * Class managing views
+ * @author Karol Checinski
+ *
+ */
+public class ViewManager extends JFrame{
+	
+	private static final long serialVersionUID = 9211521794211319047L;
+	static public final String MENU_ID = "Menu";
+	static public final String JOIN_ID = "Join";
+	static public final String CREATE_GAME_ID = "CreateGame";
+	static public final String GAME_ID = "Game";
+	static public final String GAME_END_ID = "GameEnd";
+	
+	static public final Dimension FRAME_SIZE = new Dimension(640, 480);
+	/**
+	 * Currently active screen
+	 */
+	private Screen currentScreen;
+	/**
+	 * Currently active controller
+	 */
+	private AbstractController controller;
+	
+	/**
+	 * Default constructor.
+	 */
+	public ViewManager(){
+		prepareViewManager();
+	}
+	
+	/**
+	 * Constructor. Sets start screen with given name
+	 * @param screenName	Start screen name
+	 */
+	public ViewManager(String screenName){
+		prepareViewManager();
+		setScreen(screenName);
+	}
+	
+	private void prepareViewManager(){
+		setVisible(true);
+		setTitle("Tanks");
+		setSize(FRAME_SIZE);
+		setLocationRelativeTo(null);
+	}
+	public void setScreen(String screenName) {
+		if(currentScreen!=null){
+			currentScreen.setVisible(false);
+			remove(currentScreen);
+		}
+		switch(screenName)
+		{
+			case MENU_ID: currentScreen = new MenuScreen(controller);break;
+		}
+		add(currentScreen);
+	}
+	
+	public void setController(AbstractController controller){
+		if(this.controller != controller){
+			this.controller = controller;
+			System.out.println("viewManager.setController " + controller.getClass());
+			if(currentScreen!=null){
+				currentScreen.setController(this.controller);
+				System.out.println("Controller setting to frame");
+			}
+		}
+	}
+	public Screen getScreen(){
+		return currentScreen;
+	}
+	
+	/**
+	 * Build current screen GUI
+	 */
+	public void buildScreenGUI(){
+		currentScreen.buildGUI();
+		setVisible(true);
+	}
+}
