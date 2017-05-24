@@ -60,7 +60,8 @@ public class ViewManager extends JFrame{
 		}
 		switch(screenName)
 		{
-			case MENU_ID: currentScreen = new MenuScreen(controller);break;
+			case MENU_ID: currentScreen = new MenuScreen(controller);System.out.println("viewManager: menuScreen set");break;
+			case GAME_ID: currentScreen = new GameScreen(controller);System.out.println("viewManager: gameScreen set");break;
 		}
 		add(currentScreen);
 	}

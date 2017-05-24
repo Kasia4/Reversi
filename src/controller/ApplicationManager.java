@@ -29,6 +29,11 @@ public class ApplicationManager extends AbstractController{
 		this.viewManager.buildScreenGUI();
 	}
 	
+	public void startGame(){
+	    this.viewManager.setScreen(ViewManager.GAME_ID);
+	    this.viewManager.setController(this);
+	    this.viewManager.buildScreenGUI();
+	}
 	/**
 	 * Execute when New Game button in menu has pressed. Switch control to GameController
 	 */

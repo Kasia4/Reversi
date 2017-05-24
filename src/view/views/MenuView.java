@@ -90,7 +90,7 @@ public class MenuView extends ApplicationManagerView {
 	}
 	
 	private void humanGameButtonActionPerformed(ActionEvent evt){
-		//appManager.createGameOption();
+	    appManager.startGame();
 	}
 	private void humanAiGameButtonActionPerformed(ActionEvent evt){
 		//appManager.createGameOption();
