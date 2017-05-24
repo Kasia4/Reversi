@@ -44,7 +44,7 @@ public class MenuView extends ApplicationManagerView {
 	}
 	
 	public void buildGUI(){
-		title = new JLabel("TANKS", JLabel.CENTER);
+		title = new JLabel("REVERSI", JLabel.CENTER);
 		title.setMaximumSize(BTN_SIZE);
 		
 		humanGameButton = new JButton(HUMAN_GAME);
@@ -99,7 +99,7 @@ public class MenuView extends ApplicationManagerView {
 		//appManager.createGameOption();
 	}
 	private void exitButtonActionPerformed(ActionEvent evt){
-		//appManager.exit();
+		appManager.exit();
 	}
 
 	
