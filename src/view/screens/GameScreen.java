@@ -1,5 +1,7 @@
 package view.screens;
 
+import java.awt.GridLayout;
+
 import controller.AbstractController;
 import view.views.BoardView;
 
@@ -19,8 +21,10 @@ public class GameScreen extends Screen{
 
     @Override
     public void buildGUI() {
+        setLayout(new GridLayout(1, 1));
         boardView = new BoardView();
         addView(boardView);
+        boardView.buildGUI();
         setVisible(true);
     }
 
