@@ -1,11 +1,14 @@
 package view;
 
 import java.awt.Dimension;
+import java.awt.Rectangle;
 
 import javax.swing.JFrame;
 
 import controller.AbstractController;
-import view.screens.*;
+import view.screens.GameScreen;
+import view.screens.MenuScreen;
+import view.screens.Screen;
 
 /**
  * Class managing views
@@ -22,6 +25,7 @@ public class ViewManager extends JFrame{
 	static public final String GAME_END_ID = "GameEnd";
 	
 	static public final Dimension FRAME_SIZE = new Dimension(640, 480);
+	
 	/**
 	 * Currently active screen
 	 */
@@ -87,4 +91,5 @@ public class ViewManager extends JFrame{
 		currentScreen.buildGUI();
 		setVisible(true);
 	}
+
 }

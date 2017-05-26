@@ -106,6 +106,8 @@ public class MenuView extends ApplicationManagerView {
 	private void test(){
 	    add(new JButton("test"));
 	    System.out.println("gitara");
+	    validate();
+	    repaint();
 	    
 	}
 	

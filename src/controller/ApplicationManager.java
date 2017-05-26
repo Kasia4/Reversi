@@ -11,10 +11,10 @@ public class ApplicationManager extends AbstractController{
 	
 	public static void main(String[] args){
 		new ApplicationManager(new ViewManager());
+		
 	}
 	
 	//private GameController gameController;
-	
 	
 	public ApplicationManager(ViewManager viewManager){
 		super(viewManager);
@@ -22,8 +22,7 @@ public class ApplicationManager extends AbstractController{
 	}
 	
 	@Override
-	public void launch(){
-		
+	public void launch(){		
 		this.viewManager.setScreen(ViewManager.MENU_ID);
 		this.viewManager.setController(this);
 		this.viewManager.buildScreenGUI();
