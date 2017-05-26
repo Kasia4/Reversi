@@ -24,7 +24,7 @@ public class ViewManager extends JFrame{
 	static public final String GAME_ID = "Game";
 	static public final String GAME_END_ID = "GameEnd";
 	
-	static public final Dimension FRAME_SIZE = new Dimension(640, 480);
+	static public final Dimension FRAME_SIZE = new Dimension(850, 720);
 	
 	/**
 	 * Currently active screen
@@ -53,8 +53,10 @@ public class ViewManager extends JFrame{
 	
 	private void prepareViewManager(){
 		setVisible(true);
+	    setResizable(false);
 		setTitle("Tanks");
 		setSize(FRAME_SIZE);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
 	}
 	public void setScreen(String screenName) {

@@ -46,9 +46,9 @@ public class BoardView extends ApplicationManagerView{
         protected void paintComponent(Graphics g) {
           super.paintComponent(g);
           g.setColor(color);
-          g.fillRect(0, 0, 640 / 8 - 12, 480 / 8 - 15);
+          g.fillRect(0, 0, 640 / 8 - 10, 640 / 8 - 10);
           g.setColor(Color.BLACK);
-          g.drawRect(0, 0, 640 / 8 - 12, 480 / 8 - 15);
+          g.drawRect(0, 0, 640 / 8 - 10, 640 / 8 - 10);
         }
     }
     
