@@ -10,6 +10,9 @@ import javax.swing.SwingConstants;
 import controller.AbstractController;
 import model.Board;
 import model.BoardSize;
+import model.Move;
+import model.Pawn;
+import util.Vector2;
 import view.views.BoardView;
 import view.views.ControlPanelView;
 
@@ -35,7 +38,7 @@ public class GameScreen extends Screen{
         super(controller);
         board = new Board(BoardSize.SMALL);
         sizeOfBoard = 8;
-        //board.executeMove(new Move(new Vector2(4,2), Pawn.BLACK));
+        board.executeMove(new Move(new Vector2(4,2), Pawn.BLACK));
     }
 
     @Override
@@ -48,6 +51,7 @@ public class GameScreen extends Screen{
         addControlPanel();
         boardView.buildGUI();
         controlPanel.buildGUI();
+        System.out.println(board.heuristicTest());
         setVisible(true);
     }
     
