@@ -9,10 +9,12 @@ import util.Vector2;
  */
 public class Heuristics {
   
-    private Matrix<Float> smallMatrix;
+    private Matrix<Float> smallMatrix, mediumMatrix, largeMatrix;
     
     public Heuristics(){
         setSmallMatrix();
+        setMediumMatrix();
+        setLargeMatrix();
     }
     /**
      * próbuje napisaæ funkcje heurystyczn¹ na podstawie http://sequoia.ict.pwr.wroc.pl/~witold/aiuwr/2001_projekty/reversi/
@@ -38,14 +40,21 @@ public class Heuristics {
                 else if(current == player.getPawn().opposite)
                     b = -1;
                 else continue;
-          
-                sum += b * getValueSmallMatrix(new Vector2(x,y));//TODO change if difrent board
+                
+                if(board.getBoardSize().x == BoardSize.SMALL.size)
+                    sum += b * getValueSmallMatrix(new Vector2(x,y));
+                else if(board.getBoardSize().x == BoardSize.MEDIUM.size)
+                    sum += b * getValueMediumMatrix(new Vector2(x,y));
+                else
+                    sum += b * getValueLargeMatrix(new Vector2(x,y));
             }
         sum += v * board.availableFieldsNumber(player.getPawn());
         return sum;
     }
     
-    
+    /**
+     * Creates matrix with values
+     */
     private void setSmallMatrix(){
         smallMatrix = new Matrix<Float>(new Vector2(BoardSize.SMALL.size, BoardSize.SMALL.size));
         for(int x = 0; x < smallMatrix.getSize().x; x++)
@@ -53,12 +62,21 @@ public class Heuristics {
                 smallMatrix.setField(new Vector2(x,y), getValueOnSmallBoard(new Vector2(x,y)));
             }
     }
+    /**
+     * Gives value on this position 
+     * @param vec position
+     * @return value
+     */
     private float getValueSmallMatrix(Vector2 vec){
         return smallMatrix.getField(vec);
     }
+    /**
+     * Prints out in console smallMatrix
+     */
     public void printSmallMatrix(){
         smallMatrix.printOut();
     }
+    
     /**
      * wartoœci brane z tamtej storny
      * @param vec position that is needed to check
@@ -86,5 +104,77 @@ public class Heuristics {
             return a;
         else
             return f;
+    }
+    
+    /**
+     * Creates mediumMatrix with values
+     */
+    private void setMediumMatrix(){
+        mediumMatrix = new Matrix<Float>(new Vector2(BoardSize.MEDIUM.size, BoardSize.MEDIUM.size));
+        for(int x = 0; x < mediumMatrix.getSize().x; x++)
+            for(int y = 0; y < mediumMatrix.getSize().y; y++){
+                mediumMatrix.setField(new Vector2(x,y), getValueOnMediumBoard(new Vector2(x,y)));
+            }
+    }
+    /**
+     * Return values set to medium(16x16) board
+     * @param vec vector to check
+     * @return value on this position
+     */
+    private float getValueOnMediumBoard(Vector2 vec){
+        //TODO
+        return 0.0f;
+    }
+    
+    /**
+     * Gives value on this position 
+     * @param vec position
+     * @return value
+     */
+    public float getValueMediumMatrix(Vector2 vec){
+        return mediumMatrix.getField(vec);
+    }
+    
+    /**
+     * Prints out in console mediumMatrix
+     */
+    public void printMediumMatrix(){
+        mediumMatrix.printOut();
+    }
+    
+    /**
+     * Creates largeMatrix with values
+     */
+    private void setLargeMatrix(){
+        largeMatrix = new Matrix<Float>(new Vector2(BoardSize.LARGE.size, BoardSize.LARGE.size));
+        for(int x = 0; x < largeMatrix.getSize().x; x++)
+            for(int y = 0; y < largeMatrix.getSize().y; y++){
+                largeMatrix.setField(new Vector2(x,y), getValueOnLargeBoard(new Vector2(x,y)));
+            }
+    }
+    /**
+     * Return values set to large(32x32) board
+     * @param vec vector to check
+     * @return value on this position
+     */
+    private float getValueOnLargeBoard(Vector2 vec){
+        //TODO
+        return 0.0f;
+    }
+    
+    /**
+     * Gives value on this position 
+     * @param vec position
+     * @return value
+     */
+    public float getValueLargeMatrix(Vector2 vec){
+        return largeMatrix.getField(vec);
+    }
+    
+    /**
+     * Prints out in console largeMatrix
+     */
+    public void printLargeMatrix(){
+        largeMatrix.printOut();
     }
 }
