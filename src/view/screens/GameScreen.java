@@ -10,6 +10,7 @@ import javax.swing.SwingConstants;
 import controller.AbstractController;
 import model.Board;
 import model.BoardSize;
+import model.Heuristics;
 import model.Move;
 import model.Pawn;
 import util.Vector2;
@@ -32,11 +33,13 @@ public class GameScreen extends Screen{
      * @author Kokos
      */
     Board board;
+    Heuristics heu;
     private int sizeOfBoard;
 
     public GameScreen(AbstractController controller) {
         super(controller);
         board = new Board(BoardSize.SMALL);
+        heu = new Heuristics();
         sizeOfBoard = 8;
         board.executeMove(new Move(new Vector2(4,2), Pawn.BLACK));
     }
@@ -51,7 +54,7 @@ public class GameScreen extends Screen{
         addControlPanel();
         boardView.buildGUI();
         controlPanel.buildGUI();
-        System.out.println(board.heuristicTest());
+        System.out.println(heu.heuristicTest(board));
         setVisible(true);
     }
     

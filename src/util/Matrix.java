@@ -7,7 +7,9 @@ public class Matrix <T>{
 	private Vector2 size;
 
 
-	public Matrix(Vector2 size){
+
+
+    public Matrix(Vector2 size){
 		matrix = new Vector<Vector<T>>();
 		setSize(size);
 	}
@@ -56,6 +58,10 @@ public class Matrix <T>{
 	public boolean isValid(Vector2 pos){
 		return pos.x >= 0 && pos.x < size.x && pos.y >= 0 && pos.y < size.y;
 	}
-		
+	
+	public Vector2 getSize() {
+        return size;
+    }
+	
 }
 
