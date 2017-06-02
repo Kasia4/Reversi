@@ -11,10 +11,95 @@ public class Heuristics {
   
     private Matrix<Float> smallMatrix, mediumMatrix, largeMatrix;
     
-    public Heuristics(){
-        setSmallMatrix();
-        setMediumMatrix();
-        setLargeMatrix();
+    private BoardSize boardSize;
+    
+    float sA = 53.15f;
+    float sB = -32.97f;
+    float sC = -43.33f;
+    float sD = 24.61f;
+    float sE = -26.26f;
+    float sF = 1.04f;
+    private float[][] smallValueMatrix = new float[][]{
+        {sA, sB, sD, sD, sD, sD, sB, sA},
+        {sB, sC, sE, sE, sE, sE, sC, sB},
+        {sD, sE, sF, sF, sF, sF, sE, sD},
+        {sD, sE, sF, sF, sF, sF, sE, sD},
+        {sD, sE, sF, sF, sF, sF, sE, sD},
+        {sD, sE, sF, sF, sF, sF, sE, sD},
+        {sB, sC, sE, sE, sE, sE, sC, sB},
+        {sA, sB, sD, sD, sD, sD, sB, sA},
+        }; 
+        
+    float mA = 0.0f;
+    float mB = 0.0f;
+    float mC = 0.0f;
+    float mD = 0.0f;
+    float mE = 0.0f;
+    float mF = 0.0f;
+    private float[][] mediumValueMatrix = new float[][]{
+        {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+        {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+        {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+        {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+        {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+        {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+        {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+        {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+        {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+        {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+        {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+        {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+        {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+        {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+        {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+        {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+        }; 
+    float lA = 0.0f;
+    float lB = 0.0f;
+    float lC = 0.0f;
+    float lD = 0.0f;
+    float lE = 0.0f;
+    float lF = 0.0f;
+    private float[][] largeValueMatrix = new float[][]{
+        {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+        {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+        {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+        {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+        {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+        {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+        {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+        {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+        {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+        {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+        {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+        {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+        {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+        {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+        {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+        {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+        {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+        {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+        {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+        {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+        {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+        {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+        {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+        {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+        {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+        {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+        {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+        {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+        {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+        {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+        {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+        {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+        };     
+        
+    
+    public Heuristics(BoardSize boardSize){
+        this.boardSize = boardSize;
+        setMatrix();
+
     }
     /**
      * próbuje napisaæ funkcje heurystyczn¹ na podstawie http://sequoia.ict.pwr.wroc.pl/~witold/aiuwr/2001_projekty/reversi/
@@ -41,12 +126,7 @@ public class Heuristics {
                     b = -1;
                 else continue;
                 
-                if(board.getBoardSize().x == BoardSize.SMALL.size)
-                    sum += b * getValueSmallMatrix(new Vector2(x,y));
-                else if(board.getBoardSize().x == BoardSize.MEDIUM.size)
-                    sum += b * getValueMediumMatrix(new Vector2(x,y));
-                else
-                    sum += b * getValueLargeMatrix(new Vector2(x,y));
+                    sum += b * getValueMatrix(new Vector2(x,y));
             }
         sum += v * board.availableFieldsNumber(player.getPawn());
         return sum;
@@ -55,126 +135,67 @@ public class Heuristics {
     /**
      * Creates matrix with values
      */
-    private void setSmallMatrix(){
-        smallMatrix = new Matrix<Float>(new Vector2(BoardSize.SMALL.size, BoardSize.SMALL.size));
-        for(int x = 0; x < smallMatrix.getSize().x; x++)
-            for(int y = 0; y < smallMatrix.getSize().y; y++){
-                smallMatrix.setField(new Vector2(x,y), getValueOnSmallBoard(new Vector2(x,y)));
-            }
+    private void setMatrix(){
+        if(boardSize == BoardSize.SMALL){
+            smallMatrix = new Matrix<Float>(new Vector2(BoardSize.SMALL.size, BoardSize.SMALL.size));
+            for(int x = 0; x < smallMatrix.getSize().x; x++)
+                for(int y = 0; y < smallMatrix.getSize().y; y++){
+                    smallMatrix.setField(new Vector2(x,y), getValueInTable(new Vector2(x,y)));
+                }
+        }
+        else if(boardSize == BoardSize.MEDIUM){
+            mediumMatrix = new Matrix<Float>(new Vector2(BoardSize.MEDIUM.size, BoardSize.MEDIUM.size));
+            for(int x = 0; x < mediumMatrix.getSize().x; x++)
+                for(int y = 0; y < mediumMatrix.getSize().y; y++){
+                    mediumMatrix.setField(new Vector2(x,y), getValueInTable(new Vector2(x,y)));
+                }
+        }
+        else {
+            largeMatrix = new Matrix<Float>(new Vector2(BoardSize.LARGE.size, BoardSize.LARGE.size));
+            for(int x = 0; x < largeMatrix.getSize().x; x++)
+                for(int y = 0; y < largeMatrix.getSize().y; y++){
+                    largeMatrix.setField(new Vector2(x,y), getValueInTable(new Vector2(x,y)));
+                }
+        }
     }
+    
     /**
      * Gives value on this position 
      * @param vec position
      * @return value
      */
-    private float getValueSmallMatrix(Vector2 vec){
-        return smallMatrix.getField(vec);
+    private float getValueMatrix(Vector2 vec){    
+        if(boardSize == BoardSize.SMALL)
+            return smallMatrix.getField(vec);    
+        else if(boardSize == BoardSize.MEDIUM)
+            return mediumMatrix.getField(vec);
+        else 
+            return largeMatrix.getField(vec);
     }
     /**
      * Prints out in console smallMatrix
      */
-    public void printSmallMatrix(){
-        smallMatrix.printOut();
+    public void printMatrix(){
+        if(boardSize == BoardSize.SMALL)
+            smallMatrix.printOut();    
+        else if(boardSize == BoardSize.MEDIUM)
+            mediumMatrix.printOut();
+        else 
+            largeMatrix.printOut();
     }
     
     /**
-     * wartoœci brane z tamtej storny
+     * Takes value from table and returns it
      * @param vec position that is needed to check
-     * @return return value for whis position
+     * @return return value for this position
      */
-    private float getValueOnSmallBoard(Vector2 vec){
-        float a = 53.15f;
-        float b = -32.97f;
-        float c = -43.33f;
-        float d = 24.61f;
-        float e = -26.26f;
-        float f = 1.04f;
-        int x = vec.x;
-        int y = vec.y;
-        
-        if(((x >= 2 && x <=5) && (y == 1 || y == 6)) || (((y >= 2 && y <= 5) && (x == 1 || x == 6))))
-            return e;
-        else if((x == 1 || x == 6) && (y == 1 || y == 6))
-            return c;
-        else if(((x >= 2 && x <=5) && (y == 0 || y == 7)) || (((y >= 2 && y <= 5) && (x == 0 || x == 7))))
-            return d;
-        else if((x == 1 || x == 6) && (y == 0 || y == 7) || (y == 1 || y == 6) && (x == 0 || x == 7))
-            return b;
-        else if((x == 0 || x == 7) && (y == 0 || y == 7))
-            return a;
-        else
-            return f;
+    private float getValueInTable(Vector2 vec){
+        if(boardSize == BoardSize.SMALL)
+            return smallValueMatrix[vec.x][vec.y];    
+        else if(boardSize == BoardSize.MEDIUM)
+            return mediumValueMatrix[vec.x][vec.y];
+        else 
+            return largeValueMatrix[vec.x][vec.y];
     }
     
-    /**
-     * Creates mediumMatrix with values
-     */
-    private void setMediumMatrix(){
-        mediumMatrix = new Matrix<Float>(new Vector2(BoardSize.MEDIUM.size, BoardSize.MEDIUM.size));
-        for(int x = 0; x < mediumMatrix.getSize().x; x++)
-            for(int y = 0; y < mediumMatrix.getSize().y; y++){
-                mediumMatrix.setField(new Vector2(x,y), getValueOnMediumBoard(new Vector2(x,y)));
-            }
-    }
-    /**
-     * Return values set to medium(16x16) board
-     * @param vec vector to check
-     * @return value on this position
-     */
-    private float getValueOnMediumBoard(Vector2 vec){
-        //TODO
-        return 0.0f;
-    }
-    
-    /**
-     * Gives value on this position 
-     * @param vec position
-     * @return value
-     */
-    public float getValueMediumMatrix(Vector2 vec){
-        return mediumMatrix.getField(vec);
-    }
-    
-    /**
-     * Prints out in console mediumMatrix
-     */
-    public void printMediumMatrix(){
-        mediumMatrix.printOut();
-    }
-    
-    /**
-     * Creates largeMatrix with values
-     */
-    private void setLargeMatrix(){
-        largeMatrix = new Matrix<Float>(new Vector2(BoardSize.LARGE.size, BoardSize.LARGE.size));
-        for(int x = 0; x < largeMatrix.getSize().x; x++)
-            for(int y = 0; y < largeMatrix.getSize().y; y++){
-                largeMatrix.setField(new Vector2(x,y), getValueOnLargeBoard(new Vector2(x,y)));
-            }
-    }
-    /**
-     * Return values set to large(32x32) board
-     * @param vec vector to check
-     * @return value on this position
-     */
-    private float getValueOnLargeBoard(Vector2 vec){
-        //TODO
-        return 0.0f;
-    }
-    
-    /**
-     * Gives value on this position 
-     * @param vec position
-     * @return value
-     */
-    public float getValueLargeMatrix(Vector2 vec){
-        return largeMatrix.getField(vec);
-    }
-    
-    /**
-     * Prints out in console largeMatrix
-     */
-    public void printLargeMatrix(){
-        largeMatrix.printOut();
-    }
 }
