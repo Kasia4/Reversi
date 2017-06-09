@@ -38,9 +38,9 @@ public class GameScreen extends Screen{
 
     public GameScreen(AbstractController controller) {
         super(controller);
-        board = new Board(BoardSize.SMALL);
-        heu = new Heuristics(BoardSize.SMALL);
-        sizeOfBoard = 8;
+        board = new Board(BoardSize.LARGE);
+        heu = new Heuristics(BoardSize.LARGE);
+        sizeOfBoard = board.getBoardSize().x;
         board.executeMove(new Move(new Vector2(4,2), Pawn.BLACK));
     }
 
@@ -55,7 +55,7 @@ public class GameScreen extends Screen{
         boardView.buildGUI();
         controlPanel.buildGUI();
         //heu.printMatrix();
-        System.out.println(heu.heuristicTest(board));
+        //System.out.println(heu.heuristicTest(board));
         setVisible(true);
     }
     

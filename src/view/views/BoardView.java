@@ -28,16 +28,17 @@ public class BoardView extends ApplicationManagerView{
     }
     @Override
     public void buildGUI() {
+        System.out.println(board.getBoardSize().y);
         setBackground(new Color(0, 0.6f, 0));
         setOpaque(true);
-        setLayout(new GridLayout(8, 8, 10, 10));
-        for(int y = 0; y < 8; y++)
-            for(int x = 0; x < 8; x++)
-            add(new RectDraw(findColor(new Vector2(x,y))));
+        setLayout(new GridLayout(board.getBoardSize().x, board.getBoardSize().y, 5, 5));
+        for(int y = 0; y < board.getBoardSize().y; y++)
+            for(int x = 0; x < board.getBoardSize().x; x++)
+                add(new RectDraw(findColor(new Vector2(x,y))));
         setVisible(true);
     }
     
-    private static class RectDraw extends JPanel {
+    private class RectDraw extends JPanel {
         private static final long serialVersionUID = 1L;
         Color color;
         private RectDraw(Color color){
@@ -46,9 +47,9 @@ public class BoardView extends ApplicationManagerView{
         protected void paintComponent(Graphics g) {
           super.paintComponent(g);
           g.setColor(color);
-          g.fillRect(0, 0, 640 / 8 - 10, 640 / 8 - 10);
+          g.fillRect(0, 0, 640 / board.getBoardSize().x - 6, 640 / board.getBoardSize().y - 6);
           g.setColor(Color.BLACK);
-          g.drawRect(0, 0, 640 / 8 - 10, 640 / 8 - 10);
+          g.drawRect(0, 0, 640 / board.getBoardSize().x - 6, 640 / board.getBoardSize().y - 6);
         }
     }
     
