@@ -74,12 +74,11 @@ public class BoardView extends GameManagerView{
            return Color.BLACK;
         else if (board.getField(pos) == Field.WHITE)
            return Color.WHITE;
-        else
-        {
+        else{
             if(board.canMove(game.getGameState().getPawn(), pos))
                 return new Color(56/255f, 188/255f, 0/255f);
             else
-                return new Color(0, 0.6f, 0);      
+                return new Color(0, 0.6f, 0);
         }
     }
     

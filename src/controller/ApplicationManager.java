@@ -1,7 +1,6 @@
 package controller;
 
 import model.BoardSize;
-import model.Game;
 import view.ViewManager;
 
 /**
@@ -32,8 +31,8 @@ public class ApplicationManager extends AbstractController{
 		this.viewManager.buildScreenGUI();
 	}
 	
-	public void createGame(){
-	    gameController = new GameController(viewManager);
+	public void createGame(BoardSize boardSize){
+	    gameController = new GameController(viewManager, boardSize);
 	    gameController.launch();
 	    gameController.setApplicationManager(this);
 	}

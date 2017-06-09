@@ -2,20 +2,22 @@ package view.screens;
 
 import java.awt.Color;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
+import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
 import controller.AbstractController;
 import controller.GameController;
 import model.Board;
-import model.BoardSize;
 import model.Game;
+import model.GameState;
 import model.Heuristics;
-import model.Move;
-import model.Pawn;
-import util.Vector2;
 import view.views.BoardView;
 import view.views.ControlPanelView;
 
@@ -55,12 +57,25 @@ public class GameScreen extends Screen{
         addControlPanel();
         boardView.buildGUI();
         controlPanel.buildGUI();
+        JButton tmp = new JButton("Siemano");
+        tmp.setBounds(690, 550, 140, 50);
+        add(tmp);
+        tmp.addActionListener(new ActionListener() {
+            
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                while(true){}
+            }
+        });
         setVisible(true);
     }
     
     public void update(){
         boardView.update();
         controlPanel.update();
+        if(game.getGameState().isTerminal()){
+            showResult();
+        }
     }
     
     private void addBoard(){
@@ -94,5 +109,17 @@ public class GameScreen extends Screen{
         leftLabels.setBounds(0, 30, 30, 640);
         leftLabels.setBackground(new Color(0, 0.6f, 0));
         add(leftLabels);
+    }
+    private void showResult(){
+        String msg;
+        if(game.getGameState() == GameState.DRAW)
+           msg = "Draw!";
+        else
+           msg = "Player " + game.getGameState().getPawn() + " won";
+        
+        JOptionPane.showMessageDialog(new JFrame(),
+                msg,
+                "End of game",
+                JOptionPane.PLAIN_MESSAGE);
     }
 }

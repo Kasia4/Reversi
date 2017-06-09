@@ -5,8 +5,11 @@ import java.awt.LayoutManager;
 import java.awt.Dimension;
 
 import javax.swing.JButton;
-import javax.swing.JFrame;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
+
+import model.BoardSize;
+
 import java.awt.event.*;
 
 /**
@@ -25,6 +28,7 @@ public class MenuView extends ApplicationManagerView {
 	static final String EXIT_GAME = "Exit";
 	
 	JLabel title;
+	JComboBox<String> boardSize;
 	JButton humanGameButton;
 	JButton humanAiGameButton;
 	JButton aiGameButton;
@@ -47,6 +51,10 @@ public class MenuView extends ApplicationManagerView {
 	public void buildGUI(){
 		title = new JLabel("REVERSI", JLabel.CENTER);
 		title.setMaximumSize(BTN_SIZE);
+		
+		String[] sizes = {"8x8", "16x16", "32x32"};
+		boardSize = new JComboBox<String>(sizes);
+		
 		
 		humanGameButton = new JButton(HUMAN_GAME);
 		humanGameButton.setPreferredSize(BTN_SIZE);
@@ -81,6 +89,7 @@ public class MenuView extends ApplicationManagerView {
 		});
 	
 		add(title);
+		add(boardSize);
 		add(humanGameButton);
 		add(humanAiGameButton);
 		add(aiGameButton);
@@ -91,7 +100,7 @@ public class MenuView extends ApplicationManagerView {
 	}
 	
 	private void humanGameButtonActionPerformed(ActionEvent evt){
-	    appManager.createGame();
+	    appManager.createGame(getSize(boardSize.getSelectedIndex()));
 
 	}
 	private void humanAiGameButtonActionPerformed(ActionEvent evt){
@@ -102,5 +111,13 @@ public class MenuView extends ApplicationManagerView {
 	}
 	private void exitButtonActionPerformed(ActionEvent evt){
 		appManager.exit();
+	}
+	private BoardSize getSize(int i){
+	    switch(i){
+	    case 0: return BoardSize.SMALL;
+	    case 1: return BoardSize.MEDIUM;
+	    case 2: return BoardSize.LARGE;
+	    default: return BoardSize.SMALL;
+	    }
 	}
 }

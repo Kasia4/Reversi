@@ -5,7 +5,6 @@ import java.awt.Dimension;
 import javax.swing.JFrame;
 
 import controller.AbstractController;
-import controller.GameController;
 import view.screens.GameScreen;
 import view.screens.MenuScreen;
 import view.screens.Screen;
