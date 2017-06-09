@@ -1,4 +1,5 @@
-/model/
-/view/
-/util/
+*.class
 /controller/
+/model/
+/util/
+/view/

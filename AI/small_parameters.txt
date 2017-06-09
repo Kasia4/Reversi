@@ -1,0 +1,14 @@
+53,15
+-32,97
+-43,33
+24,61
+-26,26
+1,04
+A B D D D D B A
+B C E E E E C B
+D E F F F F E D
+D E F F F F E D
+D E F F F F E D
+D E F F F F E D
+B C E E E E C B
+A B D D D D B A

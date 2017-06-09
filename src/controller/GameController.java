@@ -15,6 +15,7 @@ public class GameController extends AbstractController{
     public GameController(ViewManager viewManager, BoardSize boardSize) {
         super(viewManager);     
         game = new Game(boardSize);
+
     }
 
     @Override

@@ -61,7 +61,6 @@ public class GameScreen extends Screen{
         tmp.setBounds(690, 550, 140, 50);
         add(tmp);
         tmp.addActionListener(new ActionListener() {
-            
             @Override
             public void actionPerformed(ActionEvent e) {
                 while(true){}
