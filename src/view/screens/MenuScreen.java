@@ -31,4 +31,5 @@ public class MenuScreen extends Screen {
 
         setVisible(true);
 	}
+	public void update(){};
 }

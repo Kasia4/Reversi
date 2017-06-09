@@ -29,11 +29,7 @@ public class GameScreen extends Screen{
     private static final long serialVersionUID = 1L;
     BoardView boardView;
     ControlPanelView controlPanel;
-    
-    /**
-     * TYLKO DO TESTÓW VIEW - DO USUNIECIA!!!!!
-     * @author Kokos
-     */
+
     Game game;
     Board board;
     Heuristics heu;
@@ -41,15 +37,16 @@ public class GameScreen extends Screen{
 
     public GameScreen(AbstractController controller) {
         super(controller);
-        game = new Game(BoardSize.MEDIUM);
-        board = game.getBoard();
-        heu = new Heuristics(BoardSize.MEDIUM);
-        sizeOfBoard = board.getBoardSize().x;
-        board.executeMove(new Move(new Vector2(4,2), Pawn.BLACK));
     }
 
+    private void init(){
+        this.game = ((GameController)controller).getGame();
+        board = game.getBoard();
+        sizeOfBoard = board.getBoardSize().x;
+    }
     @Override
     public void buildGUI() {
+        init();
         setLayout(null);
         setBackground(new Color(0, 0.6f, 0));
         addBoard();
@@ -58,19 +55,22 @@ public class GameScreen extends Screen{
         addControlPanel();
         boardView.buildGUI();
         controlPanel.buildGUI();
-        //heu.printMatrix();
-        //System.out.println(heu.heuristicTest(board));
         setVisible(true);
     }
     
+    public void update(){
+        boardView.update();
+        controlPanel.update();
+    }
+    
     private void addBoard(){
-        boardView = new BoardView(board);
+        boardView = new BoardView(game);
         boardView.setBounds(30, 30, 640, 640);
         addView(boardView);
         add(boardView);
     }
     private void addControlPanel(){
-        controlPanel = new ControlPanelView(board);
+        controlPanel = new ControlPanelView(game);
         controlPanel.setBounds(690, 200, 140, 300);
         addView(controlPanel);
         add(controlPanel);
@@ -95,7 +95,4 @@ public class GameScreen extends Screen{
         leftLabels.setBackground(new Color(0, 0.6f, 0));
         add(leftLabels);
     }
-    public void sendMove(Vector2 position){
-    }
-
 }

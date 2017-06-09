@@ -4,21 +4,23 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 
-import javax.swing.JButton;
 import javax.swing.JLabel;
 
 import model.Board;
 import model.Field;
+import model.Game;
 
-public class ControlPanelView extends ApplicationManagerView{
+public class ControlPanelView extends GameManagerView{
 
     private static final long serialVersionUID = 1L;
     JLabel white, whiteScore, black, blackScore, turn, pawnTurn;
     static final Dimension BTN_SIZE = new Dimension (200, 40);
+    private Game game;
     private Board board;
     
-    public ControlPanelView(Board board) {
-        this.board = board;
+    public ControlPanelView(Game game) {
+        this.game = game;
+        this.board = game.getBoard();
     }
     
     @Override
@@ -39,7 +41,7 @@ public class ControlPanelView extends ApplicationManagerView{
         /**
          * TODO change it
          */
-        pawnTurn = new JLabel("WHITE", JLabel.CENTER);
+        pawnTurn = new JLabel("BLACK", JLabel.CENTER);
         pawnTurn.setMaximumSize(BTN_SIZE);
             
         setLayout(new GridLayout(3,2));
@@ -52,6 +54,11 @@ public class ControlPanelView extends ApplicationManagerView{
         
         add(turn);
         add(pawnTurn);     
+    }
+    public void update(){
+        whiteScore.setText(board.getFieldsNumber(Field.WHITE) + "");
+        blackScore.setText(board.getFieldsNumber(Field.BLACK) + "");
+        pawnTurn.setText(game.getGameState().getPawn() + "");
     }
 
 }

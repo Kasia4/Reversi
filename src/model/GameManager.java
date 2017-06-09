@@ -1,6 +1,5 @@
 package model;
 
-import util.Vector2;
 
 public class GameManager {
 	
@@ -38,8 +37,4 @@ public class GameManager {
 		this.playerB=playerB;
 		this.playerW=playerW;
 	}
-	
-
-	
-
 }

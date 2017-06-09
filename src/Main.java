@@ -1,13 +1,4 @@
 
-import java.util.ArrayList;
-
-import model.Board;
-import model.BoardSize;
-import model.Field;
-import model.Move;
-import model.Pawn;
-import util.Direction;
-import util.Vector2;
 public class Main {	
 	
 //	public static void main(String[] args){

@@ -20,6 +20,7 @@ abstract public class ApplicationManagerView extends AbstractView {
 	
 	
 	protected ApplicationManager appManager;
+	
 	public ApplicationManagerView() {
 	}
 
@@ -39,7 +40,4 @@ abstract public class ApplicationManagerView extends AbstractView {
 	protected void setController(AbstractController controller) {
 		appManager = (ApplicationManager)controller;
 	}
-
-	
-
 }

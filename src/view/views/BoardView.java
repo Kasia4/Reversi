@@ -10,7 +10,7 @@ import javax.swing.JPanel;
 import controller.BoardMouseAdapter;
 import model.Board;
 import model.Field;
-import model.Pawn;
+import model.Game;
 import util.Vector2;
 
 /**
@@ -18,21 +18,22 @@ import util.Vector2;
  * @author Kokos
  *
  */
-public class BoardView extends ApplicationManagerView{
+public class BoardView extends GameManagerView{
 
     private static final long serialVersionUID = 1L;
     JLabel title;
+    Game game;
     Board board;
     BoardMouseAdapter boardMouseAdapter;
 
-    public BoardView(Board board){
-        this.board = board;
-        boardMouseAdapter = new BoardMouseAdapter();
-        
+    public BoardView(Game game){
+        this.game = game;
+        this.board = game.getBoard();
+        boardMouseAdapter = new BoardMouseAdapter(this);
     }
+    
     @Override
     public void buildGUI() {
-        System.out.println(board.getBoardSize().y);
         setBackground(new Color(0, 0.6f, 0));
         setOpaque(true);
         setLayout(new GridLayout(board.getBoardSize().x, board.getBoardSize().y, 5, 5));
@@ -75,10 +76,24 @@ public class BoardView extends ApplicationManagerView{
            return Color.WHITE;
         else
         {
-            if(board.canMove(Pawn.WHITE, pos))
+            if(board.canMove(game.getGameState().getPawn(), pos))
                 return new Color(56/255f, 188/255f, 0/255f);
             else
                 return new Color(0, 0.6f, 0);      
         }
+    }
+    
+    public void sendMove(Vector2 position){
+        gameController.sendMove(position);
+    }
+    public void update(){
+        setVisible(false);
+        removeAll();        
+        for(int y = 0; y < board.getBoardSize().y; y++)
+            for(int x = 0; x < board.getBoardSize().x; x++)
+                add(new RectDraw(findColor(new Vector2(x,y)), new Vector2(x,y)));
+
+        repaint();
+        setVisible(true);
     }
 }
