@@ -1,5 +1,7 @@
 package controller;
 
+import model.BoardSize;
+import model.HeuristicParametersReader;
 import view.*;
 
 /**
