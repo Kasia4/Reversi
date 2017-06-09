@@ -1,12 +1,13 @@
 package model;
 
 public class Game {
-	
-	
+
 	private Board board;
 	private GameState gameState;
 	
-	
+	public Game(BoardSize boardSize){
+	    board = new Board(boardSize);
+	}
 	public Board getBoard() {
 		return board;
 	}

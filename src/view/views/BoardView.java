@@ -7,6 +7,7 @@ import java.awt.GridLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import controller.BoardMouseAdapter;
 import model.Board;
 import model.Field;
 import model.Pawn;
@@ -22,9 +23,12 @@ public class BoardView extends ApplicationManagerView{
     private static final long serialVersionUID = 1L;
     JLabel title;
     Board board;
+    BoardMouseAdapter boardMouseAdapter;
 
     public BoardView(Board board){
         this.board = board;
+        boardMouseAdapter = new BoardMouseAdapter();
+        
     }
     @Override
     public void buildGUI() {
@@ -34,15 +38,18 @@ public class BoardView extends ApplicationManagerView{
         setLayout(new GridLayout(board.getBoardSize().x, board.getBoardSize().y, 5, 5));
         for(int y = 0; y < board.getBoardSize().y; y++)
             for(int x = 0; x < board.getBoardSize().x; x++)
-                add(new RectDraw(findColor(new Vector2(x,y))));
+                add(new RectDraw(findColor(new Vector2(x,y)), new Vector2(x,y)));
         setVisible(true);
     }
     
-    private class RectDraw extends JPanel {
+    public class RectDraw extends JPanel {
         private static final long serialVersionUID = 1L;
         Color color;
-        private RectDraw(Color color){
+        Vector2 position;
+        private RectDraw(Color color, Vector2 position){
+            this.position = position;
             this.color = color;
+            this.addMouseListener(boardMouseAdapter);
         }
         protected void paintComponent(Graphics g) {
           super.paintComponent(g);
@@ -50,6 +57,9 @@ public class BoardView extends ApplicationManagerView{
           g.fillRect(0, 0, 640 / board.getBoardSize().x - 6, 640 / board.getBoardSize().y - 6);
           g.setColor(Color.BLACK);
           g.drawRect(0, 0, 640 / board.getBoardSize().x - 6, 640 / board.getBoardSize().y - 6);
+        }
+        public Vector2 getPosition(){
+            return position;
         }
     }
     
