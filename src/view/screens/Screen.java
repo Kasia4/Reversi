@@ -66,5 +66,6 @@ abstract public class Screen extends JPanel {
 	}
 	
 	abstract public void buildGUI();
+	abstract public void update();
 	
 }

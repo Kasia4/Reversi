@@ -1,11 +1,11 @@
 package view;
 
 import java.awt.Dimension;
-import java.awt.Rectangle;
 
 import javax.swing.JFrame;
 
 import controller.AbstractController;
+import controller.GameController;
 import view.screens.GameScreen;
 import view.screens.MenuScreen;
 import view.screens.Screen;
@@ -67,7 +67,7 @@ public class ViewManager extends JFrame{
 		switch(screenName)
 		{
 			case MENU_ID: currentScreen = new MenuScreen(controller);System.out.println("viewManager: menuScreen set");break;
-			case GAME_ID: currentScreen = new GameScreen(controller);System.out.println("viewManager: gameScreen set");break;
+			case GAME_ID: currentScreen =  new GameScreen(controller);System.out.println("viewManager: gameScreen set");break;
 		}
 		add(currentScreen);
 	}
@@ -75,7 +75,7 @@ public class ViewManager extends JFrame{
 	public void setController(AbstractController controller){
 		if(this.controller != controller){
 			this.controller = controller;
-			System.out.println("viewManager.setController " + controller.getClass());
+			//System.out.println("viewManager.setController " + controller.getClass());
 			if(currentScreen!=null){
 				currentScreen.setController(this.controller);
 				System.out.println("Controller setting to frame");
@@ -92,6 +92,9 @@ public class ViewManager extends JFrame{
 	public void buildScreenGUI(){
 		currentScreen.buildGUI();
 		setVisible(true);
+	}
+	public void updateScreen(){
+	    currentScreen.update();
 	}
 
 }

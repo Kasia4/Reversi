@@ -2,7 +2,8 @@ package controller;
 
 import model.BoardSize;
 import model.HeuristicParametersReader;
-import view.*;
+import model.Game;
+import view.ViewManager;
 
 /**
  * Controller used in menu.
@@ -11,6 +12,8 @@ import view.*;
  */
 public class ApplicationManager extends AbstractController{
 	
+    GameController gameController;
+    
 	public static void main(String[] args){
 		new ApplicationManager(new ViewManager());
 		
@@ -30,10 +33,10 @@ public class ApplicationManager extends AbstractController{
 		this.viewManager.buildScreenGUI();
 	}
 	
-	public void startGame(){
-	    this.viewManager.setScreen(ViewManager.GAME_ID);
-	    this.viewManager.setController(this);
-	    this.viewManager.buildScreenGUI();
+	public void createGame(){
+	    gameController = new GameController(viewManager);
+	    gameController.launch();
+	    gameController.setApplicationManager(this);
 	}
 	
 	/**

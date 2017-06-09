@@ -91,12 +91,11 @@ public class MenuView extends ApplicationManagerView {
 	}
 	
 	private void humanGameButtonActionPerformed(ActionEvent evt){
-	    appManager.startGame();
+	    appManager.createGame();
 
 	}
 	private void humanAiGameButtonActionPerformed(ActionEvent evt){
 		//appManager.createGameOption();
-	       test();
 	}
 	private void aiGameButtonActionPerformed(ActionEvent evt){
 		//appManager.createGameOption();
@@ -104,14 +103,4 @@ public class MenuView extends ApplicationManagerView {
 	private void exitButtonActionPerformed(ActionEvent evt){
 		appManager.exit();
 	}
-	private void test(){
-	    add(new JButton("test"));
-	    System.out.println("gitara");
-	    validate();
-	    repaint();
-	    
-	}
-	
-	
-
 }

@@ -11,7 +11,7 @@ public class Board {
 	private Matrix<Field> board;
 	
 	private Vector2 boardSize;
-
+	public static int i = 0;
 
     public Board(BoardSize size){
 		this.boardSize = size.getSize();
@@ -25,11 +25,9 @@ public class Board {
 		board = new Matrix<Field>(boardSize);
 		board.fill(Field.EMPTY);
 		Vector2 vector = Vector2.div(boardSize, 2);
-		System.out.println(vector);
 		vector = Vector2.add(vector, Direction.NW.v);
 		Vector2 index = new Vector2(vector);
 		setField(index, Field.BLACK);
-		System.out.println(vector);
 		setField(Vector2.add(index, Direction.E.v), Field.WHITE);
 		setField(Vector2.add(index, Direction.SE.v), Field.BLACK);
 		setField(Vector2.add(index, Direction.S.v), Field.WHITE);
