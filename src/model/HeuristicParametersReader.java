@@ -7,6 +7,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
+import util.Vector2;
+
 
 public class HeuristicParametersReader {
 	
@@ -77,6 +79,11 @@ public class HeuristicParametersReader {
 		} finally {
 			if(scanner != null)scanner.close();
 		}
+	}
+	
+	public float getFieldWeight(Vector2 pos)
+	{
+		return weightMatrix[pos.x][pos.y];
 	}
 	
 	
