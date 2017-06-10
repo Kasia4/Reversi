@@ -101,7 +101,7 @@ public class MenuView extends ApplicationManagerView {
 	}
 	
 	private void humanGameButtonActionPerformed(ActionEvent evt){
-	    appManager.createGame(getSize(boardSize.getSelectedIndex()), PlayerType.CONSOLE, PlayerType.HUMAN);
+	    appManager.createGame(getSize(boardSize.getSelectedIndex()), PlayerType.CONSOLE, PlayerType.CONSOLE);
 
 	}
 	private void humanAiGameButtonActionPerformed(ActionEvent evt){

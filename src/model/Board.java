@@ -8,9 +8,10 @@ import java.util.ArrayList;
 import util.Direction;
 
 public class Board {
-	private Matrix<Field> board;
-	
+	private Matrix<Field> board;	
 	private Vector2 boardSize;
+	private MoveResult lastMoveResult;
+	
 	public static int i = 0;
 
     public Board(BoardSize size){
@@ -40,6 +41,7 @@ public class Board {
 	 */
 	public void setField(Vector2 pos, Field field){
 		board.setField(pos, field);
+		lastMoveResult.addPosition(pos);
 	}
 	
 	/**
@@ -63,6 +65,8 @@ public class Board {
 	public boolean executeMove(Move move){
 		if(!canMove(move))
 			return false;
+		lastMoveResult.clear();
+		lastMoveResult.setField(move.getPawn().color);
 		Vector2 pawnPos = move.getPosition();
 		Field color = move.getPawn().color();
 		for (Direction dir : Direction.values()) {
@@ -238,4 +242,8 @@ public class Board {
     public void setBoardSize(Vector2 boardSize) {
         this.boardSize = boardSize;
     }
+    
+   public MoveResult getLastMoveResult(){
+	   return lastMoveResult;
+   }
 }
