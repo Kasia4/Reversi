@@ -34,8 +34,8 @@ public class ApplicationManager extends AbstractController{
 		this.viewManager.buildScreenGUI();
 	}
 	
-	public void createGame(BoardSize boardSize){
-	    gameController = new GameController(viewManager, boardSize);
+	public void createGame(BoardSize boardSize, PlayerType playerWhite, PlayerType playerBlack){
+	    gameController = new GameController(viewManager, boardSize, playerWhite, playerBlack);
 	    gameController.launch();
 	    gameController.setApplicationManager(this);
 	}

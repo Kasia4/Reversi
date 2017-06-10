@@ -60,11 +60,22 @@ abstract public class Screen extends JPanel {
 			e.printStackTrace();
 		}
 	}
+	
 	public void removeView(AbstractView view){
 		view.setVisible(false);
 		views.remove(view);
 	}
 	
+	public <T> T findView(Class<T> viewType)
+	{
+		for(AbstractView view : views)
+		{
+			if(view.getClass() == viewType){
+				return (T) view;
+			}
+		}
+		return null;
+	}
 	abstract public void buildGUI();
 	abstract public void update();
 	

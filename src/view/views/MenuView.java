@@ -8,6 +8,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 
+import controller.PlayerType;
 import model.BoardSize;
 
 import java.awt.event.*;
@@ -100,7 +101,7 @@ public class MenuView extends ApplicationManagerView {
 	}
 	
 	private void humanGameButtonActionPerformed(ActionEvent evt){
-	    appManager.createGame(getSize(boardSize.getSelectedIndex()));
+	    appManager.createGame(getSize(boardSize.getSelectedIndex()), PlayerType.HUMAN, PlayerType.HUMAN);
 
 	}
 	private void humanAiGameButtonActionPerformed(ActionEvent evt){

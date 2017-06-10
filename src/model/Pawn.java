@@ -1,14 +1,16 @@
 package model;
 
 public enum Pawn {
-WHITE(Field.WHITE, Field.BLACK),
-BLACK(Field.BLACK, Field.WHITE);
+WHITE(Field.WHITE, Field.BLACK, 0),
+BLACK(Field.BLACK, Field.WHITE, 1);
 	
 	Field color;
 	Field opposite;
-	private Pawn(Field color, Field opposite){
+	int id;
+	private Pawn(Field color, Field opposite, int id){
 		this.color = color;
 		this.opposite = opposite;
+		this.id = id;
 	}
 		
 	public Field color(){
@@ -16,5 +18,8 @@ BLACK(Field.BLACK, Field.WHITE);
 	}
 	public Field opposite(){
 		return opposite;
+	}
+	public int id(){
+		return id;
 	}
 }

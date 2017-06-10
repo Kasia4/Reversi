@@ -5,20 +5,16 @@ import util.Vector2;
 
 public abstract class Player implements Runnable {
 	
-	private Pawn pawn;
-	private Vector2 currentMove;
-	private GameController controllerHandle;
+	protected Pawn pawn;
+	protected GameController controllerHandle;
 	
-	public void setController(GameController controller)
-	{
+	public void setController(GameController controller) {
 		controllerHandle = controller;
 	}
-	public Vector2 getCurrentMove() {
-		return currentMove;
-	}
 
-	public Player(Pawn pawn){
-		this.pawn = pawn;
+	public Player(Pawn pawn, GameController controller){
+		setPawn(pawn);
+		setController(controller);
 	}
 
 	public Pawn getPawn() {
