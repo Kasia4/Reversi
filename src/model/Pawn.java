@@ -7,6 +7,7 @@ BLACK(Field.BLACK, Field.WHITE, 1);
 	Field color;
 	Field opposite;
 	int id;
+	
 	private Pawn(Field color, Field opposite, int id){
 		this.color = color;
 		this.opposite = opposite;

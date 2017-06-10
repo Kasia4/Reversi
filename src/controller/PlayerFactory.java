@@ -12,6 +12,8 @@ public class PlayerFactory {
 			return new HumanPlayer(pawn, controller);
 		case REMOTE_AI:
 			break;
+		case CONSOLE:
+			return new ConsolePlayer(pawn, controller);
 		default:
 			break;
 		

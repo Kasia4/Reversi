@@ -52,9 +52,7 @@ public class GameController extends AbstractController implements Runnable{
 	@Override
 	public void run() {
 		while(!game.getGameState().isTerminal()){
-			System.out.println("witamy w petli glownej kurwo");
 			try {
-				//System.out.println("odpalamy");
 				Thread playerThread = new Thread(player[game.getGameState().getPawn().id()]);
 				playerThread.start();
 				playerThread.join();

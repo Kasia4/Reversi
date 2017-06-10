@@ -15,7 +15,6 @@ public class HumanPlayer extends Player {
 
 	@Override
 	public void run() {
-		System.out.println("cos ty kurwo powiedzial?");
 		viewHandle.resetMove();
 		Vector2 currentMove;
 		while((currentMove = viewHandle.getMove()) == null);
@@ -27,9 +26,6 @@ public class HumanPlayer extends Player {
 	{
 		super.setController(controller);
 		viewHandle = controller.viewManager.getScreen().findView(BoardView.class);
-		if(viewHandle != null)
-			System.out.println("gitara siema");
-		
 	}
 	
 
