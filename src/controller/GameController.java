@@ -10,6 +10,7 @@ public class GameController extends AbstractController{
 
     ApplicationManager appManager;
     Game game;
+    
 
 
     public GameController(ViewManager viewManager, BoardSize boardSize) {
@@ -29,7 +30,7 @@ public class GameController extends AbstractController{
     }
     public void sendMove(Vector2 position){
         if(game.makeMove(position)){
-            appManager.viewManager.updateScreen();
+            viewManager.updateScreen();
         }
     }
     public Game getGame() {

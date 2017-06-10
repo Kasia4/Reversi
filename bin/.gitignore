@@ -1,5 +1,3 @@
-*.class
-/controller/
 /model/
-/util/
 /view/
+/controller/

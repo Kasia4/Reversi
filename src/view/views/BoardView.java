@@ -26,6 +26,8 @@ public class BoardView extends GameManagerView{
     Board board;
     BoardMouseAdapter boardMouseAdapter;
 
+    Vector2 clickedField = null;
+    
     public BoardView(Game game){
         this.game = game;
         this.board = game.getBoard();
@@ -82,8 +84,18 @@ public class BoardView extends GameManagerView{
         }
     }
     
-    public void sendMove(Vector2 position){
+    synchronized public void resetMove()
+    {
+    	clickedField = null;
+    }
+    synchronized public void sendMove(Vector2 position){
+    	clickedField = position;
+    	System.out.println(clickedField);
         gameController.sendMove(position);
+    }
+    synchronized public Vector2 getMove()
+    {
+    	return clickedField;
     }
     public void update(){
         setVisible(false);

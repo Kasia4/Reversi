@@ -1,5 +1,6 @@
 package model;
 
+import controller.Player;
 import util.Matrix;
 import util.Vector2;
 /**
@@ -102,9 +103,9 @@ public class Heuristics {
 
     }
     /**
-     * próbuje napisaæ funkcje heurystyczn¹ na podstawie http://sequoia.ict.pwr.wroc.pl/~witold/aiuwr/2001_projekty/reversi/
-     * narazie w board bo nie wiem jak rozwia¿emy jaki panel siê tym zajmuje
-     * Zak³adam ¿e funkja dzia³a po prostu na jakimœ stanie planszy.
+     * prï¿½buje napisaï¿½ funkcje heurystycznï¿½ na podstawie http://sequoia.ict.pwr.wroc.pl/~witold/aiuwr/2001_projekty/reversi/
+     * narazie w board bo nie wiem jak rozwiaï¿½emy jaki panel siï¿½ tym zajmuje
+     * Zakï¿½adam ï¿½e funkja dziaï¿½a po prostu na jakimï¿½ stanie planszy.
      * Narazie tylko dla 8x8
      * 
      * Function that returns value of heuristic function where result depends on place where pawns are and number of possible moves
@@ -114,21 +115,22 @@ public class Heuristics {
      */
     public float heuristicTest(Board board){
         float sum = 0;
-        Player player = new Player(Pawn.WHITE);//tylko do testów
+        //Player player = new Player(Pawn.WHITE);//tylko do testï¿½w
+        Pawn pawn = Pawn.WHITE;
         int b = 0;
         float v = 4.1f;
         for(int x = 0; x < board.getBoardSize().x; x++)
             for(int y = 0; y < board.getBoardSize().y; y++){
                 Field current = board.getField(new Vector2(x,y));
-                if(current == player.getPawn().color)
+                if(current == pawn.color)
                     b = 1;
-                else if(current == player.getPawn().opposite)
+                else if(current == pawn.opposite)
                     b = -1;
                 else continue;
                 
                     sum += b * getValueMatrix(new Vector2(x,y));
             }
-        sum += v * board.availableFieldsNumber(player.getPawn());
+        sum += v * board.availableFieldsNumber(pawn);
         return sum;
     }
     

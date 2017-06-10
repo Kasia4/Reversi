@@ -1,18 +1,20 @@
-package model;
+package controller;
 
+import model.Pawn;
 import util.Vector2;
 
-public class Player {
+public abstract class Player implements Runnable {
 	
 	private Pawn pawn;
 	private Vector2 currentMove;
+	private GameController controllerHandle;
 	
+	public void setController(GameController controller)
+	{
+		controllerHandle = controller;
+	}
 	public Vector2 getCurrentMove() {
 		return currentMove;
-	}
-
-	public void setCurrentMove(Vector2 currentMove) {
-		this.currentMove = currentMove;
 	}
 
 	public Player(Pawn pawn){
@@ -26,6 +28,4 @@ public class Player {
 	public void setPawn(Pawn pawn) {
 		this.pawn = pawn;
 	}
-
-
 }

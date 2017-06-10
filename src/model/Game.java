@@ -28,7 +28,7 @@ public class Game {
 	            gameState = GameState.TURN_W;
 	        else if(gameState == GameState.TURN_W && board.ifMovePossible(Pawn.BLACK))
 	            gameState = GameState.TURN_B;
-	        
+	       
 	        if(!board.ifMovePossible(Pawn.BLACK) && !board.ifMovePossible(Pawn.WHITE)){
 	            if(board.getFieldsNumber(Field.BLACK) > board.getFieldsNumber(Field.WHITE))
 	                gameState = GameState.WIN_B;
