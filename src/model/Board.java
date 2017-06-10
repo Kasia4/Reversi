@@ -10,7 +10,7 @@ import util.Direction;
 public class Board {
 	private Matrix<Field> board;	
 	private Vector2 boardSize;
-	private MoveResult lastMoveResult;
+	private MoveResult lastMoveResult = new MoveResult();
 	
 	public static int i = 0;
 
