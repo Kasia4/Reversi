@@ -4,6 +4,8 @@ import util.Matrix;
 import util.Vector2;
 
 import java.util.ArrayList;
+import java.util.EmptyStackException;
+import java.util.Stack;
 
 import util.Direction;
 
@@ -11,6 +13,7 @@ public class Board {
 	private Matrix<Field> board;	
 	private Vector2 boardSize;
 	private MoveResult lastMoveResult = new MoveResult();
+	private Stack<PastMove> doneMoves = new Stack<PastMove>();
 	
 	public static int i = 0;
 
@@ -67,17 +70,25 @@ public class Board {
 			return false;
 		lastMoveResult.clear();
 		lastMoveResult.setField(move.getPawn().color);
+		PastMove pastMove = new PastMove(move);
+		int currentAnchor;
 		Vector2 pawnPos = move.getPosition();
 		Field color = move.getPawn().color();
+		
 		for (Direction dir : Direction.values()) {
+			currentAnchor = 0;
 			Vector2 finishPos = getFinishField(move, dir);
 			if(finishPos.equals(pawnPos))
 				continue;
-			for(Vector2 currPos = Vector2.add(pawnPos, dir.v); !currPos.equals(finishPos); currPos = Vector2.add(currPos, dir.v))
+			for(Vector2 currPos = Vector2.add(pawnPos, dir.v); !currPos.equals(finishPos); currPos = Vector2.add(currPos, dir.v)) {
 				board.setField(currPos, color);
-			
+				++currentAnchor;
+			}
+			pastMove.setAnchor(dir, currentAnchor);
 		}
 		setField(pawnPos, color);
+		System.out.println(pastMove);
+		doneMoves.push(pastMove);
 		return true;
 	}
 	
@@ -245,5 +256,36 @@ public class Board {
     
    public MoveResult getLastMoveResult(){
 	   return lastMoveResult;
+   }
+   
+   public Move undoMove(){
+	   if(doneMoves.isEmpty())return null;
+	   Move lastMove = doneMoves.pop();
+//	   if(!board.isValid(pos))
+//			return false;
+//		if(!board.getField(pos).isEmpty())
+//			return false;
+//		for(Direction dir : Direction.values())
+//		{
+//			Vector2 curr = new Vector2(pos);
+//			boolean success = false;
+//			boolean hasOpp = false;
+//			while(true){
+//				curr = Vector2.add(curr, dir.v);
+//				if(!board.isValid(curr)) break;
+//				if(board.getField(curr) == Field.EMPTY) break;
+//				if(board.getField(curr) == pawn.opposite()){
+//					hasOpp = true;
+//					continue;
+//				}
+//				if(board.getField(curr) == pawn.color()){
+//					success = true;
+//					break;
+//				}			
+//			}
+//			if(success && hasOpp) return true;
+//		}
+//		return false;
+	   return null;
    }
 }
