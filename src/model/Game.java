@@ -1,11 +1,26 @@
 package model;
 
+import ai.ZobristFunction;
 import util.Vector2;
 
 public class Game {
 
 	private Board board;
 	private GameState gameState = GameState.TURN_B;
+	private ZobristFunction zobrist;
+	public ZobristFunction getZobrist() {
+		return zobrist;
+	}
+	public void setZobrist(ZobristFunction zobrist) {
+		this.zobrist = zobrist;
+	}
+	public long getZobristKey() {
+		return zobristKey;
+	}
+	public void setZobristKey(long zobristKey) {
+		this.zobristKey = zobristKey;
+	}
+	private long zobristKey;
 	
 	public Game(BoardSize boardSize){
 	    board = new Board(boardSize);
