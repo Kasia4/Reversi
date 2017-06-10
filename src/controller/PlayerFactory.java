@@ -7,7 +7,7 @@ public class PlayerFactory {
 	{
 		switch(type){
 		case AI:
-			break;
+			return new AIPlayer(pawn, controller);
 		case HUMAN:
 			return new HumanPlayer(pawn, controller);
 		case REMOTE_AI:
