@@ -7,6 +7,8 @@ public class Game {
 
 	private Board board;
 	private GameState gameState = GameState.TURN_B;
+	private boolean emptyMovesEnabled = false;
+	
 	private ZobristFunction zobrist;
 	public ZobristFunction getZobrist() {
 		return zobrist;
