@@ -2,6 +2,7 @@ package controller;
 
 import model.Game;
 import model.Pawn;
+import util.Vector2;
 
 public class AIPlayer extends Player {
 
@@ -14,8 +15,9 @@ public class AIPlayer extends Player {
 	
 	@Override
 	public void run() {
-		controllerHandle.sendMove(gameHandle.getBoard().getAvailableFields(pawn).get(0));
-		
+		Vector2 currentMove = gameHandle.getBoard().getAvailableFields(pawn).get(0);
+		controllerHandle.sendMove(currentMove);
+		lastMovePos = currentMove;		
 	}
 	
 	@Override

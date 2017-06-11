@@ -1,8 +1,6 @@
 package controller;
 
 import model.BoardSize;
-import model.HeuristicParametersReader;
-import model.Game;
 
 import view.ViewManager;
 

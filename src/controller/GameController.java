@@ -16,7 +16,7 @@ public class GameController extends AbstractController implements Runnable{
     Game game;
     Connection connection;
     PlayerType playerType[] = new PlayerType[2];
-    Player player[] = new Player[2];
+    AbstractPlayer player[] = new Player[2];
     
     String hostname = "localhost";
     int port = 4543;
@@ -27,7 +27,7 @@ public class GameController extends AbstractController implements Runnable{
         game = new Game(boardSize);
         playerType[Pawn.WHITE.id()] = whiteType;
         playerType[Pawn.BLACK.id()] = blackType;
-        if(whiteType == PlayerType.REMOTE_AI || blackType == PlayerType.REMOTE_AI)
+        if(whiteType == PlayerType.REMOTE || blackType == PlayerType.REMOTE)
             connection = new Connection(hostname, port);
     }
 
@@ -54,7 +54,7 @@ public class GameController extends AbstractController implements Runnable{
     
     private void setPlayers(){
     	for(Pawn pawn : Pawn.values()){
-            player[pawn.id()] = PlayerFactory.producePlayer(playerType[pawn.id()], pawn, this);
+            player[pawn.id()] = PlayerFactory.producePlayer(playerType[pawn.id()], pawn, this, false);
     	}
     }
 
