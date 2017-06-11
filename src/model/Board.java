@@ -258,34 +258,21 @@ public class Board {
 	   return lastMoveResult;
    }
    
-   public Move undoMove(){
+   public PastMove undoMove(){
 	   if(doneMoves.isEmpty())return null;
-	   Move lastMove = doneMoves.pop();
-//	   if(!board.isValid(pos))
-//			return false;
-//		if(!board.getField(pos).isEmpty())
-//			return false;
-//		for(Direction dir : Direction.values())
-//		{
-//			Vector2 curr = new Vector2(pos);
-//			boolean success = false;
-//			boolean hasOpp = false;
-//			while(true){
-//				curr = Vector2.add(curr, dir.v);
-//				if(!board.isValid(curr)) break;
-//				if(board.getField(curr) == Field.EMPTY) break;
-//				if(board.getField(curr) == pawn.opposite()){
-//					hasOpp = true;
-//					continue;
-//				}
-//				if(board.getField(curr) == pawn.color()){
-//					success = true;
-//					break;
-//				}			
-//			}
-//			if(success && hasOpp) return true;
-//		}
-//		return false;
-	   return null;
+	   PastMove lastMove = doneMoves.pop();
+	   Field field = lastMove.getPawn().opposite();
+	   for(Direction dir : Direction.values())
+	   {
+		   Vector2 curr = new Vector2(lastMove.getPosition());
+		   int replaced = 0;
+		   while(replaced < lastMove.getAnchor(dir)){
+			   curr = Vector2.add(curr, dir.v);
+			   board.setField(curr, field);
+			   ++replaced;
+		   }
+	   }
+	   board.setField(lastMove.getPosition(), Field.EMPTY);
+	   return lastMove;
    }
 }

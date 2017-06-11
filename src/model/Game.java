@@ -56,4 +56,11 @@ public class Game {
 	    }
 	    return false;
 	}
+	public void undoMove(){
+		PastMove move = board.undoMove();
+		if(move.getPawn() == Pawn.BLACK)
+			gameState = GameState.TURN_B;
+		else 
+			gameState = GameState.TURN_W;
+	}
 }

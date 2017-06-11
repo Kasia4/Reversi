@@ -63,7 +63,8 @@ public class GameScreen extends Screen{
         tmp.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                while(true){}
+                game.undoMove();
+                boardView.update();
             }
         });
         setVisible(true);
