@@ -11,8 +11,12 @@ public class GameController extends AbstractController implements Runnable{
 
     ApplicationManager appManager;
     Game game;
+    Connection connection;
     PlayerType playerType[] = new PlayerType[2];
     Player player[] = new Player[2];
+    
+    String hostname = "localhost";
+    int port = 4543;
 
 
     public GameController(ViewManager viewManager, BoardSize boardSize, PlayerType whiteType, PlayerType blackType) {
@@ -20,6 +24,8 @@ public class GameController extends AbstractController implements Runnable{
         game = new Game(boardSize);
         playerType[Pawn.WHITE.id()] = whiteType;
         playerType[Pawn.BLACK.id()] = blackType;
+        if(whiteType == PlayerType.REMOTE_AI || blackType == PlayerType.REMOTE_AI)
+            connection = new Connection(hostname, port);
     }
 
     @Override
