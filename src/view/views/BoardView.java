@@ -90,8 +90,6 @@ public class BoardView extends GameManagerView{
     }
     synchronized public void sendMove(Vector2 position){
     	clickedField = position;
-    	System.out.println(clickedField);
-        //gameController.sendMove(position);
     }
     synchronized public Vector2 getMove()
     {

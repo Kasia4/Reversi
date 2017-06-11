@@ -46,7 +46,6 @@ public class Game {
 			{
 				if(position.equals( Move.emptyMoveVector()))
 				{
-					System.out.println("spoko spoko");
 					board.executeMove(Move.emptyMove(gameState.getPawn()));
 					if(gameState == GameState.TURN_B)
 						gameState = GameState.TURN_W;
@@ -64,20 +63,16 @@ public class Game {
 					boolean whiteMovePossible = board.ifMovePossible(Pawn.WHITE);
 					boolean blackMovePossible = board.ifMovePossible(Pawn.BLACK);
 					if(gameState == GameState.TURN_B) {
-						System.out.println("B -> W");
 						gameState = GameState.TURN_W;
 						if(!whiteMovePossible)
 						{
-							System.out.println("white :)");
 							emptyMoveRequired = true;
 						}
 					}
 					else if(gameState == GameState.TURN_W) {
-						System.out.println("W -> B");
 						gameState = GameState.TURN_B;
 						if(!blackMovePossible)
 						{
-							System.out.println("black :)");
 							emptyMoveRequired = true;
 						}
 					}

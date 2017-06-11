@@ -45,7 +45,6 @@ public class GameController extends AbstractController implements Runnable{
     synchronized public void sendMove(Vector2 position){
         if(game.makeMove(position)){
             viewManager.updateScreen();
-            System.out.println("PO WYJSCIU KURWA Z RUCHU " + game.getGameState());
         }
     }
     

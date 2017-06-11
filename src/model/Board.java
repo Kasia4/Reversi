@@ -92,7 +92,6 @@ public class Board {
 			pastMove.setAnchor(dir, currentAnchor);
 		}
 		setField(pawnPos, color);
-		System.out.println(pastMove);
 		doneMoves.push(pastMove);
 		return true;
 	}
