@@ -16,19 +16,26 @@ public class GameController extends AbstractController implements Runnable{
     Game game;
     Connection connection;
     PlayerType playerType[] = new PlayerType[2];
-    AbstractPlayer player[] = new Player[2];
-    
+    AbstractPlayer player[] = new AbstractPlayer[2];
+    int numberOfGame;
+    boolean remoteGame = false;
     String hostname = "localhost";
     int port = 4543;
 
 
-    public GameController(ViewManager viewManager, BoardSize boardSize, PlayerType whiteType, PlayerType blackType) {
+    public GameController(ViewManager viewManager, BoardSize boardSize, PlayerType player1, PlayerType player2) {
         super(viewManager);     
         game = new Game(boardSize);
-        playerType[Pawn.WHITE.id()] = whiteType;
-        playerType[Pawn.BLACK.id()] = blackType;
-        if(whiteType == PlayerType.REMOTE || blackType == PlayerType.REMOTE)
+        playerType[Pawn.WHITE.id()] = player1;
+        playerType[Pawn.BLACK.id()] = player2;
+        if(player1 == PlayerType.REMOTE || player2 == PlayerType.REMOTE){
             connection = new Connection(hostname, port);
+            remoteGame = true;
+            if( (numberOfGame = connection.getNumberOfGame()) == 2){
+                playerType[Pawn.WHITE.id()] = player2;
+                playerType[Pawn.BLACK.id()] = player1;
+            }
+        }
     }
 
     @Override
@@ -53,9 +60,19 @@ public class GameController extends AbstractController implements Runnable{
     }
     
     private void setPlayers(){
-    	for(Pawn pawn : Pawn.values()){
-            player[pawn.id()] = PlayerFactory.producePlayer(playerType[pawn.id()], pawn, this, false);
-    	}
+        if(remoteGame){
+            boolean sender = true;
+            if(numberOfGame == 2)
+                sender = false;
+            AbstractPlayer tmp = PlayerFactory.producePlayer(playerType[0], Pawn.WHITE, this, sender);
+            System.out.println(tmp.getClass());
+            player[0] = tmp;
+            player[1] = PlayerFactory.producePlayer(playerType[1], Pawn.BLACK, this, !sender);
+        }
+        else
+        	for(Pawn pawn : Pawn.values()){
+                player[pawn.id()] = PlayerFactory.producePlayer(playerType[pawn.id()], pawn, this, false);
+        	}
     }
 
 	@Override

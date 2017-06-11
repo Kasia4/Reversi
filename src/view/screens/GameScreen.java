@@ -15,6 +15,7 @@ import javax.swing.SwingConstants;
 import controller.AbstractController;
 import controller.GameController;
 import model.Board;
+import model.BoardSize;
 import model.Game;
 import model.GameState;
 import model.Heuristics;
@@ -45,6 +46,7 @@ public class GameScreen extends Screen{
     private void init(){
         this.game = ((GameController)controller).getGame();
         board = game.getBoard();
+        heu = new Heuristics(BoardSize.SMALL);
         sizeOfBoard = board.getBoardSize().x;
     }
     @Override
@@ -63,8 +65,9 @@ public class GameScreen extends Screen{
         add(tmp);
         tmp.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e) {
+            public void actionPerformed(ActionEvent e) { 
                 game.makeMove(new Vector2(-1,-1));
+                System.out.println(heu.heuristicTest(board));
                 boardView.update();
             }
         });

@@ -74,7 +74,6 @@ public class ViewManager extends JFrame{
 	public void setController(AbstractController controller){
 		if(this.controller != controller){
 			this.controller = controller;
-			//System.out.println("viewManager.setController " + controller.getClass());
 			if(currentScreen!=null){
 				currentScreen.setController(this.controller);
 				System.out.println("Controller setting to frame");
