@@ -45,7 +45,7 @@ public class GameScreen extends Screen{
     private void init(){
         this.game = ((GameController)controller).getGame();
         board = game.getBoard();
-        heu = new Heuristics(BoardSize.MEDIUM);
+        heu = new Heuristics(BoardSize.SMALL);
         sizeOfBoard = board.getBoardSize().x;
     }
     @Override

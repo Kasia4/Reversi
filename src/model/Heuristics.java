@@ -1,7 +1,7 @@
 package model;
 
-import controller.Player;
-import util.Matrix;
+import java.util.ArrayList;
+
 import util.Vector2;
 /**
  * Is responsable for heuristisc
@@ -35,7 +35,7 @@ public class Heuristics {
         //Player player = new Player(Pawn.WHITE);//tylko do test�w
         Pawn pawn = Pawn.WHITE;
         int b = 0;
-        float v = 4.1f;
+        float v = 4.1f; // Mobility weight
         for(int x = 0; x < board.getBoardSize().x; x++)
             for(int y = 0; y < board.getBoardSize().y; y++){
                 Field current = board.getField(new Vector2(x,y));
@@ -46,8 +46,20 @@ public class Heuristics {
                 else continue;
                 
                     sum += b * getWeightOfField(new Vector2(x,y));
+                    System.out.println( b * getWeightOfField(new Vector2(x,y)));
             }
-        sum += v * board.availableFieldsNumber(pawn);
+        float mobility = 0;
+        
+        ArrayList<Vector2> availableFields = board.getAvailableFields(pawn);
+        for(Vector2 field : availableFields){
+            float value = 1;
+            if(getWeightOfField(field) > 0);
+                value = getWeightOfField(field);
+            mobility += value;
+        }
+        
+        sum += v * mobility;
+        System.out.println(v + " " + (v * board.availableFieldsNumber(pawn)));
         return sum;
     }
     
