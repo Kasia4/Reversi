@@ -58,6 +58,7 @@ public class Game {
 	}
 	public void undoMove(){
 		PastMove move = board.undoMove();
+		if(move == null) return;
 		if(move.getPawn() == Pawn.BLACK)
 			gameState = GameState.TURN_B;
 		else 
