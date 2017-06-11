@@ -19,6 +19,7 @@ public class HumanPlayer extends Player {
 		Vector2 currentMove;
 		while((currentMove = viewHandle.getMove()) == null);
 		controllerHandle.sendMove(currentMove);
+		lastMovePos = currentMove;
 	}
 	
 	@Override
