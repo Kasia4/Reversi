@@ -14,12 +14,18 @@ public class Connection {
     private String hostname;
     private int port;
     private Socket socket;
+    private int numberOfGame;
     
     public Connection(String hostname, int port){
         this.hostname = hostname;
         this.port = port;
         try {
             socket = new Socket(hostname, port);
+
+            BufferedReader in = getBufferedReader();
+            //numberOfGame = Integer.parseInt(in.readLine()); 
+           // System.out.println(numberOfGame);
+
             System.out.println("mamy polaczenie");
         } catch (IOException e) {
             e.printStackTrace();
