@@ -3,21 +3,24 @@ package controller;
 import model.Pawn;
 
 public class PlayerFactory {
-	static Player producePlayer(PlayerType type, Pawn pawn, GameController controller)
+	static AbstractPlayer producePlayer(PlayerType type, Pawn pawn, GameController controller, boolean sending)
 	{
+		AbstractPlayer newPlayer = null;
 		switch(type){
 		case AI:
-			return new AIPlayer(pawn, controller);
+			newPlayer = new AIPlayer(pawn, controller);
 		case HUMAN:
-			return new HumanPlayer(pawn, controller);
-		case REMOTE_AI:
-			break;
+			newPlayer = new HumanPlayer(pawn, controller);
+		case REMOTE:
+			newPlayer = new RemotePlayer(pawn, controller);
 		case CONSOLE:
-			return new ConsolePlayer(pawn, controller);
+			newPlayer = new ConsolePlayer(pawn, controller);
 		default:
 			break;
-		
 		}
-		return null;
+		if(newPlayer == null) return null;
+		if(sending) newPlayer = new SendingPlayer(newPlayer);
+		return newPlayer;
+
 	}
 }
