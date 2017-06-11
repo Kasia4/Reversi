@@ -113,6 +113,7 @@ public class Heuristics {
      * @author Kokos
      * @return result of heuristic function
      */
+    // game as input not board
     public float heuristicTest(Board board){
         float sum = 0;
         //Player player = new Player(Pawn.WHITE);//tylko do test�w

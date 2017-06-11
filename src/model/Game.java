@@ -1,5 +1,7 @@
 package model;
 
+import java.util.ArrayList;
+
 import ai.ZobristFunction;
 import util.Vector2;
 
@@ -7,7 +9,10 @@ public class Game {
 
 	private Board board;
 	private GameState gameState = GameState.TURN_B;
+	
 	private ZobristFunction zobrist;
+	private long zobristKey;
+	
 	public ZobristFunction getZobrist() {
 		return zobrist;
 	}
@@ -20,7 +25,6 @@ public class Game {
 	public void setZobristKey(long zobristKey) {
 		this.zobristKey = zobristKey;
 	}
-	private long zobristKey;
 	
 	public Game(BoardSize boardSize){
 	    board = new Board(boardSize);
@@ -36,6 +40,15 @@ public class Game {
 	}
 	public void setGameState(GameState gameState) {
 		this.gameState = gameState;
+	}
+	
+	public Pawn currentPawn(){
+		return gameState.getPawn();
+	}
+	
+	public ArrayList<Vector2> getMoves()
+	{
+		return board.getAvailableFields(currentPawn());
 	}
 	public boolean makeMove(Vector2 position){
 	    if(board.executeMove(new Move(position, gameState.getPawn()))){

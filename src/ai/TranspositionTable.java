@@ -18,7 +18,7 @@ public class TranspositionTable{
 	
 	public int getHash(long key)
 	{
-		return (int) key % size;
+		return (int) (key % size);
 	}
 	
 	public State getState(Game game)
