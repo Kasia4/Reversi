@@ -18,6 +18,7 @@ import model.Board;
 import model.Game;
 import model.GameState;
 import model.Heuristics;
+import util.Vector2;
 import view.views.BoardView;
 import view.views.ControlPanelView;
 
@@ -63,7 +64,7 @@ public class GameScreen extends Screen{
         tmp.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                game.undoMove();
+                game.makeMove(new Vector2(-1,-1));
                 boardView.update();
             }
         });

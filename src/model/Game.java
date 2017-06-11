@@ -7,7 +7,8 @@ public class Game {
 
 	private Board board;
 	private GameState gameState = GameState.TURN_B;
-	private boolean emptyMovesEnabled = false;
+	private boolean emptyMovesEnabled = true ;
+	private boolean emptyMoveRequired = false;
 	
 	private ZobristFunction zobrist;
 	public ZobristFunction getZobrist() {
@@ -40,19 +41,65 @@ public class Game {
 		this.gameState = gameState;
 	}
 	public boolean makeMove(Vector2 position){
-	    if(board.executeMove(new Move(position, gameState.getPawn()))){
-	        if(gameState == GameState.TURN_B && board.ifMovePossible(Pawn.WHITE))
+		if(emptyMovesEnabled){
+			if(emptyMoveRequired)
+			{
+				if(position.equals( Move.emptyMoveVector()))
+				{
+					System.out.println("spoko spoko");
+					board.executeMove(Move.emptyMove(gameState.getPawn()));
+					if(gameState == GameState.TURN_B)
+						gameState = GameState.TURN_W;
+					else gameState = GameState.TURN_B;
+					
+					emptyMoveRequired = false;
+					return true;
+				}
+				return false;
+			}
+			if(!position.equals( Move.emptyMoveVector()))
+			{
+				if(board.executeMove(new Move(position, gameState.getPawn())))
+				{
+					boolean whiteMovePossible = board.ifMovePossible(Pawn.WHITE);
+					boolean blackMovePossible = board.ifMovePossible(Pawn.BLACK);
+					if(gameState == GameState.TURN_B) {
+						System.out.println("B -> W");
+						gameState = GameState.TURN_W;
+						if(!whiteMovePossible)
+						{
+							System.out.println("white :)");
+							emptyMoveRequired = true;
+						}
+					}
+					else if(gameState == GameState.TURN_W) {
+						System.out.println("W -> B");
+						gameState = GameState.TURN_B;
+						if(!blackMovePossible)
+						{
+							System.out.println("black :)");
+							emptyMoveRequired = true;
+						}
+					}
+					if(!whiteMovePossible && !blackMovePossible)
+						gameState = checkWinner();
+					return true;
+				}
+				return false;
+			}
+		}
+		else if(board.executeMove(new Move(position, gameState.getPawn()))){
+	       
+			boolean whiteMovePossible = board.ifMovePossible(Pawn.WHITE);
+			boolean blackMovePossible = board.ifMovePossible(Pawn.BLACK);
+			
+			if(gameState == GameState.TURN_B && whiteMovePossible)
 	            gameState = GameState.TURN_W;
-	        else if(gameState == GameState.TURN_W && board.ifMovePossible(Pawn.BLACK))
+	        else if(gameState == GameState.TURN_W && blackMovePossible)
 	            gameState = GameState.TURN_B;
 	       
-	        if(!board.ifMovePossible(Pawn.BLACK) && !board.ifMovePossible(Pawn.WHITE)){
-	            if(board.getFieldsNumber(Field.BLACK) > board.getFieldsNumber(Field.WHITE))
-	                gameState = GameState.WIN_B;
-	            else if(board.getFieldsNumber(Field.BLACK) < board.getFieldsNumber(Field.WHITE))
-	                gameState = GameState.WIN_W;
-	            else
-	                gameState = GameState.DRAW;
+	        if(!whiteMovePossible && !blackMovePossible){
+	            gameState = checkWinner();
 	        }
 	        return true;
 	    }
@@ -65,5 +112,14 @@ public class Game {
 			gameState = GameState.TURN_B;
 		else 
 			gameState = GameState.TURN_W;
+	}
+	public GameState checkWinner()
+	{
+		if(board.getFieldsNumber(Field.BLACK) > board.getFieldsNumber(Field.WHITE))
+            return GameState.WIN_B;
+        else if(board.getFieldsNumber(Field.BLACK) < board.getFieldsNumber(Field.WHITE))
+            return GameState.WIN_W;
+        else
+            return GameState.DRAW;
 	}
 }

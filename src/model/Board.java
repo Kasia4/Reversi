@@ -66,6 +66,11 @@ public class Board {
 	 * @return true when move was possible, false otherwise.
 	 */
 	public boolean executeMove(Move move){
+		if(move.isEmpty())
+		{
+			doneMoves.push(new PastMove(move));
+			return true;
+		}
 		if(!canMove(move))
 			return false;
 		lastMoveResult.clear();
