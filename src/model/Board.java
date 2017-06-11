@@ -177,6 +177,8 @@ public class Board {
 				}
 			}
 		}
+		if(available.isEmpty())
+			available.add(Move.emptyMoveVector());
 		return available;
 	}
 	
