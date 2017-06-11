@@ -66,6 +66,11 @@ public class Board {
 	 * @return true when move was possible, false otherwise.
 	 */
 	public boolean executeMove(Move move){
+		if(move.isEmpty())
+		{
+			doneMoves.push(new PastMove(move));
+			return true;
+		}
 		if(!canMove(move))
 			return false;
 		lastMoveResult.clear();
@@ -87,7 +92,6 @@ public class Board {
 			pastMove.setAnchor(dir, currentAnchor);
 		}
 		setField(pawnPos, color);
-		System.out.println(pastMove);
 		doneMoves.push(pastMove);
 		return true;
 	}
@@ -173,6 +177,8 @@ public class Board {
 				}
 			}
 		}
+		if(available.isEmpty())
+			available.add(Move.emptyMoveVector());
 		return available;
 	}
 	

@@ -9,12 +9,12 @@ public enum GameState {
 	
 	private boolean terminal;
 	private Pawn pawn;
-	private Pawn oposite;
+	private Pawn opposedPawn;
 
-	private GameState(boolean terminal, Pawn pawn, Pawn oposite){
+	private GameState(boolean terminal, Pawn pawn, Pawn opposedPawn){
 		this.terminal = terminal;
 		this.pawn = pawn;
-		this.oposite = oposite;
+		this.opposedPawn = opposedPawn;
 	}
 	
 	public boolean isTerminal(){
@@ -23,7 +23,7 @@ public enum GameState {
 	public Pawn getPawn(){
 	    return pawn;
 	}
-	public Pawn getOpositePawn(){
-	    return oposite;
+	public Pawn getOpposedPawn(){
+	    return opposedPawn;
 	}
 }
