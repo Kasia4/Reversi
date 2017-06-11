@@ -1,5 +1,8 @@
 package controller;
 
+import java.io.BufferedReader;
+import java.io.PrintWriter;
+
 import model.BoardSize;
 import model.Game;
 import model.Pawn;
@@ -67,6 +70,12 @@ public class GameController extends AbstractController implements Runnable{
 				e.printStackTrace();
 			}
 		}
-		
 	}
+	public PrintWriter getPrintWriter(){
+	    return connection.getPrintWriter();
+	}
+	
+    public BufferedReader getBufferedReader(){
+        return connection.getBufferedReader();
+    }
 }
