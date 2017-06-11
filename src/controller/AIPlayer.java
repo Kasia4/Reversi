@@ -1,5 +1,7 @@
 package controller;
 
+import java.util.Random;
+
 import model.Game;
 import model.Pawn;
 import util.Vector2;
@@ -8,9 +10,9 @@ public class AIPlayer extends Player {
 
 	Game gameHandle;
 	
+	Random r;
 	public AIPlayer(Pawn pawn, GameController controller) {
 		super(pawn, controller);
-		// TODO Auto-generated constructor stub
 	}
 	
 	@Override
@@ -25,6 +27,4 @@ public class AIPlayer extends Player {
 		super.setController(controller);
 		gameHandle = controller.getGame();
 	}
-	
-
 }

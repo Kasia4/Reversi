@@ -23,10 +23,8 @@ public class Connection {
             socket = new Socket(hostname, port);
 
             BufferedReader in = getBufferedReader();
-            //numberOfGame = Integer.parseInt(in.readLine()); 
-           // System.out.println(numberOfGame);
-
-            System.out.println("mamy polaczenie");
+            numberOfGame = Integer.parseInt(in.readLine()); 
+               
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -59,5 +57,8 @@ public class Connection {
     	res.y = scanner.nextInt();
     	scanner.close();
     	return res;
+    }
+    public int getNumberOfGame(){
+        return numberOfGame;
     }
 }

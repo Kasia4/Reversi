@@ -17,7 +17,8 @@ public class SendingPlayer implements AbstractPlayer {
 	@Override
 	public void run() {
 		player.run();
-		
+		out.println(Connection.posToString(player.getLastMovePos()));
+		System.out.println();
 	}
 
 	@Override
