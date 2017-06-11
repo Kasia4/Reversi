@@ -23,8 +23,8 @@ public class Connection {
             socket = new Socket(hostname, port);
 
             BufferedReader in = getBufferedReader();
-            numberOfGame = Integer.parseInt(in.readLine()); 
-            System.out.println(numberOfGame);
+            //numberOfGame = Integer.parseInt(in.readLine()); 
+           // System.out.println(numberOfGame);
 
             System.out.println("mamy polaczenie");
         } catch (IOException e) {
