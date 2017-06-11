@@ -1,17 +1,22 @@
 package util;
 
 public enum Direction {
-	N  (new Vector2( 0, -1)),
-	NE (new Vector2( 1, -1)),
-	E  (new Vector2( 1,  0)),
-	SE (new Vector2( 1,  1)),
-	S  (new Vector2( 0,  1)),
-	SW (new Vector2(-1,  1)),
-	W  (new Vector2(-1,  0)),
-	NW (new Vector2(-1, -1));
+	N  (0, new Vector2( 0, -1)),
+	NE (1, new Vector2( 1, -1)),
+	E  (2, new Vector2( 1,  0)),
+	SE (3, new Vector2( 1,  1)),
+	S  (4, new Vector2( 0,  1)),
+	SW (5, new Vector2(-1,  1)),
+	W  (6, new Vector2(-1,  0)),
+	NW (7, new Vector2(-1, -1));
 	
+	private int id;
 	public Vector2 v;
-	private Direction(Vector2 v){
+	private Direction(int id, Vector2 v){
 		this.v = v;
+		this.id = id;
 	}
+	
+	public int id(){ return id; }
+	public Vector2 v(){ return v; }
 }

@@ -9,7 +9,8 @@ public class Game {
 
 	private Board board;
 	private GameState gameState = GameState.TURN_B;
-	
+	private boolean emptyMovesEnabled = false;
+
 	private ZobristFunction zobrist;
 	private long zobristKey;
 	
@@ -68,5 +69,13 @@ public class Game {
 	        return true;
 	    }
 	    return false;
+	}
+	public void undoMove(){
+		PastMove move = board.undoMove();
+		if(move == null) return;
+		if(move.getPawn() == Pawn.BLACK)
+			gameState = GameState.TURN_B;
+		else 
+			gameState = GameState.TURN_W;
 	}
 }

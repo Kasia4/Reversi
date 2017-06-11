@@ -4,6 +4,8 @@ import util.Matrix;
 import util.Vector2;
 
 import java.util.ArrayList;
+import java.util.EmptyStackException;
+import java.util.Stack;
 
 import util.Direction;
 
@@ -11,6 +13,7 @@ public class Board {
 	private Matrix<Field> board;	
 	private Vector2 boardSize;
 	private MoveResult lastMoveResult = new MoveResult();
+	private Stack<PastMove> doneMoves = new Stack<PastMove>();
 	
 	public static int i = 0;
 
@@ -67,17 +70,25 @@ public class Board {
 			return false;
 		lastMoveResult.clear();
 		lastMoveResult.setField(move.getPawn().color);
+		PastMove pastMove = new PastMove(move);
+		int currentAnchor;
 		Vector2 pawnPos = move.getPosition();
 		Field color = move.getPawn().color();
+		
 		for (Direction dir : Direction.values()) {
+			currentAnchor = 0;
 			Vector2 finishPos = getFinishField(move, dir);
 			if(finishPos.equals(pawnPos))
 				continue;
-			for(Vector2 currPos = Vector2.add(pawnPos, dir.v); !currPos.equals(finishPos); currPos = Vector2.add(currPos, dir.v))
+			for(Vector2 currPos = Vector2.add(pawnPos, dir.v); !currPos.equals(finishPos); currPos = Vector2.add(currPos, dir.v)) {
 				board.setField(currPos, color);
-			
+				++currentAnchor;
+			}
+			pastMove.setAnchor(dir, currentAnchor);
 		}
 		setField(pawnPos, color);
+		System.out.println(pastMove);
+		doneMoves.push(pastMove);
 		return true;
 	}
 	
@@ -245,5 +256,23 @@ public class Board {
     
    public MoveResult getLastMoveResult(){
 	   return lastMoveResult;
+   }
+   
+   public PastMove undoMove(){
+	   if(doneMoves.isEmpty())return null;
+	   PastMove lastMove = doneMoves.pop();
+	   Field field = lastMove.getPawn().opposite();
+	   for(Direction dir : Direction.values())
+	   {
+		   Vector2 curr = new Vector2(lastMove.getPosition());
+		   int replaced = 0;
+		   while(replaced < lastMove.getAnchor(dir)){
+			   curr = Vector2.add(curr, dir.v);
+			   board.setField(curr, field);
+			   ++replaced;
+		   }
+	   }
+	   board.setField(lastMove.getPosition(), Field.EMPTY);
+	   return lastMove;
    }
 }
