@@ -50,12 +50,11 @@ public class HeuristicParametersReader {
 		{
 			file = new File(filename);
 			scanner = new Scanner(file);
-			for(FieldRegion region : FieldRegion.values())
+			for(FieldRegion region : FieldRegion.values()) 
 			{
 				if(!scanner.hasNextFloat())
 					throw new IOException("Wrong file format");
 				float a = scanner.nextFloat();
-				System.out.println(a);
 				weights.put(region.getSymbol(), a);
 			}
 			for(int y = 0; y < size.getValue(); ++y)
@@ -83,6 +82,10 @@ public class HeuristicParametersReader {
 	public float getFieldWeight(Vector2 pos)
 	{
 		return weightMatrix[pos.x][pos.y];
+	}
+	
+	public float[][] getWeightMatrix(){
+	    return weightMatrix;
 	}
 	
 	
