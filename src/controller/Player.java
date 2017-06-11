@@ -1,11 +1,13 @@
 package controller;
 
 import model.Pawn;
+import util.Vector2;
 
 public abstract class Player implements AbstractPlayer {
 	
 	protected Pawn pawn;
 	protected GameController controllerHandle;
+	protected Vector2 lastMovePos;
 	
 	@Override
 	public void setController(GameController controller) {
@@ -30,5 +32,10 @@ public abstract class Player implements AbstractPlayer {
 	@Override
 	public void setPawn(Pawn pawn) {
 		this.pawn = pawn;
+	}
+	
+	@Override
+	public Vector2 getLastMovePos() {
+		return lastMovePos;
 	}
 }

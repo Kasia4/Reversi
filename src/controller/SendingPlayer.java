@@ -3,6 +3,7 @@ package controller;
 import java.io.PrintWriter;
 
 import model.Pawn;
+import util.Vector2;
 
 public class SendingPlayer implements AbstractPlayer {
 
@@ -11,11 +12,12 @@ public class SendingPlayer implements AbstractPlayer {
 	
 	public SendingPlayer(AbstractPlayer player){
 		this.player = player;
+		this.out = player.getController().getPrintWriter();
 	}
 	@Override
 	public void run() {
 		player.run();
-
+		
 	}
 
 	@Override
@@ -38,6 +40,10 @@ public class SendingPlayer implements AbstractPlayer {
 	@Override
 	public GameController getController() {
 		return player.getController();
+	}
+	@Override
+	public Vector2 getLastMovePos() {
+		return player.getLastMovePos();
 	}
 
 }
