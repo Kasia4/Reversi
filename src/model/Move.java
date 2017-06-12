@@ -37,4 +37,9 @@ public class Move {
 	static public Move emptyMove(Pawn pawn){
 		return new Move( new Vector2( EMPTY_REP ), pawn );
 	}
+	
+	static public Vector2 emptyMoveVector()
+	{
+		return new Vector2(EMPTY_REP);
+	}
 }

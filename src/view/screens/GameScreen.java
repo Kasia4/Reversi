@@ -12,12 +12,15 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
+import ai.Heuristics;
 import controller.AbstractController;
 import controller.GameController;
 import model.Board;
+import model.BoardSize;
 import model.Game;
 import model.GameState;
-import model.Heuristics;
+import model.Pawn;
+import util.Vector2;
 import view.views.BoardView;
 import view.views.ControlPanelView;
 
@@ -44,6 +47,7 @@ public class GameScreen extends Screen{
     private void init(){
         this.game = ((GameController)controller).getGame();
         board = game.getBoard();
+        heu = new Heuristics(BoardSize.SMALL);
         sizeOfBoard = board.getBoardSize().x;
     }
     @Override
@@ -57,13 +61,15 @@ public class GameScreen extends Screen{
         addControlPanel();
         boardView.buildGUI();
         controlPanel.buildGUI();
-        JButton tmp = new JButton("Siemano");
-        tmp.setBounds(690, 550, 140, 50);
-        add(tmp);
-        tmp.addActionListener(new ActionListener() {
+        JButton debugBtn = new JButton("Siemano");
+        debugBtn.setBounds(690, 550, 140, 50);
+        add(debugBtn);
+        debugBtn.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e) {
-                game.undoMove();
+            public void actionPerformed(ActionEvent e) { 
+                game.makeMove(new Vector2(-1,-1));
+                heu.setPlayerPawn(Pawn.WHITE);
+                System.out.println(heu.heuristicTest(board));
                 boardView.update();
             }
         });

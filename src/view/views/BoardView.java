@@ -1,8 +1,16 @@
 package view.views;
 
 import java.awt.Color;
+import java.awt.Font;
+import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.GridLayout;
+import java.awt.Image;
+import java.awt.Rectangle;
+import java.awt.Shape;
+import java.awt.image.ImageObserver;
+import java.text.AttributedCharacterIterator;
+import java.util.Vector;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -28,8 +36,11 @@ public class BoardView extends GameManagerView{
 
     Vector2 clickedField = null;
     
+    Vector<RectDraw> fields;
+    
     public BoardView(Game game){
         this.game = game;
+        this.fields = new Vector<RectDraw>();
         this.board = game.getBoard();
         boardMouseAdapter = new BoardMouseAdapter(this);
     }
@@ -52,9 +63,10 @@ public class BoardView extends GameManagerView{
         private RectDraw(Color color, Vector2 position){
             this.position = position;
             this.color = color;
+            fields.add(this);
             this.addMouseListener(boardMouseAdapter);
         }
-        protected void paintComponent(Graphics g) {
+        public void paintComponent(Graphics g) {
           super.paintComponent(g);
           g.setColor(color);
           g.fillRect(0, 0, 640 / board.getBoardSize().x - 6, 640 / board.getBoardSize().y - 6);
@@ -77,9 +89,10 @@ public class BoardView extends GameManagerView{
         else if (board.getField(pos) == Field.WHITE)
            return Color.WHITE;
         else{
-            if(board.canMove(game.getGameState().getPawn(), pos))
+        	if(board.canMove(game.getGameState().getPawn(), pos))
+        	{
                 return new Color(56/255f, 188/255f, 0/255f);
-            else
+        	} else
                 return new Color(0, 0.6f, 0);
         }
     }
@@ -90,15 +103,14 @@ public class BoardView extends GameManagerView{
     }
     synchronized public void sendMove(Vector2 position){
     	clickedField = position;
-    	System.out.println(clickedField);
-        //gameController.sendMove(position);
     }
     synchronized public Vector2 getMove()
     {
     	return clickedField;
     }
+    
     public void update(){
-        setVisible(false);
+    	setVisible(false);
         removeAll();        
         for(int y = 0; y < board.getBoardSize().y; y++)
             for(int x = 0; x < board.getBoardSize().x; x++)
@@ -106,5 +118,6 @@ public class BoardView extends GameManagerView{
 
         repaint();
         setVisible(true);
+
     }
 }

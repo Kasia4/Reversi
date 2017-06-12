@@ -1,6 +1,10 @@
 package controller;
 
 import ai.AlphaBeta;
+
+import java.util.Random;
+
+
 import model.Game;
 import model.Heuristics;
 import model.Pawn;
@@ -12,11 +16,14 @@ public class AIPlayer extends Player {
 	AlphaBeta inteligence;
 	Heuristics heuristicFunction;
 	
+	Random r;
 	public AIPlayer(Pawn pawn, GameController controller) {
 		super(pawn, controller);
-		heuristicFunction = new Heuristics()
-		inteligence = new AlphaBeta()
+
+		//heuristicFunction = new Heuristics()
+		//inteligence = new AlphaBeta()
 		// TODO Auto-generated constructor stub
+
 	}
 	
 	@Override
@@ -32,6 +39,4 @@ public class AIPlayer extends Player {
 		super.setController(controller);
 		gameHandle = controller.getGame();
 	}
-	
-
 }

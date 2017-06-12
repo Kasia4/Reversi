@@ -1,4 +1,4 @@
-package model;
+package ai;
 
 import java.io.File;
 import java.io.IOException;
@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
+import model.BoardSize;
+import model.FieldRegion;
 import util.Vector2;
 
 
@@ -50,12 +52,11 @@ public class HeuristicParametersReader {
 		{
 			file = new File(filename);
 			scanner = new Scanner(file);
-			for(FieldRegion region : FieldRegion.values())
+			for(FieldRegion region : FieldRegion.values()) 
 			{
 				if(!scanner.hasNextFloat())
 					throw new IOException("Wrong file format");
 				float a = scanner.nextFloat();
-				System.out.println(a);
 				weights.put(region.getSymbol(), a);
 			}
 			for(int y = 0; y < size.getValue(); ++y)
@@ -66,7 +67,6 @@ public class HeuristicParametersReader {
 						throw new IOException("Wrong file format");
 					char c = scanner.next(".").charAt(0);
 					Float value = weights.get(new Character(c));
-					System.out.println(value);
 					if(value == null)
 						throw new IOException("Wrong file format");
 					weightMatrix[x][y] = value;
@@ -83,6 +83,10 @@ public class HeuristicParametersReader {
 	public float getFieldWeight(Vector2 pos)
 	{
 		return weightMatrix[pos.x][pos.y];
+	}
+	
+	public float[][] getWeightMatrix(){
+	    return weightMatrix;
 	}
 	
 	
