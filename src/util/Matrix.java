@@ -2,18 +2,24 @@ package util;
 
 import java.util.Vector;
 
-public class Matrix <T>{
+public class Matrix <T> {
 	private Vector<Vector<T>> matrix;
 	private Vector2 size;
-
-
-
 
     public Matrix(Vector2 size){
 		matrix = new Vector<Vector<T>>();
 		setSize(size);
 	}
-
+    
+    public Matrix<T> clone(){
+    	Matrix<T> toReturn = new Matrix<T>(this.size);
+    	for(int y = 0; y < size.y; ++y)
+    	{
+    		for(int x = 0; x < size.x; ++x)
+    			toReturn.matrix.get(y).set(x, this.getField(new Vector2(x,y)));  			
+    	}
+    	return toReturn;
+    }
 	//Sets size of matrix
 	public void setSize(Vector2 size){
 		matrix.clear();

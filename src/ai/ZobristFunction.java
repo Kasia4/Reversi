@@ -35,7 +35,6 @@ public class ZobristFunction {
 					zobristArray[i][y][x] = randomizeOne(); // first black second white
 		
 		
-		
 	}
 	
 	public long changeTurn( long key )
@@ -73,6 +72,7 @@ public class ZobristFunction {
 		return key;
 	}
 	
+	
 	public long updateGameKey(long oldKey, Vector2 changedField, Field color, boolean playerChanged)
 	{
 		long key = oldKey;
@@ -81,7 +81,6 @@ public class ZobristFunction {
 		if(playerChanged) // only for one field when the new move executed (new pawn placed)
 			{
 				key = changeTurn(key);
-				key = countGameKey(key, x, y, color);
 			}
 		else
 		{
@@ -90,10 +89,8 @@ public class ZobristFunction {
 				key ^= zobristArray[1][y][x]; // undo recent xor for white field
 			else if(color == Field.WHITE)
 				key ^= zobristArray[0][y][x];
-			
-			key = countGameKey(key, x, y, color);
 		}
-		
+		key = countGameKey(key, x, y, color);
 		return key;
 		
 	}

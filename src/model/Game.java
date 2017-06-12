@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import ai.ZobristFunction;
 import util.Vector2;
 
-public class Game {
+public class Game implements Cloneable {
 
 	private Board board;
 	private BoardSize boardSize;
@@ -31,6 +31,21 @@ public class Game {
 //			
 //			
 //	}
+	public Game(BoardSize boardSize){
+	    board = new Board(boardSize);
+	    this.boardSize = boardSize;
+	    zobrist = new ZobristFunction(boardSize.getSize());
+	    zobristKey = zobrist.getGameKey(this);
+	}
+	
+	@Override
+	public Game clone(){
+		Game toReturn = new Game(this.boardSize);
+		toReturn.board = this.board.clone();
+		toReturn.gameState = this.gameState;
+		toReturn.emptyMoveRequired = this.emptyMoveRequired;
+		return toReturn;
+	}
 	
 	public ZobristFunction getZobrist() {
 		return zobrist;
@@ -46,10 +61,7 @@ public class Game {
 		this.zobristKey = zobristKey;
 	}
 	
-	public Game(BoardSize boardSize){
-	    board = new Board(boardSize);
-	    this.boardSize = boardSize;
-	}
+	
 	
 	public Board getBoard() {
 		return board;
@@ -110,7 +122,7 @@ public class Game {
 				zobrist.updateGameKey(zobristKey, next.getPosition(), color, true);
 				ArrayList<Vector2> positions = changedFields.getPositions();
 				for( Vector2 pos : positions)
-					zobrist.updateGameKey(zobristKey, position, color, false);
+					zobrist.updateGameKey(zobristKey, pos, color, false);
 					return true;
 				}
 				return false;
@@ -153,6 +165,19 @@ public class Game {
 	public Move undoMove(){
 		PastMove move = board.undoMove();
 		if(move == null) return null;
+		if(move.isEmpty())
+			zobrist.changeTurn(zobristKey);
+		else
+		{
+			MoveResult changedFields = board.getLastMoveResult();
+			Field color = changedFields.getField();
+			zobrist.updateGameKey(zobristKey, move.getPosition(), color, true);
+			ArrayList<Vector2> positions = changedFields.getPositions();
+			for( Vector2 pos : positions)
+			zobrist.updateGameKey(zobristKey, pos, color, false);	
+			
+		}
+			
 		if(move.getPawn() == Pawn.BLACK)
 			gameState = GameState.TURN_B;
 		else 

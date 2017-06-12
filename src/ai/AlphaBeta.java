@@ -3,7 +3,7 @@ package ai;
 import java.util.ArrayList;
 
 import model.Game;
-import model.Heuristics;
+import ai.Heuristics;
 import model.Move;
 import util.Vector2;
 
@@ -14,18 +14,25 @@ public class AlphaBeta {
 	private Move nextMove;
 	private int depth;
 	
+	private static final int BOUND_DEPTH = 30;
 	
-	AlphaBeta(Game game, int depth, Heuristics heuristicFunction)
+	
+	public AlphaBeta(Game game, Heuristics heuristicFunction)
 	{
 		this.game = game;
-		this.depth = depth;
+		this.depth = BOUND_DEPTH;
 		this.heuristicFunction = heuristicFunction;
-		int size = game.getBoard().getBoardSize().x;
+		int size = game.getBoardSize().getSize().x;
 		transpositionTable = new TranspositionTable(size);
 		nextMove = null;
 		
 	}
 	
+	public void setCurrentGame(Game game)
+	{
+		//this.game = game.clone(); remember about it
+		this.game = game;
+	}
 	
 	public int alphaBeta (Game game, int depth, int alpha, int beta, MinMaxNode node)
 	{
@@ -34,7 +41,7 @@ public class AlphaBeta {
 		int value = 0;
 		Vector2 bestMove = null;
 		if(depth == 0 || game.getGameState().isTerminal())
-			return (int)heuristicFunction.heuristicTest(game.getBoard());
+			return (int) (heuristicFunction.heuristicTest(game));
 		
 		State currentState = transpositionTable.getState(game);
 		if(currentState != null && currentState.getDepth() >= depth) // value is good enough

@@ -6,7 +6,7 @@ import java.util.Random;
 
 
 import model.Game;
-import model.Heuristics;
+import ai.Heuristics;
 import model.Pawn;
 import util.Vector2;
 
@@ -20,8 +20,9 @@ public class AIPlayer extends Player {
 	public AIPlayer(Pawn pawn, GameController controller) {
 		super(pawn, controller);
 
-		//heuristicFunction = new Heuristics()
-		//inteligence = new AlphaBeta()
+		heuristicFunction = new Heuristics(gameHandle.getBoardSize());
+		Game startGame = gameHandle; // add clone
+		inteligence = new AlphaBeta(startGame, heuristicFunction);
 		// TODO Auto-generated constructor stub
 
 	}
@@ -29,6 +30,7 @@ public class AIPlayer extends Player {
 	@Override
 	public void run() {
 		
+		inteligence.setCurrentGame(gameHandle);
 		Vector2 currentMove = gameHandle.getBoard().getAvailableFields(pawn).get(0);
 		controllerHandle.sendMove(currentMove);
 		lastMovePos = currentMove;		

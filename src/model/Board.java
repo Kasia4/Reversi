@@ -9,14 +9,17 @@ import java.util.Stack;
 
 import util.Direction;
 
-public class Board {
-	private Matrix<Field> board;	
+public class Board implements Cloneable {
+	private Matrix<Field> board;
 	private Vector2 boardSize;
 	private MoveResult lastMoveResult = new MoveResult();
 	private Stack<PastMove> doneMoves = new Stack<PastMove>();
 	
 	public static int i = 0;
-
+	public Board()
+	{
+		
+	}
     public Board(BoardSize size){
 		this.boardSize = size.getSize();
 		init();
@@ -35,6 +38,15 @@ public class Board {
 		setField(Vector2.add(index, Direction.E.v), Field.WHITE);
 		setField(Vector2.add(index, Direction.SE.v), Field.BLACK);
 		setField(Vector2.add(index, Direction.S.v), Field.WHITE);
+	}
+	
+	@Override
+	public Board clone()
+	{
+		Board toReturn = new Board();
+		toReturn.boardSize = this.getBoardSize();
+		toReturn.board = this.board.clone();
+		return toReturn;
 	}
 	
 	/**
