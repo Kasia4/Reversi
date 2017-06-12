@@ -36,6 +36,7 @@ public class Heuristics {
      * @return result of heuristic function
      */
     public float heuristicTest(Board board){
+    	float[][] test = new float[8][8];
         float sum = 0;
         int b = 0;
         float v = 4.1f; // Mobility weight
@@ -47,22 +48,33 @@ public class Heuristics {
                 else if(current == playerPawn.opposite())
                     b = -1;
                 else continue;
-                
+                	test[x][y] = b * getWeightOfField(new Vector2(x,y));
                     sum += b * getWeightOfField(new Vector2(x,y));
-                    System.out.println( b * getWeightOfField(new Vector2(x,y)));
+                    //System.out.println( b * getWeightOfField(new Vector2(x,y)));
             }
         float mobility = 0;
         
         ArrayList<Vector2> availableFields = board.getAvailableFields(playerPawn);
         for(Vector2 field : availableFields){
             float value = 1;
-            if(getWeightOfField(field) > 0);
+            if(getWeightOfField(field) > 0)
                 value = getWeightOfField(field);
             mobility += value;
         }
         
         sum += v * mobility;
-        System.out.println(v + " " + (v * board.availableFieldsNumber(playerPawn)));
+        for(int y = 0; y < 8; ++y)
+        {
+        	String line = "";
+        	for(int x = 0; x < 8; ++x)
+        	{
+        		line += test[x][y] + "\t";
+        	}
+        	System.out.println(line);
+        	line = "";
+        }
+        System.out.println("Mobility:  " + mobility);
+        //System.out.println(v + " " + (v * board.availableFieldsNumber(playerPawn)));
         return sum;
     }
     
