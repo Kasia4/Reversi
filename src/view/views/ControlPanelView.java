@@ -27,10 +27,10 @@ public class ControlPanelView extends GameManagerView{
     public void buildGUI() {
         setBackground(new Color(196/255f, 196/255f, 196/255f));
         
-//        yourPawnLable = new JLabel("Your pawn: ", JLabel.CENTER);
-//        yourPawnLable.setMaximumSize(BTN_SIZE);
-//        yourPawn = new JLabel("BLACK");
-//        yourPawn.setMaximumSize(BTN_SIZE);
+        yourPawnLable = new JLabel("Your pawn: ", JLabel.CENTER);
+        yourPawnLable.setMaximumSize(BTN_SIZE);
+        yourPawn = new JLabel("BLACK", JLabel.CENTER);
+        yourPawn.setMaximumSize(BTN_SIZE);
         
         white = new JLabel("White:", JLabel.CENTER);
         white.setMaximumSize(BTN_SIZE);
@@ -50,10 +50,10 @@ public class ControlPanelView extends GameManagerView{
         pawnTurn = new JLabel("BLACK", JLabel.CENTER);
         pawnTurn.setMaximumSize(BTN_SIZE);
             
-        setLayout(new GridLayout(3,2));
+        setLayout(new GridLayout(4,2));
         
-//        add(yourPawnLable);
-//        add(yourPawn);
+        add(yourPawnLable);
+        add(yourPawn);
         
         add(white);
         add(whiteScore);
@@ -70,7 +70,10 @@ public class ControlPanelView extends GameManagerView{
         pawnTurn.setText(game.getGameState().getPawn() + "");
     }
     public void changePawnColor(){
-        yourPawn.setText("WHITE");
+        if(yourPawn.getText().equals("BLACK"))
+            yourPawn.setText("WHITE");
+        else
+            yourPawn.setText("BLACK");
     }
 
 }

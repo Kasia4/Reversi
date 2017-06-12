@@ -11,14 +11,11 @@ import util.Vector2;
 
 
 public class Connection {
-    private String hostname;
-    private int port;
+
     private Socket socket;
     private int numberOfGame;
     
     public Connection(String hostname, int port){
-        this.hostname = hostname;
-        this.port = port;
         try {
             socket = new Socket(hostname, port);
 

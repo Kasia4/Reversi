@@ -25,7 +25,7 @@ public class MenuView extends ApplicationManagerView {
 	static final Dimension BTN_SIZE = new Dimension (200, 40);
 	static final String HUMAN_GAME = "Human vs. Human";
 	static final String HUMAN_AI_GAME = "Human vs. AI";
-	static final String AI_GAME = "AI vs. AI";
+	static final String AI_GAME = "AI vs. Remote";
 	static final String EXIT_GAME = "Exit";
 	
 	JLabel title;

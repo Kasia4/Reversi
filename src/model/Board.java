@@ -4,7 +4,6 @@ import util.Matrix;
 import util.Vector2;
 
 import java.util.ArrayList;
-import java.util.EmptyStackException;
 import java.util.Stack;
 
 import util.Direction;

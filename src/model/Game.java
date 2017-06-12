@@ -91,8 +91,6 @@ public class Game implements Cloneable {
 		return emptyMoveRequired;
 	}
 	public boolean makeMove(Vector2 position){
-		if(emptyMovesEnabled){
-			
 			if(!position.equals( Move.emptyMoveVector()))
 			{
 				Move next = new Move(position, gameState.getPawn());
@@ -140,27 +138,7 @@ public class Game implements Cloneable {
 					return true;
 				}
 				return false;
-			}		
-				
-				
-				
-		}
-		else if(board.executeMove(new Move(position, gameState.getPawn()))){
-	       
-			boolean whiteMovePossible = board.ifMovePossible(Pawn.WHITE);
-			boolean blackMovePossible = board.ifMovePossible(Pawn.BLACK);
-			
-			if(gameState == GameState.TURN_B && whiteMovePossible)
-	            gameState = GameState.TURN_W;
-	        else if(gameState == GameState.TURN_W && blackMovePossible)
-	            gameState = GameState.TURN_B;
-	       
-	        if(!whiteMovePossible && !blackMovePossible){
-	            gameState = checkWinner();
-	        }
-	        return true;
-	    }
-	    return false;
+			}
 	}
 	public Move undoMove(){
 		PastMove move = board.undoMove();

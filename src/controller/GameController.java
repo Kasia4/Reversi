@@ -9,6 +9,7 @@ import model.Move;
 import model.Pawn;
 import util.Vector2;
 import view.ViewManager;
+import view.views.ControlPanelView;
 
 
 public class GameController extends AbstractController implements Runnable{
@@ -29,14 +30,6 @@ public class GameController extends AbstractController implements Runnable{
         game = new Game(boardSize);
         playerType[Pawn.WHITE.id()] = player1;
         playerType[Pawn.BLACK.id()] = player2;
-        if(player1 == PlayerType.REMOTE || player2 == PlayerType.REMOTE){
-            connection = new Connection(hostname, port);
-            remoteGame = true;
-            if( (numberOfGame = connection.getNumberOfGame()) == 2){
-                playerType[Pawn.WHITE.id()] = player2;
-                playerType[Pawn.BLACK.id()] = player1;
-            }
-        }
     }
 
     @Override
@@ -44,8 +37,27 @@ public class GameController extends AbstractController implements Runnable{
         viewManager.setScreen(ViewManager.GAME_ID);
         viewManager.setController(this);
         viewManager.buildScreenGUI();
+        setConnection();
         setPlayers();
         (new Thread(this)).start();
+
+    }
+    private void setConnection(){
+        if(playerType[0] == PlayerType.REMOTE || playerType[1] == PlayerType.REMOTE){
+            connection = new Connection(hostname, port);
+            remoteGame = true;
+            if( (numberOfGame = connection.getNumberOfGame()) == 2){
+                PlayerType toChange = playerType[Pawn.WHITE.id()];
+                playerType[Pawn.WHITE.id()] = playerType[Pawn.BLACK.id()];
+                playerType[Pawn.BLACK.id()] = toChange;
+
+            }
+            else{
+                ControlPanelView tmp = viewManager.getScreen().findView(ControlPanelView.class);
+                tmp.changePawnColor();
+            }
+                
+        }
     }
     public void setApplicationManager(ApplicationManager appManager){
         this.appManager = appManager;

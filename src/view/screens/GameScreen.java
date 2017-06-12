@@ -46,7 +46,7 @@ public class GameScreen extends Screen{
     private void init(){
         this.game = ((GameController)controller).getGame();
         board = game.getBoard();
-        heu = new Heuristics(BoardSize.SMALL);
+        heu = new Heuristics(game.getBoardSize());
         sizeOfBoard = board.getBoardSize().x;
     }
     @Override
@@ -66,7 +66,6 @@ public class GameScreen extends Screen{
         debugBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) { 
-                //game.makeMove(new Vector2(-1,-1));
                 heu.setPlayerPawn(Pawn.WHITE);
                 System.out.println(heu.heuristicTest(game));
                 boardView.update();
@@ -93,6 +92,7 @@ public class GameScreen extends Screen{
         controlPanel = new ControlPanelView(game);
         controlPanel.setBounds(690, 200, 140, 300);
         addView(controlPanel);
+        System.out.println("dodany");
         add(controlPanel);
     }
     

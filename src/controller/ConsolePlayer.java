@@ -5,7 +5,6 @@ import java.util.Scanner;
 import model.Pawn;
 import util.Vector2;
 
-import java.io.IOException;
 import java.util.InputMismatchException;
 
 public class ConsolePlayer extends Player {
