@@ -19,7 +19,7 @@ public class AlphaBeta implements Runnable {
 	
 	private int depth;
 	
-	private static final int BOUND_DEPTH = 15;
+	private static final int BOUND_DEPTH = 2;
 	
 	
 	public AlphaBeta(Game game, Heuristics heuristicFunction)
@@ -46,47 +46,50 @@ public class AlphaBeta implements Runnable {
 	{
 		int alpha = Integer.MIN_VALUE;
 		int beta = Integer.MAX_VALUE;
-		System.out.println("Start iteration: ");
+		//System.out.println("Start iteration: ");
 		for(int depth = 1; depth <= BOUND_DEPTH; ++depth)
 		{
-			System.out.println(" zaczne iteration: " + depth);
+			//System.out.println(" zaczne iteration: " + depth);
 			alphaBeta(game, depth, alpha, beta, MinMaxNode.MAX);
-			System.out.println("iteration: " + depth);
-			if(nextMove != null)
-				System.out.println("znalazl");
+			//System.out.println("iteration: " + depth);
+//			if(nextMove != null)
+//				System.out.println("znalazl");
 			iterNextMove = nextMove;
 		}
-		System.out.println("End of iteration");
+		//System.out.println("End of iteration");
 	}
 	public int alphaBeta (Game game, int depth, int alpha, int beta, MinMaxNode node)
 	{
-		System.out.println("weszlo ");
-		game.getBoard().printOut();
+	    if(Thread.currentThread().isInterrupted())
+	        return 0;
+	    
+		//System.out.println("weszlo ");
+		//game.getBoard().printOut();
 		int nestedAlpha = alpha;
 		int nestedBeta = beta;
 		int value = 0;
 		Vector2 bestMove = null;
 		if(depth == 0 || game.getGameState().isTerminal())
 			{
-				System.out.println("lisc");
+				//System.out.println("lisc");
 				return (int) (heuristicFunction.heuristicTest(game));
 			}
 		
 		State currentState = transpositionTable.getState(game);
 		if(currentState != null && currentState.getDepth() >= depth) // value is good enough
 		{
-			System.out.println("co jest");
+			//System.out.println("co jest");
 			ValueFlag flag = currentState.getFlag();
 			value = currentState.getValue();
 			if(flag == ValueFlag.UPPER)
 				{
 					nestedBeta = Math.min(nestedBeta, value);
-					System.out.println("up");
+					//System.out.println("up");
 				}
 			else if(flag ==  ValueFlag.LOWER)
 				{
 					nestedAlpha = Math.max(nestedAlpha, value);
-					System.out.println("low");
+					//System.out.println("low");
 				}
 			else if(flag == ValueFlag.ACCURATE || nestedAlpha >= nestedBeta)
 			{
@@ -118,6 +121,10 @@ public class AlphaBeta implements Runnable {
 				game.makeMove(move);
 				value = alphaBeta(game,depth - 1, nestedAlpha, nestedBeta, MinMaxNode.MIN);
 				game.undoMove();
+				
+		        if(Thread.currentThread().isInterrupted())
+		            return 0;
+		        
 				if(value > nestedAlpha)
 					{
 						besMove=move;
@@ -125,7 +132,7 @@ public class AlphaBeta implements Runnable {
 				nestedAlpha = Math.max(nestedAlpha, value);
 				if(nestedAlpha >= nestedBeta)
 					{
-						System.out.println("kurwo");
+						//System.out.println("kurwo");
 						break; // beta cut off
 					}
 			}
@@ -138,6 +145,10 @@ public class AlphaBeta implements Runnable {
 				game.makeMove(move);
 				value = alphaBeta(game, depth - 1, nestedAlpha, nestedBeta, MinMaxNode.MAX);
 				game.undoMove();
+				
+		        if(Thread.currentThread().isInterrupted())
+		            return 0;
+		        
 				if(value < nestedBeta)
 				{
 					besMove=move;
@@ -145,7 +156,7 @@ public class AlphaBeta implements Runnable {
 				nestedBeta = Math.min(nestedBeta, value);
 				if(nestedAlpha >= nestedBeta)
 					{
-						System.out.println("pierdolona");
+						//System.out.println("pierdolona");
 						break; // alpha cut off 
 					}
 			}
@@ -164,7 +175,7 @@ public class AlphaBeta implements Runnable {
 		Move best = new Move(besMove, game.currentPawn()); // remember for next iteration
 		if(besMove != null)
 			{
-				System.out.println("sie zmienilo");
+				//System.out.println("sie zmienilo");
 				nextMove = best;
 			}
 		State s = new State(game.getZobristKey(), depth, returnValue, flag, best);

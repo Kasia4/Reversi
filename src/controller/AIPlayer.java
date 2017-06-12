@@ -1,12 +1,13 @@
 package controller;
 
-import ai.AlphaBeta;
-
 import java.util.Random;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
-
-import model.Game;
+import ai.AlphaBeta;
 import ai.Heuristics;
+import model.Game;
 import model.Pawn;
 import util.Vector2;
 
@@ -22,7 +23,7 @@ public class AIPlayer extends Player {
 		super(pawn, controller);
 
 		heuristicFunction = new Heuristics(gameHandle.getBoardSize());
-		heuristicFunction.setPlayerPawn(pawn);
+		heuristicFunction.setPlayerPawn(Pawn.BLACK);
 		Game startGame = gameHandle.clone(); // add clone
 		inteligence = new AlphaBeta(startGame, heuristicFunction);
 		// TODO Auto-generated constructor stub
@@ -34,22 +35,27 @@ public class AIPlayer extends Player {
 		
 		inteligence.setCurrentGame(gameHandle);
 		Thread chooseMove = new Thread(inteligence);
-		chooseMove.start();
+		//chooseMove.start();
+		ExecutorService executor = Executors.newSingleThreadExecutor();
+		executor.execute(chooseMove);
 		try {
-			chooseMove.join(TIME_LIMIT);
-			if(inteligence.getIterNextMove() == null)
-				System.out.println("AI didn't choose the move");
-			else
-			{
-				Vector2 currentMove = inteligence.getIterNextMove().getPosition();
-				controllerHandle.sendMove(currentMove);
-				lastMovePos = currentMove;	
-			}
-			//Vector2 currentMove = gameHandle.getBoard().getAvailableFields(pawn).get(0);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+            if(!executor.awaitTermination(1, TimeUnit.SECONDS)){
+                executor.shutdownNow();
+            }
+            
+            if(inteligence.getIterNextMove() == null)
+                System.out.println("AI didn't choose the move");
+            else
+            {
+                Vector2 currentMove = inteligence.getIterNextMove().getPosition();
+                controllerHandle.sendMove(currentMove);
+                lastMovePos = currentMove;  
+            }
+        } catch (InterruptedException e1) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
+        }
+
 		
 			
 	}
