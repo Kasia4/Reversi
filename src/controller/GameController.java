@@ -5,6 +5,7 @@ import java.io.PrintWriter;
 
 import model.BoardSize;
 import model.Game;
+import model.Move;
 import model.Pawn;
 import util.Vector2;
 import view.ViewManager;
@@ -78,6 +79,10 @@ public class GameController extends AbstractController implements Runnable{
 	@Override
 	public void run() {
 		while(!game.getGameState().isTerminal()){
+			if(game.getEmptyMoveRequired()) {
+				sendMove(Move.emptyMoveVector());
+				continue;
+			}
 			try {
 				Thread playerThread = new Thread(player[game.getGameState().getPawn().id()]);
 				playerThread.start();

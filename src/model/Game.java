@@ -47,6 +47,10 @@ public class Game {
 	public void setGameState(GameState gameState) {
 		this.gameState = gameState;
 	}
+	
+	public boolean getEmptyMoveRequired() {
+		return emptyMoveRequired;
+	}
 	public boolean makeMove(Vector2 position){
 		if(emptyMovesEnabled){
 			if(emptyMoveRequired)
