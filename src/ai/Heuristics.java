@@ -89,12 +89,12 @@ public class Heuristics {
                 continue;
             
             Vector2 current = c.getPosition();
-            while(board.getField(current) == c.getField()){
+            while(board.getField(current) == c.getField() && current.x < board.getBoardSize().x){
                 current = Vector2.add(current, c.getVertical());
                 counter++;
             }
             current = c.getPosition();
-            while(board.getField(current) == c.getField()){
+            while(board.getField(current) == c.getField() && current.x < board.getBoardSize().y){
                 current = Vector2.add(current, c.getHorizonal());
                 counter++;
             }
