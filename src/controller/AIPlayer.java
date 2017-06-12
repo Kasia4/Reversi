@@ -15,13 +15,15 @@ public class AIPlayer extends Player {
 	Game gameHandle;
 	AlphaBeta inteligence;
 	Heuristics heuristicFunction;
+	private static final int TIME_LIMIT = 1000;
 	
 	Random r;
 	public AIPlayer(Pawn pawn, GameController controller) {
 		super(pawn, controller);
 
 		heuristicFunction = new Heuristics(gameHandle.getBoardSize());
-		Game startGame = gameHandle; // add clone
+		heuristicFunction.setPlayerPawn(pawn);
+		Game startGame = gameHandle.clone(); // add clone
 		inteligence = new AlphaBeta(startGame, heuristicFunction);
 		// TODO Auto-generated constructor stub
 
@@ -31,9 +33,25 @@ public class AIPlayer extends Player {
 	public void run() {
 		
 		inteligence.setCurrentGame(gameHandle);
-		Vector2 currentMove = gameHandle.getBoard().getAvailableFields(pawn).get(0);
-		controllerHandle.sendMove(currentMove);
-		lastMovePos = currentMove;		
+		Thread chooseMove = new Thread(inteligence);
+		chooseMove.start();
+		try {
+			chooseMove.join(TIME_LIMIT);
+			if(inteligence.getIterNextMove() == null)
+				System.out.println("AI didn't choose the move");
+			else
+			{
+				Vector2 currentMove = inteligence.getIterNextMove().getPosition();
+				controllerHandle.sendMove(currentMove);
+				lastMovePos = currentMove;	
+			}
+			//Vector2 currentMove = gameHandle.getBoard().getAvailableFields(pawn).get(0);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+			
 	}
 	
 	@Override

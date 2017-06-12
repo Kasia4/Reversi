@@ -56,8 +56,6 @@ public class Board implements Cloneable {
 	 */
 	public void setField(Vector2 pos, Field field){
 		board.setField(pos, field);
-		System.out.println("position added: " + pos);
-
 	}
 	
 	/**
@@ -109,10 +107,9 @@ public class Board implements Cloneable {
 			pastMove.setAnchor(dir, currentAnchor);
 		}
 		setField(pawnPos, color);
-		lastMoveResult.addPosition(pawnPos);
 		doneMoves.push(pastMove);
-		System.out.println("do: ");
-		   System.out.println(lastMoveResult);
+		//System.out.println("do: ");
+		  // System.out.println(lastMoveResult);
 		return true;
 	}
 	
@@ -304,8 +301,8 @@ public class Board implements Cloneable {
 		}
 		setField(lastMove.getPosition(), Field.EMPTY);
 		
-		System.out.println("undo: ");
-		System.out.println(lastMoveResult);
+		//System.out.println("undo: ");
+		//System.out.println(lastMoveResult);
 		return lastMove;
 	}
 }

@@ -66,7 +66,7 @@ public class GameController extends AbstractController implements Runnable{
             if(numberOfGame == 2)
                 sender = false;
             AbstractPlayer tmp = PlayerFactory.producePlayer(playerType[0], Pawn.WHITE, this, sender);
-            System.out.println(tmp.getClass());
+           // System.out.println(tmp.getClass());
             player[0] = tmp;
             player[1] = PlayerFactory.producePlayer(playerType[1], Pawn.BLACK, this, !sender);
         }
