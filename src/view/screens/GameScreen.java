@@ -67,9 +67,10 @@ public class GameScreen extends Screen{
         debugBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) { 
-                game.makeMove(new Vector2(-1,-1));
-                heu.setPlayerPawn(Pawn.WHITE);
-                System.out.println(heu.heuristicTest(board));
+                //game.makeMove(new Vector2(-1,-1));
+                //heu.setPlayerPawn(Pawn.WHITE);
+                //System.out.println(heu.heuristicTest(board));
+            	game.undoMove();
                 boardView.update();
             }
         });
