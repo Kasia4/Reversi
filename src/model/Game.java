@@ -75,6 +75,9 @@ public class Game {
 	{
 		return board.getAvailableFields(currentPawn());
 	}
+	public boolean getEmptyMoveRequired() {
+		return emptyMoveRequired;
+	}
 	public boolean makeMove(Vector2 position){
 		if(emptyMovesEnabled){
 			
