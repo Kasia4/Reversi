@@ -71,6 +71,7 @@ abstract public class Screen extends JPanel {
 		for(AbstractView view : views)
 		{
 			if(view.getClass() == viewType){
+			    System.out.println("znalas " + viewType);
 				return (T) view;
 			}
 		}
