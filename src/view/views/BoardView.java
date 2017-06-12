@@ -89,9 +89,10 @@ public class BoardView extends GameManagerView{
         else if (board.getField(pos) == Field.WHITE)
            return Color.WHITE;
         else{
-            if(board.canMove(game.getGameState().getPawn(), pos))
+        	if(board.canMove(game.getGameState().getPawn(), pos))
+        	{
                 return new Color(56/255f, 188/255f, 0/255f);
-            else
+        	} else
                 return new Color(0, 0.6f, 0);
         }
     }
@@ -109,13 +110,14 @@ public class BoardView extends GameManagerView{
     }
     
     public void update(){
-        setVisible(false);
+    	setVisible(false);
+        removeAll();        
         for(int y = 0; y < board.getBoardSize().y; y++)
-            for(int x = 0; x < board.getBoardSize().x; x++){
-                remove(x);
+            for(int x = 0; x < board.getBoardSize().x; x++)
                 add(new RectDraw(findColor(new Vector2(x,y)), new Vector2(x,y)));
-            }
+
         repaint();
         setVisible(true);
+
     }
 }

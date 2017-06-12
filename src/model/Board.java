@@ -68,11 +68,14 @@ public class Board {
 	public boolean executeMove(Move move){
 		if(move.isEmpty())
 		{
+			System.out.println("pusty");
 			doneMoves.push(new PastMove(move));
 			return true;
 		}
 		if(!canMove(move))
+		{
 			return false;
+		}
 		lastMoveResult.clear();
 		lastMoveResult.setField(move.getPawn().color);
 		PastMove pastMove = new PastMove(move);
@@ -136,6 +139,7 @@ public class Board {
 			}
 			if(success && hasOpp) return true;
 		}
+		
 		return false;
 	}
 	/**
@@ -177,8 +181,8 @@ public class Board {
 				}
 			}
 		}
-		if(available.isEmpty())
-			available.add(Move.emptyMoveVector());
+//		if(available.isEmpty())
+//			available.add(Move.emptyMoveVector());
 		return available;
 	}
 	

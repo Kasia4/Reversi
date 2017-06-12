@@ -7,7 +7,7 @@ public class Game {
 
 	private Board board;
 	private GameState gameState = GameState.TURN_B;
-	private boolean emptyMovesEnabled = true;
+	private boolean emptyMovesEnabled = false;
 	private boolean emptyMoveRequired = false;
 	
 	private ZobristFunction zobrist;
@@ -100,13 +100,14 @@ public class Game {
 	    }
 	    return false;
 	}
-	public void undoMove(){
+	public Move undoMove(){
 		PastMove move = board.undoMove();
-		if(move == null) return;
+		if(move == null) return null;
 		if(move.getPawn() == Pawn.BLACK)
 			gameState = GameState.TURN_B;
 		else 
 			gameState = GameState.TURN_W;
+		return move;
 	}
 	public GameState checkWinner()
 	{

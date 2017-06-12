@@ -1,7 +1,11 @@
-package model;
+package ai;
 
 import java.util.ArrayList;
 
+import model.Board;
+import model.BoardSize;
+import model.Field;
+import model.Pawn;
 import util.Vector2;
 /**
  * Is responsable for heuristisc
@@ -13,6 +17,7 @@ public class Heuristics {
     HeuristicParametersReader heuristicParametersReader;
     
     float[][] weightMatrix;
+    Pawn playerPawn;
     
     public Heuristics(BoardSize boardSize){
         HeuristicParametersReader heuristicParametersReader = new HeuristicParametersReader(boardSize);
@@ -32,16 +37,14 @@ public class Heuristics {
      */
     public float heuristicTest(Board board){
         float sum = 0;
-        //Player player = new Player(Pawn.WHITE);//tylko do test�w
-        Pawn pawn = Pawn.WHITE;
         int b = 0;
         float v = 4.1f; // Mobility weight
         for(int x = 0; x < board.getBoardSize().x; x++)
             for(int y = 0; y < board.getBoardSize().y; y++){
                 Field current = board.getField(new Vector2(x,y));
-                if(current == pawn.color)
+                if(current == playerPawn.color())
                     b = 1;
-                else if(current == pawn.opposite)
+                else if(current == playerPawn.opposite())
                     b = -1;
                 else continue;
                 
@@ -50,7 +53,7 @@ public class Heuristics {
             }
         float mobility = 0;
         
-        ArrayList<Vector2> availableFields = board.getAvailableFields(pawn);
+        ArrayList<Vector2> availableFields = board.getAvailableFields(playerPawn);
         for(Vector2 field : availableFields){
             float value = 1;
             if(getWeightOfField(field) > 0);
@@ -59,7 +62,7 @@ public class Heuristics {
         }
         
         sum += v * mobility;
-        System.out.println(v + " " + (v * board.availableFieldsNumber(pawn)));
+        System.out.println(v + " " + (v * board.availableFieldsNumber(playerPawn)));
         return sum;
     }
     
@@ -69,7 +72,10 @@ public class Heuristics {
      * @return return value for this position
      */
     private float getWeightOfField(Vector2 vec){
-            return weightMatrix[vec.x][vec.y];    
+    	return weightMatrix[vec.x][vec.y];    
     }
     
+    public void setPlayerPawn(Pawn pawn) {
+    	this.playerPawn = pawn;
+    }
 }
