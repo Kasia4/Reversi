@@ -20,9 +20,10 @@ public class HeuristicParametersReader {
 	private Map<Character, Float> weights = new HashMap<Character, Float>();
 	
 	private float[][] weightMatrix;
+	private float mobilityFactor;
+	private float cornerWallWeight;
 	
-	public HeuristicParametersReader(BoardSize size)
-	{
+	public HeuristicParametersReader(BoardSize size) {
 		try
 		{
 			loadParameters(size);
@@ -32,8 +33,7 @@ public class HeuristicParametersReader {
 		
 	}
 	
-	void loadParameters(BoardSize size) throws IOException
-	{
+	void loadParameters(BoardSize size) throws IOException {
 		String filename;
 		weightMatrix = new float[size.getValue()][size.getValue()];
 		switch(size)
@@ -52,6 +52,17 @@ public class HeuristicParametersReader {
 		{
 			file = new File(filename);
 			scanner = new Scanner(file);
+			
+			//Read mobility factor
+			if(!scanner.hasNextFloat())
+				throw new IOException("Wrong file format");
+			mobilityFactor = scanner.nextFloat();
+			
+			//Read corner wall weight
+			if(!scanner.hasNextFloat())
+				throw new IOException("Wrong file format");
+			cornerWallWeight = scanner.nextFloat();
+			
 			for(FieldRegion region : FieldRegion.values()) 
 			{
 				if(!scanner.hasNextFloat())
@@ -59,6 +70,7 @@ public class HeuristicParametersReader {
 				float a = scanner.nextFloat();
 				weights.put(region.getSymbol(), a);
 			}
+			
 			for(int y = 0; y < size.getValue(); ++y)
 			{
 				for(int x = 0; x < size.getValue(); ++x)
@@ -80,15 +92,21 @@ public class HeuristicParametersReader {
 		}
 	}
 	
-	public float getFieldWeight(Vector2 pos)
-	{
+	public float getFieldWeight(Vector2 pos) {
 		return weightMatrix[pos.x][pos.y];
 	}
 	
-	public float[][] getWeightMatrix(){
+	public float[][] getWeightMatrix() {
 	    return weightMatrix;
 	}
 	
+	public float getMobilityFactor() {
+		return mobilityFactor;
+	}
+	
+	public float getCornerWallWeight() {
+		return cornerWallWeight;
+	}
 	
 	
 }

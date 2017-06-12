@@ -32,4 +32,8 @@ public class MoveResult {
 	public ArrayList<Vector2> getPositions(){
 		return positions;
 	}
+	
+	public String toString(){
+		return "" + field.toString()+ "\tpola\t" + positions;
+	}
 }

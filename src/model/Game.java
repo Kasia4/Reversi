@@ -101,9 +101,13 @@ public class Game {
 					}
 					if(!whiteMovePossible && !blackMovePossible)
 						gameState = checkWinner();
-//					MoveResult changedFields = board.getLastMoveResult();
-//					ArrayList<Vector2> = changedFields.getPositions();
-//					
+				
+				MoveResult changedFields = board.getLastMoveResult();
+				Field color = changedFields.getField();
+				zobrist.updateGameKey(zobristKey, next.getPosition(), color, true);
+				ArrayList<Vector2> positions = changedFields.getPositions();
+				for( Vector2 pos : positions)
+					zobrist.updateGameKey(zobristKey, position, color, false);
 					return true;
 				}
 				return false;
