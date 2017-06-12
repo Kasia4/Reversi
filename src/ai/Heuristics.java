@@ -16,6 +16,8 @@ import util.Vector2;
 public class Heuristics {
     
     HeuristicParametersReader heuristicParametersReader;
+    private float mobilityWeight;
+    private float cornerWallWeight;
     
     float[][] weightMatrix;
     Pawn playerPawn;
@@ -23,6 +25,8 @@ public class Heuristics {
     public Heuristics(BoardSize boardSize){
         HeuristicParametersReader heuristicParametersReader = new HeuristicParametersReader(boardSize);
         weightMatrix = heuristicParametersReader.getWeightMatrix();
+        mobilityWeight = 0.5f;
+        cornerWallWeight = 1;
 
     }
     /**
@@ -41,7 +45,7 @@ public class Heuristics {
         Board board = game.getBoard();
         float sum = 0;
         int whosTurn = 0;
-        float mobilityWeigth = 0.5f; // Mobility weight
+        
         for(int x = 0; x < board.getBoardSize().x; x++)
             for(int y = 0; y < board.getBoardSize().y; y++){
                 Field current = board.getField(new Vector2(x,y));
@@ -54,6 +58,7 @@ public class Heuristics {
                     sum += whosTurn * getWeightOfField(new Vector2(x,y));
 
             }
+        
         float mobility = 0;
         
         ArrayList<Vector2> availableFields = board.getAvailableFields(playerPawn);
@@ -74,33 +79,35 @@ public class Heuristics {
             int counter = 0;
             if(c.getField() == playerPawn.color()){
                 our = 1;
-                System.out.println("our");
             }
             else if(c.getField() == Field.EMPTY)
                 continue;
             
             Vector2 current = c.getPosition();
-            System.out.println("Current position " + current);
-            while(board.getField(current) != c.getField()){
-                System.out.println("gitara");
+            while(board.getField(current) == c.getField()){
                 current = Vector2.add(current, c.getVertical());
                 counter++;
             }
             current = c.getPosition();
-            while(board.getField(current) != c.getField()){
+            while(board.getField(current) == c.getField()){
                 current = Vector2.add(current, c.getHorizonal());
                 counter++;
             }
             cornerWall += our * counter;
         }
         
-        System.out.println("Corner wall: " + cornerWall);
+        System.out.println("Position strategy: " + sum);
         
-        System.out.println("E(s) without mobility: " + sum);
-        sum += mobilityWeigth * mobility;
-        System.out.println("Mobility: " + mobility);
+        System.out.println("Corner wall: " + cornerWall);
+        System.out.println("Corner wall with weight: " + (cornerWallWeight * cornerWall) + " weight: " + cornerWallWeight);
+        sum += cornerWallWeight * cornerWall;
+        
+        
+        System.out.println("Mobility(ReLU): " + mobility);
+        System.out.println("Mobility with weigth: " + mobilityWeight * mobility + " weight: " + mobilityWeight);
+        sum += mobilityWeight * mobility;
+        
         System.out.println("E(s) = " + sum);
-
 
         return sum;
     }
