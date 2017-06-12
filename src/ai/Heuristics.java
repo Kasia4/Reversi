@@ -70,6 +70,11 @@ public class Heuristics {
             mobility += value;
         }
         
+       
+        System.out.println("E(s) without mobility: " + sum);
+        sum += mobilityWeight * mobility;
+        System.out.println("Mobility: " + mobility);
+
 
         Corner[] corners = setCorners(board);
         

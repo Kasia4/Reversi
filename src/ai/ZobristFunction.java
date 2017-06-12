@@ -10,12 +10,12 @@ import util.Vector2;
 public class ZobristFunction {
 	
 	private long zobristArray[][][];
-	private long blackTurn;
+	private long turn;
 	private Vector2 size;
 	
 	public ZobristFunction(Vector2 size) {
 		this.size = size;
-		
+		zobristArray = new long[2][size.x][size.y]; // depends on pawn, and position of field
 		randomizeValues();
 	}
 	
@@ -28,15 +28,23 @@ public class ZobristFunction {
 	// value in zobristArray depends on color of pawn and position
 	private void randomizeValues()
 	{
-		zobristArray = new long[2][size.x][size.y];
+		turn = randomizeOne(); // used to distinguish states when board looks the same but different player has turn
 		for(int i = 0; i < 2; ++i)
 			for(int y = 0; y < size.y; ++y)
 				for(int x = 0; x < size.x; ++x)
-					zobristArray[i][y][x] = randomizeOne();
+					zobristArray[i][y][x] = randomizeOne(); // first black second white
 		
-		blackTurn = randomizeOne(); // used to distinguish states when board looks the same but different player has turn
+		
 		
 	}
+	
+	public long changeTurn( long key )
+	{
+		key ^= turn;
+		return key;
+	}
+	
+	
 	
 	public long getGameKey(Game game) {
 		long key = 0;
@@ -55,13 +63,8 @@ public class ZobristFunction {
 		return key;
 		
 	}
-	public long changeTurn( long key )
-	{
-		key ^= blackTurn;
-		return key;
-	}
 	
-	public long countGameKey(long key, int x, int y, Field color)
+	private long countGameKey(long key, int x, int y, Field color)
 	{
 		if(color == Field.BLACK)
 			key ^= zobristArray[0][y][x];
@@ -75,13 +78,14 @@ public class ZobristFunction {
 		long key = oldKey;
 		int x = changedField.x;
 		int y = changedField.y;
-		if(playerChanged) // only for one field when the new move executed
+		if(playerChanged) // only for one field when the new move executed (new pawn placed)
 			{
 				key = changeTurn(key);
 				key = countGameKey(key, x, y, color);
 			}
 		else
 		{
+			//  xor out from key
 			if(color == Field.BLACK) // this means that before move this field was white
 				key ^= zobristArray[1][y][x]; // undo recent xor for white field
 			else if(color == Field.WHITE)

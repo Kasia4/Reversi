@@ -1,19 +1,21 @@
 package ai;
 
+import model.Move;
+
 public class State {
 	
 	private long key;
 	private int depth;
 	private int value;
 	private ValueFlag flag;
-	State bestChild;
-	public State(long key, int depth, int value, ValueFlag flag, State bestChild )
+	Move bestMove;
+	public State(long key, int depth, int value, ValueFlag flag, Move bestMove )
 	{
 		this.key = key;
 		this.depth = depth;
 		this.value = value;
 		this.flag = flag;
-		this.bestChild = bestChild;
+		this.bestMove = bestMove;
 	}
 	public long getKey() {
 		return key;
@@ -39,11 +41,12 @@ public class State {
 	public void setFlag(ValueFlag flag) {
 		this.flag = flag;
 	}
-	public State getBestChild() {
-		return bestChild;
+	public Move getBestMove() {
+		return bestMove;
 	}
-	public void setBestChild(State bestChild) {
-		this.bestChild = bestChild;
+	public void setBestMove(Move bestMove) {
+		this.bestMove = bestMove;
 	}
+
 
 }
