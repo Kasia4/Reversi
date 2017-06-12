@@ -69,7 +69,7 @@ public class Board {
 	public boolean executeMove(Move move){
 		if(move.isEmpty())
 		{
-			System.out.println("pusty");
+			//System.out.println("pusty");
 			doneMoves.push(new PastMove(move));
 			return true;
 		}
