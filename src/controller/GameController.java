@@ -51,10 +51,8 @@ public class GameController extends AbstractController implements Runnable{
     }
     synchronized public void sendMove(Vector2 position){
         if(game.makeMove(position)){
-        	//System.out.println("poszlo");
             viewManager.updateScreen();
         }
-        //System.out.println(game.getBoard().getAvailableFields(game.getGameState().getPawn()));
     }
     
     public Game getGame() {

@@ -44,7 +44,8 @@ public class Board {
 	 */
 	public void setField(Vector2 pos, Field field){
 		board.setField(pos, field);
-		lastMoveResult.addPosition(pos);
+		System.out.println("position added: " + pos);
+
 	}
 	
 	/**
@@ -89,13 +90,17 @@ public class Board {
 			if(finishPos.equals(pawnPos))
 				continue;
 			for(Vector2 currPos = Vector2.add(pawnPos, dir.v); !currPos.equals(finishPos); currPos = Vector2.add(currPos, dir.v)) {
-				board.setField(currPos, color);
+				setField(currPos, color);
+				lastMoveResult.addPosition(currPos);
 				++currentAnchor;
 			}
 			pastMove.setAnchor(dir, currentAnchor);
 		}
 		setField(pawnPos, color);
+		lastMoveResult.addPosition(pawnPos);
 		doneMoves.push(pastMove);
+		System.out.println("do: ");
+		   System.out.println(lastMoveResult);
 		return true;
 	}
 	
@@ -256,33 +261,39 @@ public class Board {
 		return count;
 	}
 	
-   public Vector2 getBoardSize() {
+	public Vector2 getBoardSize() {
         return boardSize;
-    }
+	}
 
-    public void setBoardSize(Vector2 boardSize) {
+	public void setBoardSize(Vector2 boardSize) {
         this.boardSize = boardSize;
-    }
+	}
     
-   public MoveResult getLastMoveResult(){
-	   return lastMoveResult;
-   }
+	public MoveResult getLastMoveResult(){
+		return lastMoveResult;
+	}
    
-   public PastMove undoMove(){
-	   if(doneMoves.isEmpty())return null;
-	   PastMove lastMove = doneMoves.pop();
-	   Field field = lastMove.getPawn().opposite();
-	   for(Direction dir : Direction.values())
-	   {
-		   Vector2 curr = new Vector2(lastMove.getPosition());
-		   int replaced = 0;
-		   while(replaced < lastMove.getAnchor(dir)){
-			   curr = Vector2.add(curr, dir.v);
-			   board.setField(curr, field);
-			   ++replaced;
-		   }
-	   }
-	   board.setField(lastMove.getPosition(), Field.EMPTY);
-	   return lastMove;
-   }
+	public PastMove undoMove(){
+		if(doneMoves.isEmpty())return null;
+		PastMove lastMove = doneMoves.pop();
+		lastMoveResult.clear();
+		lastMoveResult.setField(lastMove.getPawn().opposite);
+		Field field = lastMove.getPawn().opposite();
+		for(Direction dir : Direction.values())
+		{
+			Vector2 curr = new Vector2(lastMove.getPosition());
+			int replaced = 0;
+			while(replaced < lastMove.getAnchor(dir)){
+				curr = Vector2.add(curr, dir.v);
+				setField(curr, field);
+				lastMoveResult.addPosition(curr);
+				++replaced;
+			}
+		}
+		setField(lastMove.getPosition(), Field.EMPTY);
+		
+		System.out.println("undo: ");
+		System.out.println(lastMoveResult);
+		return lastMove;
+	}
 }
