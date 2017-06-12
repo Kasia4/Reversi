@@ -20,7 +20,6 @@ import model.BoardSize;
 import model.Game;
 import model.GameState;
 import model.Pawn;
-import util.Vector2;
 import view.views.BoardView;
 import view.views.ControlPanelView;
 
