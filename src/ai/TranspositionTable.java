@@ -16,18 +16,19 @@ public class TranspositionTable{
 		
 	}
 	
-	public int getHash(long key)
+	public int getGameHash(Game game)
 	{
-		return (int) (key % size);
+		long hash = game.getZobristKey() % size;
+		return (int)hash;
 	}
 	
 	public State getState(Game game)
 	{
-		return transpositionTable.get(getHash(game.getZobristKey()));
+		return transpositionTable.get(getGameHash(game));
 	}
 	public void registerState(Game game, State state)
 	{
-		transpositionTable.put(getHash(game.getZobristKey()), state);
+		transpositionTable.put(getGameHash(game), state);
 	}
 
 }
