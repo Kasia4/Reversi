@@ -36,6 +36,7 @@ public class Heuristics {
      * @author Kokos
      * @return result of heuristic function
      */
+
     public float heuristicTest(Game game){
         Board board = game.getBoard();
         float sum = 0;
@@ -51,6 +52,7 @@ public class Heuristics {
                 else continue;
                 
                     sum += whosTurn * getWeightOfField(new Vector2(x,y));
+
             }
         float mobility = 0;
         
@@ -63,6 +65,7 @@ public class Heuristics {
             mobility += value;
         }
         
+
         Corner[] corners = setCorners(board);
         
         int cornerWall = 0;
@@ -97,6 +100,8 @@ public class Heuristics {
         sum += mobilityWeigth * mobility;
         System.out.println("Mobility: " + mobility);
         System.out.println("E(s) = " + sum);
+
+
         return sum;
     }
     

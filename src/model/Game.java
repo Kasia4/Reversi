@@ -6,14 +6,16 @@ import util.Vector2;
 public class Game {
 
 	private Board board;
+	private BoardSize boardSize;
 	private GameState gameState = GameState.TURN_B;
-	private boolean emptyMovesEnabled = false;
+	private boolean emptyMovesEnabled = true;
 	private boolean emptyMoveRequired = false;
 	
 	private ZobristFunction zobrist;
 	public ZobristFunction getZobrist() {
 		return zobrist;
 	}
+	
 	public void setZobrist(ZobristFunction zobrist) {
 		this.zobrist = zobrist;
 	}
@@ -27,12 +29,17 @@ public class Game {
 	
 	public Game(BoardSize boardSize){
 	    board = new Board(boardSize);
+	    this.boardSize = boardSize;
 	}
+	
 	public Board getBoard() {
 		return board;
 	}
 	public void setBoard(Board board) {
 		this.board = board;
+	}
+	public BoardSize getBoardSize(){
+		return boardSize;
 	}
 	public GameState getGameState() {
 		return gameState;
