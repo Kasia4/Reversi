@@ -32,7 +32,7 @@ public class ZobristFunction {
 		for(int i = 0; i < 2; ++i)
 			for(int y = 0; y < size.y; ++y)
 				for(int x = 0; x < size.x; ++x)
-					zobristArray[i][y][x] = randomizeOne();
+					zobristArray[i][y][x] = randomizeOne(); // first black second white
 		
 		
 		
@@ -78,13 +78,14 @@ public class ZobristFunction {
 		long key = oldKey;
 		int x = changedField.x;
 		int y = changedField.y;
-		if(playerChanged) // only for one field when the new move executed
+		if(playerChanged) // only for one field when the new move executed (new pawn placed)
 			{
 				key = changeTurn(key);
 				key = countGameKey(key, x, y, color);
 			}
 		else
 		{
+			//  xor out from key
 			if(color == Field.BLACK) // this means that before move this field was white
 				key ^= zobristArray[1][y][x]; // undo recent xor for white field
 			else if(color == Field.WHITE)

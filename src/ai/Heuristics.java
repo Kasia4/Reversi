@@ -65,37 +65,37 @@ public class Heuristics {
             mobility += value;
         }
         
-
-        Corner[] corners = setCorners(board);
-        
-        int cornerWall = 0;
-        for(Corner c : corners){
-            int our = -1;
-            int counter = 0;
-            if(c.getField() == playerPawn.color()){
-                our = 1;
-                System.out.println("our");
-            }
-            else if(c.getField() == Field.EMPTY)
-                continue;
-            
-            Vector2 current = c.getPosition();
-            System.out.println("Current position " + current);
-            while(board.getField(current) != c.getField()){
-                System.out.println("gitara");
-                current = Vector2.add(current, c.getVertical());
-                counter++;
-            }
-            current = c.getPosition();
-            while(board.getField(current) != c.getField()){
-                current = Vector2.add(current, c.getHorizonal());
-                counter++;
-            }
-            cornerWall += our * counter;
-        }
-        
-        System.out.println("Corner wall: " + cornerWall);
-        
+//
+//        Corner[] corners = setCorners(board);
+//        
+//        int cornerWall = 0;
+//        for(Corner c : corners){
+//            int our = -1;
+//            int counter = 0;
+//            if(c.getField() == playerPawn.color()){
+//                our = 1;
+//                System.out.println("our");
+//            }
+//            else if(c.getField() == Field.EMPTY)
+//                continue;
+//            
+//            Vector2 current = c.getPosition();
+//            System.out.println("Current position " + current);
+//            while(board.getField(current) != c.getField()){
+//                System.out.println("gitara");
+//                current = Vector2.add(current, c.getVertical());
+//                counter++;
+//            }
+//            current = c.getPosition();
+//            while(board.getField(current) != c.getField()){
+//                current = Vector2.add(current, c.getHorizonal());
+//                counter++;
+//            }
+//            cornerWall += our * counter;
+//        }
+//        
+//        System.out.println("Corner wall: " + cornerWall);
+//        
         System.out.println("E(s) without mobility: " + sum);
         sum += mobilityWeigth * mobility;
         System.out.println("Mobility: " + mobility);

@@ -18,6 +18,20 @@ public class Game {
 	private ZobristFunction zobrist;
 	private long zobristKey;
 	
+//	private void changeGameKey(boolean firstMove, Move move)
+//	{
+//		if(firstMove)
+//		{
+//			//zobrist.changeTurn(zobristKey);
+//			zobrist.updateGameKey(zobristKey, move.getPosition(), move.getPawn().color() , true);
+//		}
+//			
+//		else
+//			zobrist.updateGameKey(zobristKey, move.getPosition(), move.getPawn().color(), false);
+//			
+//			
+//	}
+	
 	public ZobristFunction getZobrist() {
 		return zobrist;
 	}
@@ -63,23 +77,11 @@ public class Game {
 	}
 	public boolean makeMove(Vector2 position){
 		if(emptyMovesEnabled){
-			if(emptyMoveRequired)
-			{
-				if(position.equals( Move.emptyMoveVector()))
-				{
-					board.executeMove(Move.emptyMove(gameState.getPawn()));
-					if(gameState == GameState.TURN_B)
-						gameState = GameState.TURN_W;
-					else gameState = GameState.TURN_B;
-					
-					emptyMoveRequired = false;
-					return true;
-				}
-				return false;
-			}
+			
 			if(!position.equals( Move.emptyMoveVector()))
 			{
-				if(board.executeMove(new Move(position, gameState.getPawn())))
+				Move next = new Move(position, gameState.getPawn());
+				if(board.executeMove(next))
 				{
 					boolean whiteMovePossible = board.ifMovePossible(Pawn.WHITE);
 					boolean blackMovePossible = board.ifMovePossible(Pawn.BLACK);
@@ -99,10 +101,30 @@ public class Game {
 					}
 					if(!whiteMovePossible && !blackMovePossible)
 						gameState = checkWinner();
+//					MoveResult changedFields = board.getLastMoveResult();
+//					ArrayList<Vector2> = changedFields.getPositions();
+//					
 					return true;
 				}
 				return false;
 			}
+			else 
+			{
+				if(emptyMoveRequired)
+				{
+					board.executeMove(Move.emptyMove(gameState.getPawn()));
+					if(gameState == GameState.TURN_B)
+						gameState = GameState.TURN_W;
+					else gameState = GameState.TURN_B;
+					zobrist.changeTurn(zobristKey);
+					emptyMoveRequired = false;
+					return true;
+				}
+				return false;
+			}		
+				
+				
+				
 		}
 		else if(board.executeMove(new Move(position, gameState.getPawn()))){
 	       
