@@ -50,7 +50,6 @@ public class GameController extends AbstractController implements Runnable{
                 PlayerType toChange = playerType[Pawn.WHITE.id()];
                 playerType[Pawn.WHITE.id()] = playerType[Pawn.BLACK.id()];
                 playerType[Pawn.BLACK.id()] = toChange;
-
             }
             else{
                 ControlPanelView tmp = viewManager.getScreen().findView(ControlPanelView.class);
@@ -97,6 +96,7 @@ public class GameController extends AbstractController implements Runnable{
 			}
 			try {
 				Thread playerThread = new Thread(player[game.getGameState().getPawn().id()]);
+				System.out.println("polska");
 				playerThread.start();
 				playerThread.join();
 			} catch (InterruptedException e) {

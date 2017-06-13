@@ -25,7 +25,7 @@ public class Heuristics {
     public Heuristics(BoardSize boardSize){
         HeuristicParametersReader heuristicParametersReader = new HeuristicParametersReader(boardSize);
         weightMatrix = heuristicParametersReader.getWeightMatrix();
-        mobilityWeight = 0.5f;
+        mobilityWeight = heuristicParametersReader.getMobilityFactor();
         cornerWallWeight = 1;
 
     }
@@ -34,13 +34,13 @@ public class Heuristics {
      * @return result of heuristic function
      */
 
-    public float heuristicTest(Game game){
+    public float heuristicValue(Game game){
         Board board = game.getBoard();
         float sum = 0;
         int whosTurn = 0;
         
-        for(int x = 0; x < board.getBoardSize().x; x++)
-            for(int y = 0; y < board.getBoardSize().y; y++){
+        for(int y = 0; y < board.getBoardSize().y; y++)
+            for(int x = 0; x < board.getBoardSize().x; x++){
                 Field current = board.getField(new Vector2(x,y));
                 if(current == playerPawn.color())
                     whosTurn = 1;
@@ -63,10 +63,10 @@ public class Heuristics {
             mobility += value;
         }
         
-       
-       // System.out.println("E(s) without mobility: " + sum);
-        sum += mobilityWeight * mobility;
-        //System.out.println("Mobility: " + mobility);
+//        board.printOut();
+//        System.out.println("E(s) without mobility: " + sum);
+//        sum += mobilityWeight * mobility;
+//        System.out.println("Mobility: " + mobility);
 
 
      Corner[] corners = setCorners(board);
@@ -128,8 +128,8 @@ public class Heuristics {
        // System.out.println("Mobility with weigth: " + mobilityWeight * mobility + " weight: " + mobilityWeight);
         sum += mobilityWeight * mobility;
        
-        board.printOut();
-        System.out.println("E(s) = " + sum);
+
+//        System.out.println("E(s) = " + sum);
 
         return sum;
     }
