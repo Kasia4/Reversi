@@ -53,7 +53,7 @@ public class ViewManager extends JFrame{
 	private void prepareViewManager(){
 		setVisible(true);
 	    setResizable(false);
-		setTitle("Tanks");
+		setTitle("Reversi");
 		setSize(FRAME_SIZE);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);

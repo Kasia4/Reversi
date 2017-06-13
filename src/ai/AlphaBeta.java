@@ -39,68 +39,50 @@ public class AlphaBeta implements Runnable {
 	}
 	public void setCurrentGame(Game game)
 	{
-		//this.game = game.clone(); remember about it
 		this.game = game.clone();
 	}
 	public void iterAlphaBeta ()
 	{
 		int alpha = Integer.MIN_VALUE;
 		int beta = Integer.MAX_VALUE;
-		//System.out.println("Start iteration: ");
 		for(int depth = 1; depth <= BOUND_DEPTH; ++depth)
 		{
-			//System.out.println(" zaczne iteration: " + depth);
 			alphaBeta(game, depth, alpha, beta, MinMaxNode.MAX);
-			//System.out.println("iteration: " + depth);
-//			if(nextMove != null)
-//				System.out.println("znalazl");
 			iterNextMove = nextMove;
 		}
-		//System.out.println("End of iteration");
 	}
 	public int alphaBeta (Game game, int depth, int alpha, int beta, MinMaxNode node)
 	{
 	    if(Thread.currentThread().isInterrupted())
 	        return 0;
-	    
-		//System.out.println("weszlo ");
-		//game.getBoard().printOut();
 		int nestedAlpha = alpha;
 		int nestedBeta = beta;
 		int value = 0;
 		Vector2 bestMove = null;
 		if(depth == 0 || game.getGameState().isTerminal())
-			{
-				//System.out.println("lisc");
-				return (int) (heuristicFunction.heuristicTest(game));
-			}
+		{
+			return (int) (heuristicFunction.heuristicTest(game));
+		}
 		
 		State currentState = transpositionTable.getState(game);
 		if(currentState != null && currentState.getDepth() >= depth) // value is good enough
 		{
-			//System.out.println("co jest");
 			ValueFlag flag = currentState.getFlag();
 			value = currentState.getValue();
 			if(flag == ValueFlag.UPPER)
-				{
-					nestedBeta = Math.min(nestedBeta, value);
-					//System.out.println("up");
-				}
+			{
+				nestedBeta = Math.min(nestedBeta, value);
+			}
 			else if(flag ==  ValueFlag.LOWER)
-				{
-					nestedAlpha = Math.max(nestedAlpha, value);
-					//System.out.println("low");
-				}
+			{
+				nestedAlpha = Math.max(nestedAlpha, value);
+			}
 			else if(flag == ValueFlag.ACCURATE || nestedAlpha >= nestedBeta)
 			{
-				if(nestedAlpha < nestedBeta)
-					System.out.println("chuju");
-			}
 				return value;
-			
+			}
 		}
 		
-		// ADD USE OF BESTMOVE FROM STATE FROM TRANSPOSITION TABLE !!!
 		int returnValue;
 		
 		ArrayList<Vector2> nextMoves = game.getMoves();
@@ -117,7 +99,8 @@ public class AlphaBeta implements Runnable {
 		Vector2 besMove = null;
 		if( node == MinMaxNode.MAX)
 		{
-			for(Vector2 move : nextMoves){
+			for(Vector2 move : nextMoves)
+			{
 				game.makeMove(move);
 				value = alphaBeta(game,depth - 1, nestedAlpha, nestedBeta, MinMaxNode.MIN);
 				game.undoMove();
@@ -126,22 +109,22 @@ public class AlphaBeta implements Runnable {
 		            return 0;
 		        
 				if(value > nestedAlpha)
-					{
-						besMove=move;
-					}
+				{
+					besMove=move;
+				}
 				nestedAlpha = Math.max(nestedAlpha, value);
 				if(nestedAlpha >= nestedBeta)
-					{
-						//System.out.println("kurwo");
-						break; // beta cut off
-					}
+				{
+					break; // beta cut off
+				}
 			}
 			returnValue = nestedAlpha; // return alpha (could be lowerbound)
 	
 		}
 		else // MIN node
 		{
-			for(Vector2 move : nextMoves){
+			for(Vector2 move : nextMoves)
+			{
 				game.makeMove(move);
 				value = alphaBeta(game, depth - 1, nestedAlpha, nestedBeta, MinMaxNode.MAX);
 				game.undoMove();
@@ -155,10 +138,9 @@ public class AlphaBeta implements Runnable {
 				}
 				nestedBeta = Math.min(nestedBeta, value);
 				if(nestedAlpha >= nestedBeta)
-					{
-						//System.out.println("pierdolona");
-						break; // alpha cut off 
-					}
+				{
+					break; // alpha cut off 
+				}
 			}
 			returnValue = nestedBeta; // return beta (could be upperbound)
 		}
@@ -174,18 +156,14 @@ public class AlphaBeta implements Runnable {
 		
 		Move best = new Move(besMove, game.currentPawn()); // remember for next iteration
 		if(besMove != null)
-			{
-				//System.out.println("sie zmienilo");
-				nextMove = best;
-			}
+		{
+			nextMove = best;
+		}
 		State s = new State(game.getZobristKey(), depth, returnValue, flag, best);
 		
-//		if(currentState == null || currentState.getDepth() < depth)
-//		transpositionTable.registerState(game, s);
+		if(currentState == null || currentState.getDepth() < depth)
+		transpositionTable.registerState(game, s);
 			
 		return returnValue;
 	}
-	
-	
-
 }

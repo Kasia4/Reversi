@@ -100,7 +100,6 @@ public class GameController extends AbstractController implements Runnable{
 				playerThread.start();
 				playerThread.join();
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}

@@ -107,8 +107,6 @@ public class Board implements Cloneable {
 		}
 		setField(pawnPos, color);
 		doneMoves.push(pastMove);
-		//System.out.println("do: ");
-		  // System.out.println(lastMoveResult);
 		return true;
 	}
 	
@@ -194,8 +192,6 @@ public class Board implements Cloneable {
 				}
 			}
 		}
-//		if(available.isEmpty())
-//			available.add(Move.emptyMoveVector());
 		return available;
 	}
 	
@@ -300,8 +296,6 @@ public class Board implements Cloneable {
 		}
 		setField(lastMove.getPosition(), Field.EMPTY);
 		
-		//System.out.println("undo: ");
-		//System.out.println(lastMoveResult);
 		return lastMove;
 	}
 }

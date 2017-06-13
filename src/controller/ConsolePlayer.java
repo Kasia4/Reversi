@@ -13,7 +13,6 @@ public class ConsolePlayer extends Player {
 
 	public ConsolePlayer(Pawn pawn, GameController controller) {
 		super(pawn, controller);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override

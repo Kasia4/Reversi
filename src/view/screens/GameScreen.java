@@ -16,7 +16,6 @@ import ai.Heuristics;
 import controller.AbstractController;
 import controller.GameController;
 import model.Board;
-import model.BoardSize;
 import model.Game;
 import model.GameState;
 import model.Pawn;
@@ -60,17 +59,17 @@ public class GameScreen extends Screen{
         addControlPanel();
         boardView.buildGUI();
         controlPanel.buildGUI();
-        JButton debugBtn = new JButton("Siemano");
-        debugBtn.setBounds(690, 550, 140, 50);
-        add(debugBtn);
-        debugBtn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) { 
-                heu.setPlayerPawn(Pawn.WHITE);
-                System.out.println(heu.heuristicTest(game));
-                boardView.update();
-            }
-        });
+//        JButton debugBtn = new JButton("Siemano");
+//        debugBtn.setBounds(690, 550, 140, 50);
+//        add(debugBtn);
+//        debugBtn.addActionListener(new ActionListener() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) { 
+//                heu.setPlayerPawn(Pawn.WHITE);
+//                System.out.println(heu.heuristicTest(game));
+//                boardView.update();
+//            }
+//        });
         setVisible(true);
     }
     

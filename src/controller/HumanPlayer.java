@@ -10,7 +10,6 @@ public class HumanPlayer extends Player {
 	
 	public HumanPlayer(Pawn pawn, GameController controller) {
 		super(pawn, controller);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override

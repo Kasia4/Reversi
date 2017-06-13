@@ -11,26 +11,12 @@ public class Game implements Cloneable {
 	private BoardSize boardSize;
 	private GameState gameState = GameState.TURN_B;
 
-
-	private boolean emptyMovesEnabled = true;
 	private boolean emptyMoveRequired = false;
 	
 	private ZobristFunction zobrist;
 	private long zobristKey;
 	
-//	private void changeGameKey(boolean firstMove, Move move)
-//	{
-//		if(firstMove)
-//		{
-//			//zobrist.changeTurn(zobristKey);
-//			zobrist.updateGameKey(zobristKey, move.getPosition(), move.getPawn().color() , true);
-//		}
-//			
-//		else
-//			zobrist.updateGameKey(zobristKey, move.getPosition(), move.getPawn().color(), false);
-//			
-//			
-//	}
+
 	public Game(BoardSize boardSize){
 	    board = new Board(boardSize);
 	    this.boardSize = boardSize;
@@ -87,33 +73,36 @@ public class Game implements Cloneable {
 	{
 		return board.getAvailableFields(currentPawn());
 	}
-	public boolean getEmptyMoveRequired() {
+	public boolean getEmptyMoveRequired() 
+	{
 		return emptyMoveRequired;
 	}
 	public boolean makeMove(Vector2 position){
-			if(!position.equals( Move.emptyMoveVector()))
+		if(!position.equals( Move.emptyMoveVector()))
+		{
+			Move next = new Move(position, gameState.getPawn());
+			if(board.executeMove(next))
 			{
-				Move next = new Move(position, gameState.getPawn());
-				if(board.executeMove(next))
+				boolean whiteMovePossible = board.ifMovePossible(Pawn.WHITE);
+				boolean blackMovePossible = board.ifMovePossible(Pawn.BLACK);
+				if(gameState == GameState.TURN_B) 
 				{
-					boolean whiteMovePossible = board.ifMovePossible(Pawn.WHITE);
-					boolean blackMovePossible = board.ifMovePossible(Pawn.BLACK);
-					if(gameState == GameState.TURN_B) {
-						gameState = GameState.TURN_W;
-						if(!whiteMovePossible)
-						{
-							emptyMoveRequired = true;
-						}
+					gameState = GameState.TURN_W;
+					if(!whiteMovePossible)
+					{
+						emptyMoveRequired = true;
 					}
-					else if(gameState == GameState.TURN_W) {
-						gameState = GameState.TURN_B;
-						if(!blackMovePossible)
-						{
-							emptyMoveRequired = true;
-						}
+				}
+				else if(gameState == GameState.TURN_W) 
+				{
+					gameState = GameState.TURN_B;
+					if(!blackMovePossible)
+					{
+						emptyMoveRequired = true;
 					}
-					if(!whiteMovePossible && !blackMovePossible)
-						gameState = checkWinner();
+				}
+				if(!whiteMovePossible && !blackMovePossible)
+					gameState = checkWinner();
 				
 				MoveResult changedFields = board.getLastMoveResult();
 				Field color = changedFields.getField();
@@ -121,26 +110,28 @@ public class Game implements Cloneable {
 				ArrayList<Vector2> positions = changedFields.getPositions();
 				for( Vector2 pos : positions)
 					zobrist.updateGameKey(zobristKey, pos, color, false);
-					return true;
-				}
-				return false;
+				return true;
 			}
-			else 
+				return false;
+		}
+		else 
+		{
+			if(emptyMoveRequired)
 			{
-				if(emptyMoveRequired)
-				{
-					board.executeMove(Move.emptyMove(gameState.getPawn()));
-					if(gameState == GameState.TURN_B)
-						gameState = GameState.TURN_W;
-					else gameState = GameState.TURN_B;
-					zobrist.changeTurn(zobristKey);
-					emptyMoveRequired = false;
-					return true;
-				}
-				return false;
+				board.executeMove(Move.emptyMove(gameState.getPawn()));
+				if(gameState == GameState.TURN_B)
+					gameState = GameState.TURN_W;
+				else gameState = GameState.TURN_B;
+				zobrist.changeTurn(zobristKey);
+				emptyMoveRequired = false;
+				return true;
 			}
+			return false;
+		}
 	}
-	public Move undoMove(){
+	
+	public Move undoMove()
+	{
 		PastMove move = board.undoMove();
 		if(move == null) return null;
 		if(move.isEmpty())

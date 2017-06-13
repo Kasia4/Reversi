@@ -18,8 +18,6 @@ public class ApplicationManager extends AbstractController{
 		
 	}
 	
-	//private GameController gameController;
-	
 	public ApplicationManager(ViewManager viewManager){
 		super(viewManager);
 		launch();
@@ -37,15 +35,6 @@ public class ApplicationManager extends AbstractController{
 	    gameController.launch();
 	    gameController.setApplicationManager(this);
 	}
-	
-	/**
-	 * Execute when New Game button in menu has pressed. Switch control to GameController
-	 */
-//	public void createGameOption(){
-//			gameController = new GameController(viewManager);
-//			gameController.launch();
-//			gameController.setApplicationManager(this);
-//	}
 	
 	/**
 	 * Exit application

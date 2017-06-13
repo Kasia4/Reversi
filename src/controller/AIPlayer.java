@@ -35,7 +35,6 @@ public class AIPlayer extends Player {
 		
 		inteligence.setCurrentGame(gameHandle);
 		Thread chooseMove = new Thread(inteligence);
-		//chooseMove.start();
 		ExecutorService executor = Executors.newSingleThreadExecutor();
 		executor.execute(chooseMove);
 		try {
@@ -52,7 +51,6 @@ public class AIPlayer extends Player {
                 lastMovePos = currentMove;  
             }
         } catch (InterruptedException e1) {
-            // TODO Auto-generated catch block
             e1.printStackTrace();
         }
 

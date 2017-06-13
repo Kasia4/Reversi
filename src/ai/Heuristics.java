@@ -30,13 +30,6 @@ public class Heuristics {
 
     }
     /**
-     * pr�buje napisa� funkcje heurystyczn� na podstawie http://sequoia.ict.pwr.wroc.pl/~witold/aiuwr/2001_projekty/reversi/
-     * narazie w board bo nie wiem jak rozwia�emy jaki panel si� tym zajmuje
-     * Zak�adam �e funkja dzia�a po prostu na jakim� stanie planszy.
-     * Narazie tylko dla 8x8
-     * 
-     * Function that returns value of heuristic function where result depends on place where pawns are and number of possible moves
-     * 
      * @author Kokos
      * @return result of heuristic function
      */
