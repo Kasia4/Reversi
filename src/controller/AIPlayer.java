@@ -16,14 +16,14 @@ public class AIPlayer extends Player {
 	Game gameHandle;
 	AlphaBeta inteligence;
 	Heuristics heuristicFunction;
-	private static final int TIME_LIMIT = 1000;
+	private static final int TIME_LIMIT = 500;
 	
 	Random r;
 	public AIPlayer(Pawn pawn, GameController controller) {
 		super(pawn, controller);
 
 		heuristicFunction = new Heuristics(gameHandle.getBoardSize());
-		heuristicFunction.setPlayerPawn(Pawn.BLACK);
+		heuristicFunction.setPlayerPawn(pawn);
 		Game startGame = gameHandle.clone(); // add clone
 		inteligence = new AlphaBeta(startGame, heuristicFunction);
 		// TODO Auto-generated constructor stub
@@ -39,7 +39,7 @@ public class AIPlayer extends Player {
 		ExecutorService executor = Executors.newSingleThreadExecutor();
 		executor.execute(chooseMove);
 		try {
-            if(!executor.awaitTermination(1, TimeUnit.SECONDS)){
+            if(!executor.awaitTermination(TIME_LIMIT, TimeUnit.MILLISECONDS)){
                 executor.shutdownNow();
             }
             

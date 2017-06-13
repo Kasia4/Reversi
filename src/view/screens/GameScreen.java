@@ -67,7 +67,7 @@ public class GameScreen extends Screen{
             @Override
             public void actionPerformed(ActionEvent e) { 
                 heu.setPlayerPawn(Pawn.WHITE);
-                System.out.println(heu.heuristicTest(game));
+                System.out.println(heu.heuristicValue(game));
                 boardView.update();
             }
         });

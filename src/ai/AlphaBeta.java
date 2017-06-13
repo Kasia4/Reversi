@@ -13,13 +13,11 @@ public class AlphaBeta implements Runnable {
 	private Heuristics heuristicFunction;
 	private Move nextMove;
 	private Move iterNextMove;
-	public Move getIterNextMove() {
-		return iterNextMove;
-	}
+
 	
 	private int depth;
 	
-	private static final int BOUND_DEPTH = 2;
+	private static final int BOUND_DEPTH = 10;
 	
 	
 	public AlphaBeta(Game game, Heuristics heuristicFunction)
@@ -72,7 +70,7 @@ public class AlphaBeta implements Runnable {
 		if(depth == 0 || game.getGameState().isTerminal())
 			{
 				//System.out.println("lisc");
-				return (int) (heuristicFunction.heuristicTest(game));
+				return (int) (heuristicFunction.heuristicValue(game));
 			}
 		
 		State currentState = transpositionTable.getState(game);
@@ -95,8 +93,9 @@ public class AlphaBeta implements Runnable {
 			{
 				if(nestedAlpha < nestedBeta)
 					System.out.println("chuju");
-			}
 				return value;
+			}
+				
 			
 		}
 		
@@ -185,6 +184,10 @@ public class AlphaBeta implements Runnable {
 			
 		return returnValue;
 	}
+	
+	   public Move getIterNextMove() {
+	        return iterNextMove;
+	    }
 	
 	
 
