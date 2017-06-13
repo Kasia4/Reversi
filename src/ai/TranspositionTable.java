@@ -26,6 +26,7 @@ public class TranspositionTable{
 	{
 		return transpositionTable.get(getGameHash(game));
 	}
+	
 	public void registerState(Game game, State state)
 	{
 		transpositionTable.put(getGameHash(game), state);

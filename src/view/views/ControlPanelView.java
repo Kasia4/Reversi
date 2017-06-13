@@ -44,9 +44,7 @@ public class ControlPanelView extends GameManagerView{
 
         turn = new JLabel("Turn: ", JLabel.CENTER);
         turn.setMaximumSize(BTN_SIZE);
-        /**
-         * TODO change it
-         */
+
         pawnTurn = new JLabel("BLACK", JLabel.CENTER);
         pawnTurn.setMaximumSize(BTN_SIZE);
             

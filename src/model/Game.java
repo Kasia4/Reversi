@@ -47,8 +47,6 @@ public class Game implements Cloneable {
 		this.zobristKey = zobristKey;
 	}
 	
-	
-	
 	public Board getBoard() {
 		return board;
 	}

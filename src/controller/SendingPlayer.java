@@ -18,14 +18,11 @@ public class SendingPlayer implements AbstractPlayer {
 	public void run() {
 		player.run();
 		out.println(Connection.posToString(player.getLastMovePos()));
-		System.out.println();
 	}
 
 	@Override
 	public void setController(GameController controller) {
 		player.setController(controller);
-		
-
 	}
 
 	@Override
@@ -36,7 +33,6 @@ public class SendingPlayer implements AbstractPlayer {
 	@Override
 	public void setPawn(Pawn pawn) {
 		player.setPawn(pawn);
-
 	}
 	@Override
 	public GameController getController() {

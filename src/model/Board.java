@@ -78,7 +78,6 @@ public class Board implements Cloneable {
 	public boolean executeMove(Move move){
 		if(move.isEmpty())
 		{
-			//System.out.println("pusty");
 			doneMoves.push(new PastMove(move));
 			return true;
 		}

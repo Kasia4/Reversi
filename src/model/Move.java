@@ -42,4 +42,7 @@ public class Move {
 	{
 		return new Vector2(EMPTY_REP);
 	}
+	public Move clone(){
+	     return new Move(position, pawn);
+	}
 }

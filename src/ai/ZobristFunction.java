@@ -43,8 +43,6 @@ public class ZobristFunction {
 		return key;
 	}
 	
-	
-	
 	public long getGameKey(Game game) {
 		long key = 0;
 		Board board = game.getBoard();

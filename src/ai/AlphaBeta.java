@@ -1,6 +1,7 @@
 package ai;
 
 import java.util.ArrayList;
+import java.util.concurrent.TimeoutException;
 
 import model.Game;
 import ai.Heuristics;
@@ -11,8 +12,8 @@ public class AlphaBeta implements Runnable {
 	private Game game;
 	private TranspositionTable transpositionTable;
 	private Heuristics heuristicFunction;
-	private Move nextMove;
-	private Move iterNextMove;
+	private volatile Move nextMove;
+	private volatile Move iterNextMove;
 
 	
 	private int depth;
@@ -43,27 +44,34 @@ public class AlphaBeta implements Runnable {
 	{
 		int alpha = Integer.MIN_VALUE;
 		int beta = Integer.MAX_VALUE;
-		for(int depth = 1; depth <= BOUND_DEPTH; ++depth)
+		for(int d = 1; d <= depth; ++d)
 		{
-			alphaBeta(game, depth, alpha, beta, MinMaxNode.MAX);
-			iterNextMove = nextMove;
+			try {
+                alphaBeta(game, d, alpha, beta, MinMaxNode.MAX);
+            } catch (TimeoutException e) {
+                return;
+            }
+			iterNextMove = nextMove.clone();
 		}
 	}
-	public int alphaBeta (Game game, int depth, int alpha, int beta, MinMaxNode node)
+	public int alphaBeta (Game game, int depth, int alpha, int beta, MinMaxNode node) throws TimeoutException
 	{
-	    if(Thread.currentThread().isInterrupted())
-	        return 0;
+	    if(Thread.currentThread().isInterrupted()){
+	       throw new TimeoutException();
+	    }
+	    
 		int nestedAlpha = alpha;
 		int nestedBeta = beta;
 		int value = 0;
 		Vector2 bestMove = null;
-		if(depth == 0 || game.getGameState().isTerminal())
-		{
-			return (int) (heuristicFunction.heuristicValue(game));
-		}
 		
+		if(depth == 0 || game.getGameState().isTerminal())
+        {
+            return (int) (heuristicFunction.heuristicValue(game));
+        }
+        
 		State currentState = transpositionTable.getState(game);
-		if(currentState != null && currentState.getDepth() >= depth) // value is good enough
+		if(currentState != null && currentState.getDepth() >= depth && currentState.getKey() == game.getZobristKey()) // value is good enough
 		{
 			ValueFlag flag = currentState.getFlag();
 			value = currentState.getValue();
@@ -81,6 +89,7 @@ public class AlphaBeta implements Runnable {
 			}
 
 		}
+		
 		
 		int returnValue;
 		
@@ -104,8 +113,9 @@ public class AlphaBeta implements Runnable {
 				value = alphaBeta(game,depth - 1, nestedAlpha, nestedBeta, MinMaxNode.MIN);
 				game.undoMove();
 				
-		        if(Thread.currentThread().isInterrupted())
-		            return 0;
+		        if(Thread.currentThread().isInterrupted()){
+		            throw new TimeoutException();
+		         }
 		        
 				if(value > nestedAlpha)
 				{
@@ -128,8 +138,9 @@ public class AlphaBeta implements Runnable {
 				value = alphaBeta(game, depth - 1, nestedAlpha, nestedBeta, MinMaxNode.MAX);
 				game.undoMove();
 				
-		        if(Thread.currentThread().isInterrupted())
-		            return 0;
+		        if(Thread.currentThread().isInterrupted()){
+		            throw new TimeoutException();
+		         }
 		        
 				if(value < nestedBeta)
 				{
@@ -147,7 +158,10 @@ public class AlphaBeta implements Runnable {
 		ValueFlag flag;
 		
 		if(returnValue <= alpha)
-			flag = ValueFlag.UPPER; 
+			{
+		        flag = ValueFlag.UPPER;
+		        besMove = null;
+			}
 		else if( returnValue >= beta)
 			flag = ValueFlag.LOWER; 
 		else
@@ -158,7 +172,7 @@ public class AlphaBeta implements Runnable {
 		{
 			nextMove = best;
 		}
-		State s = new State(game.getZobristKey(), depth, returnValue, flag, best);
+		State s = new State(game.getZobristKey(), depth, returnValue, flag, best.clone());
 		
 		if(currentState == null || currentState.getDepth() < depth)
 		transpositionTable.registerState(game, s);

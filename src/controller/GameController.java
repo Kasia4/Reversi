@@ -38,6 +38,7 @@ public class GameController extends AbstractController implements Runnable{
         viewManager.setController(this);
         viewManager.buildScreenGUI();
         setConnection();
+        setPawnsView();
         setPlayers();
         (new Thread(this)).start();
 
@@ -55,7 +56,6 @@ public class GameController extends AbstractController implements Runnable{
                 ControlPanelView tmp = viewManager.getScreen().findView(ControlPanelView.class);
                 tmp.changePawnColor();
             }
-                
         }
     }
     public void setApplicationManager(ApplicationManager appManager){
@@ -77,7 +77,6 @@ public class GameController extends AbstractController implements Runnable{
             if(numberOfGame == 2)
                 sender = false;
             AbstractPlayer tmp = PlayerFactory.producePlayer(playerType[0], Pawn.WHITE, this, sender);
-           // System.out.println(tmp.getClass());
             player[0] = tmp;
             player[1] = PlayerFactory.producePlayer(playerType[1], Pawn.BLACK, this, !sender);
         }
@@ -96,7 +95,6 @@ public class GameController extends AbstractController implements Runnable{
 			}
 			try {
 				Thread playerThread = new Thread(player[game.getGameState().getPawn().id()]);
-				System.out.println("polska");
 				playerThread.start();
 				playerThread.join();
 			} catch (InterruptedException e) {
@@ -110,5 +108,11 @@ public class GameController extends AbstractController implements Runnable{
 	
     public BufferedReader getBufferedReader(){
         return connection.getBufferedReader();
+    }
+    public void setPawnsView(){
+        if(playerType[0] == PlayerType.HUMAN && playerType[1] == PlayerType.AI){
+                ControlPanelView tmp = viewManager.getScreen().findView(ControlPanelView.class);
+                tmp.changePawnColor();
+        }
     }
 }

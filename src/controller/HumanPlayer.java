@@ -28,5 +28,4 @@ public class HumanPlayer extends Player {
 		viewHandle = controller.viewManager.getScreen().findView(BoardView.class);
 	}
 	
-
 }

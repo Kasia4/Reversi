@@ -47,6 +47,4 @@ public class State {
 	public void setBestMove(Move bestMove) {
 		this.bestMove = bestMove;
 	}
-
-
 }

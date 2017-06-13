@@ -16,7 +16,7 @@ public class AIPlayer extends Player {
 	Game gameHandle;
 	AlphaBeta inteligence;
 	Heuristics heuristicFunction;
-	private static final int TIME_LIMIT = 500;
+	private static final int TIME_LIMIT = 800;
 	
 	Random r;
 	public AIPlayer(Pawn pawn, GameController controller) {
@@ -35,27 +35,29 @@ public class AIPlayer extends Player {
 		
 		inteligence.setCurrentGame(gameHandle);
 		Thread chooseMove = new Thread(inteligence);
-		ExecutorService executor = Executors.newSingleThreadExecutor();
+		
+		final ExecutorService executor = Executors.newSingleThreadExecutor();
 		executor.execute(chooseMove);
 		try {
             if(!executor.awaitTermination(TIME_LIMIT, TimeUnit.MILLISECONDS)){
                 executor.shutdownNow();
-            }
+            }   
             
-            if(inteligence.getIterNextMove() == null)
-                System.out.println("AI didn't choose the move");
-            else
-            {
-                Vector2 currentMove = inteligence.getIterNextMove().getPosition();
-                controllerHandle.sendMove(currentMove);
-                lastMovePos = currentMove;  
-            }
+
         } catch (InterruptedException e1) {
-            e1.printStackTrace();
+            executor.shutdownNow();
+        }
+		
+        if(inteligence.getIterNextMove() == null)
+            System.out.println("AI didn't choose the move");
+        else
+        {
+            Vector2 currentMove = inteligence.getIterNextMove().getPosition();
+            lastMovePos = currentMove; 
+            controllerHandle.sendMove(currentMove);
+            lastMovePos = currentMove;  
         }
 
-		
-			
 	}
 	
 	@Override

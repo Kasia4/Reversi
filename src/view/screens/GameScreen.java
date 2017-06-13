@@ -2,10 +2,7 @@ package view.screens;
 
 import java.awt.Color;
 import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -18,7 +15,6 @@ import controller.GameController;
 import model.Board;
 import model.Game;
 import model.GameState;
-import model.Pawn;
 import view.views.BoardView;
 import view.views.ControlPanelView;
 
@@ -59,17 +55,6 @@ public class GameScreen extends Screen{
         addControlPanel();
         boardView.buildGUI();
         controlPanel.buildGUI();
-//        JButton debugBtn = new JButton("Siemano");
-//        debugBtn.setBounds(690, 550, 140, 50);
-//        add(debugBtn);
-//        debugBtn.addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) { 
-//                heu.setPlayerPawn(Pawn.WHITE);
-//                System.out.println(heu.heuristicTest(game));
-//                boardView.update();
-//            }
-//        });
         setVisible(true);
     }
     
@@ -91,7 +76,6 @@ public class GameScreen extends Screen{
         controlPanel = new ControlPanelView(game);
         controlPanel.setBounds(690, 200, 140, 300);
         addView(controlPanel);
-        System.out.println("dodany");
         add(controlPanel);
     }
     

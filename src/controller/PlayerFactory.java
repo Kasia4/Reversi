@@ -25,6 +25,5 @@ public class PlayerFactory {
 		if(newPlayer == null) return null;
 		if(sending) newPlayer = new SendingPlayer(newPlayer);
 		return newPlayer;
-
 	}
 }
